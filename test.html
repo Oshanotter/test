@@ -20,6 +20,7 @@
   </style>
 </head>
 <body>
+  <h1>Page Title</h1>
 
 <div id="orientation">Permission not requested</div>
 <button onclick="requestPermission()">Request Permission</button>
@@ -39,7 +40,7 @@
     // Change background color based on gamma value
     if (gamma > -50 && gamma < 0) {
       document.body.style.backgroundColor = 'red';
-    } else if (gamma > 60) {
+    } else if (gamma < 60 && gamma > 0) {
       document.body.style.backgroundColor = 'green';
     } else {
       document.body.style.backgroundColor = '';
