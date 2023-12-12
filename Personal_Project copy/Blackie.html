@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Blackie</title>
+</head>
+
+	<style>
+		* {box-sizing: border-box;}
+
+		body {margin: 0}
+		.banner {background-color: #2A3072;
+				 text-align: center;
+				 padding: 25px;
+				 color: #E7E7E7;}
+
+		.dropdown {display: inline-block;
+				  position: relative;}
+
+		.dropdown_content {display: none;
+						   position: absolute;
+						   background-color: #C5C5C5;
+						   text-align: center;
+						   width: 70%;
+						   color: #2A3072;
+						   padding: 0px;}
+
+		.dropdown:hover .dropdown_content {display: block;}
+
+		.dropdown {width: 25%;
+			text-align: center;
+			color: #2A3072;}
+
+		.dropdown_content:hover {background-color: #767475;
+								 color: #E7E7E7;}
+
+		a:hover .dropdown{background-color: #767475;
+								 	   color: #E7E7E7;}
+
+		.dropdown:hover {background-color: #767475;
+						 color: #E7E7E7;}
+		.list-item:hover {background-color: #767475;
+						 color: #E7E7E7;}
+		.list-item {background: #C5C5C5;
+					color: #2A3072;
+					width: 100%;
+					padding: 5px;}
+		.list-item:hover .page {background-color: #767475;
+					 color: #E7E7E7;}
+		.page {background-color: #C5C5C5;
+			   color: #2A3072;
+			   text-decoration: none;}
+		.objects {background-color: #E7E7E7;
+				  color: #2A3072;
+				  width: 96%;
+				  margin: auto;
+				  text-align: center;}
+		.text {text-align: center;
+			   width: 65%;
+			   margin: auto;}
+		img {border: solid;}
+		.animation {background-color: #E7E7E7;
+			 width: 100px;
+			 height: 100px;
+			 border-radius: 50%;
+			 -webkit-animation-name: circle;
+			 -webkit-animation-duration: 10s;
+			 position: relative;
+			 animation-iteration-count: infinite;}
+
+
+
+		@-webkit-keyframes circle {
+			0% {border-radius: 0%; left: 0%; top:0px;}
+			25% {border-radius: 16%; left: 31%; top:0px;}
+			50% {border-radius: 38%; left: 62%; top:0px;}
+			75% {border-radius: 50%; left: 92%; top:0px;}
+			100% {border-radius: 0%; left: 0%; top:0px;}
+		}
+	</style>
+
+<body bgcolor="#2A3072">
+	<div class="banner">
+<h1>About Me</h1>
+
+	</div>
+	<table width="98%" border="0" cellspacing="0" cellpadding="0" bgcolor="#E7E7E7" align="center">
+  <tbody>
+    <tr>
+      		<td class="dropdown">
+				<a class="menu"><p>About Me</p></a>
+		  				<div class="dropdown_content">
+			  				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							  <tbody>
+								<tr>
+									<td class="list-item"><a href="Home.html" class="page">My Page</a></td>
+								</tr>
+								<tr>
+								  <td class="list-item"><a href="Hobbies.html" class="page">Hobbies</a></td>
+								</tr>
+								  <tr>
+								  <td class="list-item"><a href="Future.html" class="page">Future Plans</a></td>
+								</tr>
+							  </tbody>
+							</table>
+						</div>
+      		</td>
+
+      		<td class="dropdown">
+				<a class="menu"><p>Family</p></a>
+						<div class="dropdown_content">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							  <tbody>
+								<tr>
+								  <td class="list-item"><a href="Dean.html" class="page">Dean</a></td>
+								</tr>
+								<tr>
+								  <td class="list-item"><a href="Deanna.html" class="page">Deanna</a></td>
+								</tr>
+								<tr>
+								  <td class="list-item"><a href="Baily.html" class="page">Baily</a></td>
+								</tr>
+								<tr>
+								  <td class="list-item"><a href="Alecia.html" class="page">Alecia</a></td>
+								</tr>
+								<tr>
+								  <td class="list-item"><a href="Family_Photo.html" class="page">Family Photo</a></td>
+								</tr>
+							  </tbody>
+							</table>
+						</div>
+			</td>
+	  		<td class="dropdown">
+				<a class="menu"><p>Friends</p></a>
+						<div class="dropdown_content">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							  <tbody>
+								<tr>
+								  <td class="list-item"><a href="Alex.html" class="page">Alex</a></td>
+								</tr>
+								<tr>
+								  <td class="list-item"><a href="Antonio.html" class="page">Antonio</a></td>
+								</tr>
+								<tr>
+								  <td class="list-item"><a href="Cory.html" class="page">Cory</a></td>
+								</tr>
+							  </tbody>
+							</table>
+						</div>
+			</td>
+      		<td class="dropdown">
+				<a class="menu"><p>Pets</p></a>
+						<div class="dropdown_content">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							  <tbody>
+								<tr>
+								  <td class="list-item"><a href="Blackie.html" class="page">Blackie</a></td>
+								</tr>
+								<tr>
+								  <td class="list-item"><a href="Georgia.html" class="page">Georgia</a></td>
+								</tr>
+							  </tbody>
+							</table>
+						</div>
+			</td>
+    </tr>
+  </tbody>
+</table>
+	<br>
+	<hr color="#E7E7E7">
+	<h2 class="banner">Blackie</h2>
+	<hr color="#E7E7E7">
+	<div class="objects">
+			<br>
+			<video width="100%" height="auto" controls>
+		      <source src="Images/test.mp4" type="video/mp4">
+		      Your browser does not support the video tag.
+		    </video>
+<p class="text">This is Blackie, my cat. She is a Domestic Long Haired Cat, and she is almost 19 years old! We got her from my grandma, and I think that she is the best cat ever. </p>
+			<br>
+		</div>
+	<br>
+	<div class="animation"></div>
+</body>
+</html>
