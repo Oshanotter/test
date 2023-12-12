@@ -12,7 +12,7 @@
       justify-content: center;
       height: 100vh;
       margin: 0;
-      transition: background-color 0.5s ease;
+      transition: background-color 0.5s;
     }
     #orientation {
       font-size: 24px;
@@ -36,15 +36,12 @@
       <p>Gamma: ${gamma}&deg;</p>
     `;
 
-    // Check orientation values and change background color
-    if (beta >= 45 && beta <= 135 && gamma >= -45 && gamma <= 45) {
-      // Landscape mode with the screen facing up (flash red)
+    // Change background color based on gamma value
+    if (gamma < -50) {
       document.body.style.backgroundColor = 'red';
-    } else if (beta >= 45 && beta <= 135 && gamma >= 135) {
-      // Landscape mode with the screen facing down (flash green)
+    } else if (gamma > 60) {
       document.body.style.backgroundColor = 'green';
     } else {
-      // Reset background color
       document.body.style.backgroundColor = '';
     }
   }
