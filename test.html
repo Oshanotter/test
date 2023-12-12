@@ -37,7 +37,7 @@
     `;
 
     // Change background color based on gamma value
-    if (gamma < -50) {
+    if (gamma > -50 && gamma < 0) {
       document.body.style.backgroundColor = 'red';
     } else if (gamma > 60) {
       document.body.style.backgroundColor = 'green';
