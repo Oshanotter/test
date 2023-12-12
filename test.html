@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Device Orientation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      transition: background-color 0.5s ease;
+    }
+    #orientation {
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="orientation">Permission not requested</div>
+<button onclick="requestPermission()">Request Permission</button>
+
+<script>
+  function handleOrientation(event) {
+    const alpha = event.alpha.toFixed(2);
+    const beta = event.beta.toFixed(2);
+    const gamma = event.gamma.toFixed(2);
+
+    document.getElementById('orientation').innerHTML = `
+      <p>Alpha: ${alpha}&deg;</p>
+      <p>Beta: ${beta}&deg;</p>
+      <p>Gamma: ${gamma}&deg;</p>
+    `;
+
+    // Check orientation values and change background color
+    if (beta >= 45 && beta <= 135 && gamma >= -45 && gamma <= 45) {
+      // Landscape mode with the screen facing up (flash red)
+      document.body.style.backgroundColor = 'red';
+    } else if (beta >= 45 && beta <= 135 && gamma >= 135) {
+      // Landscape mode with the screen facing down (flash green)
+      document.body.style.backgroundColor = 'green';
+    } else {
+      // Reset background color
+      document.body.style.backgroundColor = '';
+    }
+  }
+
+  function requestPermission() {
+    if (window.DeviceOrientationEvent) {
+      DeviceOrientationEvent.requestPermission()
+        .then(permissionState => {
+          if (permissionState === 'granted') {
+            window.addEventListener('deviceorientation', handleOrientation);
+            document.getElementById('orientation').innerHTML = 'Permission granted';
+          } else {
+            document.getElementById('orientation').innerHTML = 'Permission denied for device orientation.';
+          }
+        })
+        .catch(error => {
+          console.error('Error requesting device orientation permission:', error);
+          document.getElementById('orientation').innerHTML = 'Error requesting permission';
+        });
+    } else {
+      document.getElementById('orientation').innerHTML = 'Device orientation not supported.';
+    }
+  }
+
+  // Initialize the device orientation when the window has loaded
+  window.addEventListener('load', () => {
+    document.getElementById('orientation').innerHTML = 'Permission not requested';
+  });
+</script>
+
+</body>
+</html>
