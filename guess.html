@@ -31,13 +31,13 @@
         @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
           html {
             transform: rotate(90deg);
-transform-origin: right top;
-width: 100vh;
-height: 100vw;
-overflow-x: hidden;
-position: absolute;
-top: 100%;
-right: 0;
+            transform-origin: right top;
+            width: 100vh;
+            height: 100vw;
+            overflow-x: hidden;
+            position: absolute;
+            top: 100%;
+            right: 0;
           }
 
           #circle{
@@ -45,9 +45,6 @@ right: 0;
             width: 10vh;
           }
 
-          #banner{
-            height: 10%;
-          }
         }
 
     </style>
@@ -77,6 +74,7 @@ screen.orientation.lock("landscape");
       overlay.appendChild(banner);
 
       var circle = document.createElement('div');
+      circle.id = "circle"
       circle.style.borderRadius = "50%";
       circle.style.border =  "1vw solid blue";
       circle.style.height = "10vw";
