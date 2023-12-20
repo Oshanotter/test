@@ -186,7 +186,7 @@ var listNum;
         var permissionGranted = requestPermission();
         if (permissionGranted){
             // start listening for orientation changes
-            window.addEventListener('deviceorientation', function(){
+            window.addEventListener('deviceorientation', function(event){
                 // change the color of the screen and the card
                 if (event.gamma > -50 && event.gamma < 0) {
                 overlay.style.backgroundColor = 'red';
@@ -202,26 +202,23 @@ var listNum;
         
     }
     
-    async function requestPermission(){
-        try {
-        const permissionStatus = await navigator.permissions.query({ name: 'accelerometer' });
-    
-        if (permissionStatus.state === 'granted') {
-          // Permission granted
-          return true;
-        } else if (permissionStatus.state === 'prompt') {
-          // Permission prompt is required
-          const result = await navigator.permissions.request({ name: 'accelerometer' });
-          if (result.state === 'granted') {
-            return true;
-          }
-        }
-    
-        // Permission denied
-        return false;
-      } catch (error) {
-        console.error('Error requesting device orientation permission:', error);
-        return false;
+    function requestPermission(){
+        if (window.DeviceOrientationEvent) {
+        DeviceOrientationEvent.requestPermission()
+          .then(permissionState => {
+            if (permissionState === 'granted') {
+              window.addEventListener('deviceorientation', handleOrientation);
+
+              return True;
+            } else {
+              return False;
+          })
+          .catch(error => {
+            console.error('Error requesting device orientation permission:', error);
+            return False;
+          });
+      } else {
+        return False;
       }
     }
 
