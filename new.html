@@ -212,11 +212,11 @@ var listNum;
               return True;
             } else {
               return False;
-          })
+          }
           .catch(error => {
             console.error('Error requesting device orientation permission:', error);
             return False;
-          });
+          };
       } else {
         return False;
       }
