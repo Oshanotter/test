@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, minimum-scale=1, initial-scale=1, minimal-ui, viewport-fit=cover">
+    <title>Guess</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: "Rubik", sans-serif;
+        }
+
+        @media (prefers-color-scheme: dark) {
+        	body, div	{
+        		background-color:black;
+        		color:white;
+        	}
+        }
+
+        @media (prefers-color-scheme: light) {
+        	body, div	{
+        		background-color:white;
+        		color:black;
+        	}
+        }
+
+        @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
+          html {
+            transform: rotate(90deg);
+            transform-origin: right top;
+            width: 100vh;
+            height: 100vw;
+            overflow-x: hidden;
+            position: absolute;
+            top: 103%;
+            right: 0;
+          }
+
+          #circle{
+            height: 10vh!important;
+            width: 10vh!important;
+            border: 1vh solid blue!important;
+          }
+
+        }
+        
+        div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+    </style>
+</head>
+<body>
+
+<!-- Button to trigger createOverlay -->
+<button onclick="getGameList('Gen I')">Create Overlay</button>
+
+<script>
+screen.orientation.lock("landscape");
+
+var overlay;
+var startText;
+var listNum;
+
+    function shuffleList(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        // Swap array[i] and array[j]
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function createOverlay() {
+      overlay = document.createElement('div');
+      overlay.style.height = "100%";
+      overlay.style.width = "100%";
+      overlay.style.overflow = "hidden";
+      overlay.style.top = "0";
+      overlay.style.position = "fixed";
+      //overlay.style.zIndex = "9999";
+
+      var banner = document.createElement('div');
+      banner.style.backgroundColor = "blue";
+      banner.style.height = "15%";
+      banner.style.width = "100%";
+      banner.style.position = "absolute";
+      banner.style.top = "0";
+      overlay.appendChild(banner);
+
+      var circle = document.createElement('div');
+      circle.id = "circle"
+      circle.style.borderRadius = "50%";
+      circle.style.border =  "1vw solid blue";
+      circle.style.height = "10vw";
+      circle.style.width = "10vw";
+      circle.style.top = "80%"
+      circle.style.left = "50%";
+      circle.style.position = "absolute";
+      circle.style.transform = "translate(-50%, -50%)";
+      circle.innerText = '120';
+      circle.style.fontSize = "240%";
+      circle.style.fontWeight = "bold";
+      banner.appendChild(circle);
+    
+      startText = document.createElement('div');
+      startText.innerText = "Get Ready\n5";
+      startText.style.position = "absolute";
+      startText.style.height = "80%";
+      startText.style.width = "80%";
+      startText.style.fontSize = "300%";
+      startText.style.backgroundColor = "rgba(255, 0, 0, 0)";
+      startText.style.top = "20%";
+      startText.style.textAlign = "center";
+      overlay.appendChild(startText);
+
+      const exitButton = document.createElement('div');
+      exitButton.style.top = "30%"
+      exitButton.style.left = "4%";
+      exitButton.style.position = "absolute";
+      exitButton.style.backgroundColor = "blue";
+      exitButton.style.fontSize = "150%";
+      exitButton.innerText = '< Back';
+      exitButton.addEventListener('click', function () {
+          document.body.removeChild(overlay);
+      });
+      banner.appendChild(exitButton);
+
+      document.body.appendChild(overlay);
+    
+      getReady(6);
+    }
+    
+    function getReady(countdown){
+        // start counting down to get ready
+        if (countdown == 0){
+            startGame();
+        }else{
+            var newNum = countdown - 1;
+            startText.innerText = "Get Ready\n" + newNum;
+            setTimeout(function(){
+                getReady(newNum);
+            }, 1000);
+        }
+      }
+    
+      function startTimer(countdown){
+        // start the game timer
+        if (countdown == 0){
+            endGame();
+        }else{
+            var newNum = countdown - 1;
+            circle.innerText = newNum;
+            setTimeout(function(){
+                startTimer(newNum)
+            }, 1000);
+        }
+      }
+    
+      function startGame(){
+        // start the game timer
+        startTimer(120);
+        listNum = 0;
+        listenForOrientation();
+      }
+    
+    function getGameList(gameName){
+        // remove me later v
+        var list = ["Bulbasaur", "Charmander", "Squirtle"]
+        var gamesDict = {}
+        gamesDict["Gen I"] = list
+        // remive me later ^
+        // get the array from the dictionary
+        var gameList = gamesDict[gameName];
+        shuffleList(gameList);
+        createOverlay();
+    }
+    
+    function listenForOrientation(){
+        // ask for oermission first
+        var permissionGranted = requestPermission();
+        if (permissionGranted){
+            // start listening for orientation changes
+            window.addEventListener('deviceorientation', function(){
+                // change the color of the screen and the card
+                if (event.gamma > -50 && event.gamma < 0) {
+                overlay.style.backgroundColor = 'red';
+                } else if (event.gamma < 60 && event.gamma > 0) {
+                overlay.style.backgroundColor = 'green';
+                } else {
+                overlay.style.backgroundColor = '';
+                }
+            });
+        }else{
+            console.log("permission not granted")
+        }
+        
+    }
+    
+    async function requestPermission(){
+        try {
+        const permissionStatus = await navigator.permissions.query({ name: 'accelerometer' });
+    
+        if (permissionStatus.state === 'granted') {
+          // Permission granted
+          return true;
+        } else if (permissionStatus.state === 'prompt') {
+          // Permission prompt is required
+          const result = await navigator.permissions.request({ name: 'accelerometer' });
+          if (result.state === 'granted') {
+            return true;
+          }
+        }
+    
+        // Permission denied
+        return false;
+      } catch (error) {
+        console.error('Error requesting device orientation permission:', error);
+        return false;
+      }
+    }
+
+</script>
+
+</body>
+</html>
