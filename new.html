@@ -210,7 +210,10 @@ var currentPosition = "NEUTRAL";
       } else {
         overlay.style.backgroundColor = '';
         if (currentPosition != "NEUTRAL"){
-            listNum += 0;
+            listNum += 1;
+            if (listNum > gameList.length - 1){
+                listNum = 0;
+            }
             startText.innerText = gameList[listNum];
             currentPosition = "NEUTRAL";
         }
