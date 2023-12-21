@@ -204,11 +204,12 @@ var currentPosition = "NEUTRAL";
         startText.innerText = "CORRECT"
         if (currentPosition != "CORRECT"){
             // add current item to correct list
+startText.innerText = "coRRect";
             passCorrectList.push("CORRECT")
             currentPosition = "CORRECT";
         }
       } else {
-        overlay.style.backgroundColor = 'yellow';
+        overlay.style.backgroundColor = '';
         if (currentPosition != "NEUTRAL"){
             //listNum += 0;
             startText.innerText = "NEUTRAL";
