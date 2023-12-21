@@ -196,7 +196,7 @@ var currentPosition = "NEUTRAL";
         startText.innerText = "PASS"
         if (currentPosition != "PASS"){
             // add current item to passed list
-            passCorrectList.push("PASS")
+            //passCorrectList.push("PASS")
             currentPosition = "PASS";
         }
       } else if (event.gamma < 60 && event.gamma > 0) {
@@ -204,8 +204,7 @@ var currentPosition = "NEUTRAL";
         startText.innerText = "coRRect"
         if (currentPosition != "CORRECT"){
             // add current item to correct list
-            
-startText.innerText = currentPosition            passCorrectList.push("CORRECT")
+                        //passCorrectList.push("CORRECT")
             currentPosition = "CORRECT";
         }
       } else {
