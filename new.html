@@ -121,7 +121,7 @@ var currentPosition = "NEUTRAL";
       startText.style.fontSize = "300%";
       startText.style.backgroundColor = "rgba(255, 0, 0, 0)";
       startText.style.top = "20%";
-      //startText.style.textAlign = "center";
+      startText.style.textAlign = "center";
       overlay.appendChild(startText);
 
       const exitButton = document.createElement('div');
@@ -280,6 +280,7 @@ var currentPosition = "NEUTRAL";
             rightCol.style.fontSize = "100%!important";
             rightCol.style.verticalAlign = "top";
             startText.style.overflowY = "auto";
+            startText.style.alignItems = "flex-start";
             
             for (var i = 0; i < passCorrectList.length; i++){
                 var card = cardList[i];
