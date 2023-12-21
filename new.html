@@ -264,9 +264,12 @@ var currentPosition = "NEUTRAL";
             rightCol.style.backgroundColor = "pink";
             startText.appendChild(rightCol)
             
-            startText.style.writingMode = "vertical-rl";
-            srartText.style.textOrientation = "mixed";
-            startText.style.fontSize = "100%";
+            leftCol.style.writingMode = "vertical-rl";
+            leftCol.style.textOrientation = "mixed";
+            
+            rightCol.style.writingMode = "vertical-rl";
+            rightCol.style.textOrientation = "mixed";
+            //startText.style.fontSize = "100%";
             
             for (var i = 0; i < passCorrectList.length; i++){
                 var cardNum = i % gameList.length;
