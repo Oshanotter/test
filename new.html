@@ -59,7 +59,7 @@
 <body>
 
 <!-- Button to trigger createOverlay -->
-<button onclick="getGameList('Gen I')">Create Overlay3</button>
+<button onclick="getGameList('Gen I')">Create Overlay</button>
 
 <script>
 screen.orientation.lock("landscape");
@@ -69,8 +69,7 @@ var startText;
 var gameList;
 var listNum;
 var allowColorChange = false;
-var passCorrectList;
-passCorrectList = [];
+var passCorrectList = [];
 var currentPosition = "NEUTRAL";
 
     function shuffleList(array) {
@@ -190,22 +189,17 @@ var currentPosition = "NEUTRAL";
     
     function handleOrientation(event) {
       if (!allowColorChange){
+        if (typeof passCorrectList == 'undefined') {
+    passCorrectList = [];
+}
         return;
       }
-    
-    if (typeof passCorrectList == 'undefined') {
-    overlay.style.backgroundColor = "orange"
-    //passCorrectList = [];
-}else{overlay.style.backgroundColor = "pink"}
-return;
-    
       if (event.gamma > -50 && event.gamma < 0) {
         overlay.style.backgroundColor = 'red';
         startText.innerText = "PASS"
         if (currentPosition != "PASS"){
             // add current item to passed list
-            
-            //passCorrectList.push("PASS")
+            passCorrectList.push("PASS")
             currentPosition = "PASS";
         }
       } else if (event.gamma < 60 && event.gamma > 0) {
@@ -213,7 +207,7 @@ return;
         startText.innerText = "CORRECT"
         if (currentPosition != "CORRECT"){
             // add current item to correct list
-            //passCorrectList.push("CORRECT")
+            passCorrectList.push("CORRECT")
             currentPosition = "CORRECT";
         }
       } else {
