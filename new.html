@@ -158,6 +158,8 @@ var currentPosition = "NEUTRAL";
         // start the game timer
         if (countdown == 1){
             circle.innerText = "0";
+            passCorrectList.push("PASS");
+            cardList.push(gameList[listNum]);
             endGame();
         }else{
             var newNum = countdown - 1;
@@ -271,10 +273,11 @@ var currentPosition = "NEUTRAL";
             leftCol.style.flexDirection = "column";
             leftCol.style.display = "flex";
             leftCol.style.textAlign = "center";
+            leftCol.style.fontSize = "100%";
             rightCol.style.flexDirection = "column";
             rightCol.style.display = "flex";
             rightCol.style.textAlign = "center";
-            //startText.style.fontSize = "100%";
+            rightCol.style.fontSize = "100%";
             
             for (var i = 0; i < passCorrectList.length; i++){
                 var card = cardList[i];
