@@ -301,6 +301,7 @@ var currentPosition = "NEUTRAL";
             }
             if (cardList.length % 2 == 1){
                 // add another card to the right column to make them even
+                var text = document.createElement('span');
                 text.innerText = " ";
                 rightCol.appendChild(text);
             }
