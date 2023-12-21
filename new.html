@@ -70,7 +70,7 @@ var gameList;
 var listNum;
 var allowColorChange = false;
 var passCorrectList = [];
-var cardKist = [];
+var cardList = [];
 var currentPosition = "NEUTRAL";
 
     function shuffleList(array) {
@@ -277,7 +277,7 @@ var currentPosition = "NEUTRAL";
             //startText.style.fontSize = "100%";
             
             for (var i = 0; i < passCorrectList.length; i++){
-                var card = gameList[i];
+                var card = cardList[i];
                 if (passCorrectList[i] == "CORRECT"){
                     var color = "green";
                 }else{
