@@ -201,18 +201,17 @@ var currentPosition = "NEUTRAL";
         }
       } else if (event.gamma < 60 && event.gamma > 0) {
         overlay.style.backgroundColor = 'green';
-        startText.innerText = "coRRect"
+        startText.innerText = "CORRECT"
         if (currentPosition != "CORRECT"){
             // add current item to correct list
-                        //passCorrectList.push("CORRECT")
+            //passCorrectList.push("CORRECT")
             currentPosition = "CORRECT";
         }
       } else {
         overlay.style.backgroundColor = '';
-        
         if (currentPosition != "NEUTRAL"){
-            listNum += 1;
-            startText.innerText = "NEUTRAL";
+            listNum += 0;
+            startText.innerText = gameList[listNum];
             currentPosition = "NEUTRAL";
         }
       }
