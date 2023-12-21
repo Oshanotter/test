@@ -142,7 +142,7 @@ var currentPosition = "NEUTRAL";
     
     function getReady(countdown){
         // start counting down to get ready
-        if (countdown == 0){
+        if (countdown == 1){
             startGame();
         }else{
             var newNum = countdown - 1;
@@ -168,7 +168,7 @@ var currentPosition = "NEUTRAL";
     
       function startGame(){
         // start the game timer
-        startTimer(120);
+        startTimer(10);
         listNum = 0;
         startText.innerText = gameList[listNum];
         allowColorChange = true;
@@ -241,6 +241,28 @@ var currentPosition = "NEUTRAL";
         } else {
             return false;
         }
+    }
+    
+    function endGame(){
+        // end the game and show the results
+        allowColorChange = false;
+        overlay.style.backgroundColor = ''
+        startText.innerText = "TIME'S UP!"
+        setTimeout(function(){
+            // display the results
+            startText.innerText = '';
+            var leftCol = document.createElement('div');
+            leftCol.style.width = "50%";
+            leftCol.style.height = "100%";
+            leftCol.style.backgroundColor = "orange";
+            startText.appendChild(leftCol)
+            
+            var rightCol = document.createElement('div');
+            rightCol.style.width = "50%";
+            rightCol.style.height = "100%";
+            rightCol.style.backgroundColor = "pink";
+            startText.appendChild(rightCol)
+        }3000);
     }
 
 </script>
