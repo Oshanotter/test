@@ -69,7 +69,8 @@ var startText;
 var gameList;
 var listNum;
 var allowColorChange = false;
-var passCorrectList = [];
+var passCorrectList;
+passCorrectList = [];
 var currentPosition = "NEUTRAL";
 
     function shuffleList(array) {
@@ -194,7 +195,7 @@ var currentPosition = "NEUTRAL";
     
     if (typeof passCorrectList == 'undefined') {
     overlay.style.backgroundColor = "orange"
-    passCorrectList = [];
+    //passCorrectList = [];
 }else{overlay.style.backgroundColor = "pink"}
 return;
     
