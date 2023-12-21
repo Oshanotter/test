@@ -59,7 +59,7 @@
 <body>
 
 <!-- Button to trigger createOverlay -->
-<button onclick="getGameList('Gen I')">Generation I</button>
+<button onclick="getGameList('Gen I')">Create Overlay</button>
 
 <script>
 screen.orientation.lock("landscape");
@@ -169,7 +169,7 @@ var currentPosition = "NEUTRAL";
         // start the game timer
         startTimer(120);
         listNum = 0;
-        overlay.innerText = gameList[listNum];
+        startText.innerText = gameList[listNum];
         allowColorChange = true;
       }
     
@@ -192,7 +192,7 @@ var currentPosition = "NEUTRAL";
       }
       if (event.gamma > -50 && event.gamma < 0) {
         overlay.style.backgroundColor = 'red';
-        overlay.innerText = "PASS"
+        startText.innerText = "PASS"
         if (currentPosition != "PASS"){
             // add current item to passed list
             passCorrectList.push("PASS")
@@ -200,7 +200,7 @@ var currentPosition = "NEUTRAL";
         }
       } else if (event.gamma < 60 && event.gamma > 0) {
         overlay.style.backgroundColor = 'green';
-        overlay.innerText = "CORRECT"
+        startText.innerText = "CORRECT"
         if (currentPosition != "CORRECT"){
             // add current item to correct list
             passCorrectList.push("CORRECT")
@@ -210,7 +210,7 @@ var currentPosition = "NEUTRAL";
         overlay.style.backgroundColor = '';
         if (currentPosition != "NEUTRAL"){
             listNum += 1;
-            overlay.innerText = gameList[listNum];
+            startText.innerText = gameList[listNum];
             currentPosition = "NEUTRAL";
         }
       }
