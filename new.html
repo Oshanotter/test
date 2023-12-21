@@ -196,6 +196,9 @@ var currentPosition = "NEUTRAL";
         startText.innerText = "PASS"
         if (currentPosition != "PASS"){
             // add current item to passed list
+            if (typeof passCorrectList == 'undefined') {
+    overlay.style.backgroundColor = "orange"
+}
             //passCorrectList.push("PASS")
             currentPosition = "PASS";
         }
