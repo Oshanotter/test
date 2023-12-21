@@ -59,13 +59,14 @@
 <body>
 
 <!-- Button to trigger createOverlay -->
-<button onclick="getGameList('Gen I')">Create Overlay</button>
+<button onclick="getGameList('Gen I')">Create Overlay2</button>
 
 <script>
 screen.orientation.lock("landscape");
 
 var overlay;
 var startText;
+var gameList;
 var listNum;
 var allowColorChange = false;
 var passCorrectList = [];
@@ -180,7 +181,7 @@ var currentPosition = "NEUTRAL";
         gamesDict["Gen I"] = list
         // remive me later ^
         // get the array from the dictionary
-        var gameList = gamesDict[gameName];
+        gameList = gamesDict[gameName];
         shuffleList(gameList);
         requestPermission();
         createOverlay();
