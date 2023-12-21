@@ -70,6 +70,7 @@ var gameList;
 var listNum;
 var allowColorChange = false;
 var passCorrectList = [];
+var cardKist = [];
 var currentPosition = "NEUTRAL";
 
     function shuffleList(array) {
@@ -190,8 +191,9 @@ var currentPosition = "NEUTRAL";
     
     function handleOrientation(event) {
       if (!allowColorChange){
-        if (typeof passCorrectList == 'undefined') {
+        if (typeof passCorrectList == 'undefined' || typeof cardList == 'undefined') {
     passCorrectList = [];
+    cardList = [];
 }
         return;
       }
@@ -201,6 +203,7 @@ var currentPosition = "NEUTRAL";
         if (currentPosition != "PASS"){
             // add current item to passed list
             passCorrectList.push("PASS")
+            cardList.push(gameList[listNum])
             currentPosition = "PASS";
         }
       } else if (event.gamma < 60 && event.gamma > 0) {
@@ -209,6 +212,7 @@ var currentPosition = "NEUTRAL";
         if (currentPosition != "CORRECT"){
             // add current item to correct list
             passCorrectList.push("CORRECT")
+            cardList.push(gameList[listNum])
             currentPosition = "CORRECT";
         }
       } else {
@@ -273,8 +277,7 @@ var currentPosition = "NEUTRAL";
             //startText.style.fontSize = "100%";
             
             for (var i = 0; i < passCorrectList.length; i++){
-                var cardNum = i % gameList.length;
-                var card = gameList[cardNum];
+                var card = gameList[i];
                 if (passCorrectList[i] == "CORRECT"){
                     var color = "green";
                 }else{
