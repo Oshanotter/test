@@ -121,7 +121,7 @@ var currentPosition = "NEUTRAL";
       startText.style.fontSize = "300%";
       startText.style.backgroundColor = "rgba(255, 0, 0, 0)";
       startText.style.top = "20%";
-      startText.style.textAlign = "center";
+      //startText.style.textAlign = "center";
       overlay.appendChild(startText);
 
       const exitButton = document.createElement('div');
@@ -291,7 +291,6 @@ var currentPosition = "NEUTRAL";
                 var text = document.createElement('span');
                 text.innerText = card;
                 text.style.color = color;
-                text.style.display = "block"
                 var evenOdd = i % 2;
                 if (evenOdd == 0){
                     // it is even, add to left list
