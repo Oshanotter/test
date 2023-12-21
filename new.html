@@ -264,11 +264,12 @@ var currentPosition = "NEUTRAL";
             rightCol.style.backgroundColor = "pink";
             startText.appendChild(rightCol)
             
-            leftCol.style.writingMode = "vertical-rl";
-            leftCol.style.textOrientation = "mixed";
-            
-            rightCol.style.writingMode = "vertical-rl";
-            rightCol.style.textOrientation = "mixed";
+            leftCol.style.flexDirection = "column";
+            leftCol.style.display = "flex";
+            leftCol.style.textAlign = "center";
+            rightCol.style.flexDirection = "column";
+            rightCol.style.display = "flex";
+            rightCol.style.textAlign = "center";
             //startText.style.fontSize = "100%";
             
             for (var i = 0; i < passCorrectList.length; i++){
