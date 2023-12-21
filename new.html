@@ -209,10 +209,9 @@ var currentPosition = "NEUTRAL";
         }
       } else {
         overlay.style.backgroundColor = '';
-        startText.innerText = "NeuTral" + listNum
-        listNum += 1
+        
         if (currentPosition != "NEUTRAL"){
-            //listNum += 0;
+            listNum += 1;
             startText.innerText = "NEUTRAL";
             currentPosition = "NEUTRAL";
         }
