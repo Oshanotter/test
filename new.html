@@ -155,7 +155,8 @@ var currentPosition = "NEUTRAL";
     
       function startTimer(countdown){
         // start the game timer
-        if (countdown == 0){
+        if (countdown == 1){
+            circle.innerText = "0";
             endGame();
         }else{
             var newNum = countdown - 1;
@@ -262,7 +263,28 @@ var currentPosition = "NEUTRAL";
             rightCol.style.height = "100%";
             rightCol.style.backgroundColor = "pink";
             startText.appendChild(rightCol)
-        }3000);
+            
+            for (var i = 0; i < passCorrectList.length; i++){
+                var cardNum = i % gameList.length;
+                var card = gameList[cardNum];
+                if (passCorrectList[i] == "CORRECT"){
+                    var color = "green";
+                }else{
+                    var color = "red";
+                }
+                var text = document.createElement('span');
+                text.innerText = card;
+                text.style.color = color;
+                var evenOdd = i % 2;
+                if (evenOdd == 0){
+                    // it is even, add to left list
+                    leftCol.appendChild(text)
+                }else{
+                    // it is odd, add to right list
+                    rightCol.appendChild(text)
+                }
+            }
+        }, 3000);
     }
 
 </script>
