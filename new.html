@@ -59,7 +59,7 @@
 <body>
 
 <!-- Button to trigger createOverlay -->
-<button onclick="getGameList('Gen I')">Create Overlay2</button>
+<button onclick="getGameList('Gen I')">Create Overlay</button>
 
 <script>
 screen.orientation.lock("landscape");
@@ -210,8 +210,7 @@ var currentPosition = "NEUTRAL";
       } else {
         overlay.style.backgroundColor = '';
         if (currentPosition != "NEUTRAL"){
-            currentPosition = "NEUTRAL";
-            listNum += 1;
+            listNum += 0;
             startText.innerText = gameList[listNum];
             currentPosition = "NEUTRAL";
         }
