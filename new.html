@@ -201,11 +201,12 @@ var currentPosition = "NEUTRAL";
         }
       } else if (event.gamma < 60 && event.gamma > 0) {
         overlay.style.backgroundColor = 'green';
-        startText.innerText = "CORRECT"
+        startText.innerText = "coRRect"
         if (currentPosition != "CORRECT"){
             // add current item to correct list
             passCorrectList.push("CORRECT")
             currentPosition = "CORRECT";
+            startText.innerText = currentPosition
         }
       } else {
         overlay.style.backgroundColor = '';
