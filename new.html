@@ -274,13 +274,15 @@ var currentPosition = "NEUTRAL";
             leftCol.style.display = "flex";
             leftCol.style.textAlign = "center";
             leftCol.style.fontSize = "100%";
-            //rightCol.style.flexDirection = "column";
-            //rightCol.style.display = "flex";
-            //rightCol.style.textAlign = "center";
+            leftCol.style.alignItems = "flex-start";
+            rightCol.style.flexDirection = "column";
+            rightCol.style.display = "flex";
+            rightCol.style.textAlign = "center";
+            rightCol.style.alignItems = "flex-start";
             //rightCol.style.fontSize = "100%!important";
             //rightCol.style.verticalAlign = "top";
             startText.style.overflowY = "auto";
-            rightCol.style.alignItems = "flex-start";
+            
             
             for (var i = 0; i < passCorrectList.length; i++){
                 var card = cardList[i];
