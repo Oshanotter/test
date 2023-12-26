@@ -62,7 +62,7 @@
             display: block;
             margin-bottom: 5px;
             width: 100%;
-            
+            overflow-y: visible;
         }
 
     </style>
@@ -285,7 +285,6 @@ var currentPosition = "NEUTRAL";
             leftCol.style.display = "flex";
             leftCol.style.fontSize = "150%";
             leftCol.style.backgroundColor = "orange";
-            leftCol.style.overflow = "visible"
             resultsPage.appendChild(leftCol)
             
             var middleCol = document.createElement('div');
@@ -301,7 +300,6 @@ var currentPosition = "NEUTRAL";
             rightCol.style.display = "flex";
             rightCol.style.fontSize = "150%";
             rightCol.style.backgroundColor = "pink";
-            rightCol.style.overflow = "visible";
             resultsPage.appendChild(rightCol)
 
             resultsPage.style.overflowY = "auto";
