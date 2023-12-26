@@ -102,7 +102,7 @@ var currentPosition = "NEUTRAL";
 
       resultsPage = document.createElement('div');
       resultsPage.style.height = "85%";
-      resultsPage.style.width = "80%";
+      resultsPage.style.width = "90%";
       resultsPage.style.top = "15%"
       resultsPage.style.position = "fixed";
       resultsPage.style.backgroundColor = "yellow";
@@ -285,6 +285,11 @@ var currentPosition = "NEUTRAL";
             leftCol.style.fontSize = "200%";
             leftCol.style.backgroundColor = "orange";
             resultsPage.appendChild(leftCol)
+            
+            var middleCol = document.createElement('div');
+            middleCol.style.width = "10%";
+            middleCol.style.backgroundColor = "purple";
+            resultsPage.appendChild(middleCol);
 
             var rightCol = document.createElement('div');
             rightCol.style.width = "50%";
