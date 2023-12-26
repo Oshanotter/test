@@ -52,16 +52,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /*text-align: center;*/
+            text-align: center;
         }
 
         p {
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            /*display: block;*/
-            /*margin-bottom: 5px;*/
-            /*width: 100%;*/
+            display: block;
+            margin-bottom: 5px;
+            width: 100%;
         }
 
     </style>
@@ -277,7 +277,7 @@ var currentPosition = "NEUTRAL";
             // display the results
             startText.innerText = '';
             var leftCol = document.createElement('div');
-            leftCol.style.width = "50%";
+            leftCol.style.width = "45%";
             leftCol.style.height = "100%";
             leftCol.style.justifyContent = "start";
             leftCol.style.flexDirection = "column";
@@ -289,10 +289,10 @@ var currentPosition = "NEUTRAL";
             var middleCol = document.createElement('div');
             middleCol.style.width = "10%";
             middleCol.style.backgroundColor = "purple";
-            //resultsPage.appendChild(middleCol);
+            resultsPage.appendChild(middleCol);
 
             var rightCol = document.createElement('div');
-            rightCol.style.width = "50%";
+            rightCol.style.width = "45%";
             rightCol.style.height = "100%";
             rightCol.style.justifyContent = "start";
             rightCol.style.flexDirection = "column";
