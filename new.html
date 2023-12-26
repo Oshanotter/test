@@ -287,6 +287,7 @@ var currentPosition = "NEUTRAL";
             resultsPage.appendChild(rightCol)
 
             resultsPage.style.overflowY = "auto";
+            document.body.removeChild(startText);
 
             for (var i = 0; i < passCorrectList.length; i++){
                 var card = cardList[i];
