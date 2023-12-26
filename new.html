@@ -303,6 +303,13 @@ var currentPosition = "NEUTRAL";
 
             resultsPage.style.overflowY = "auto";
             overlay.removeChild(startText);
+            
+            var spacer = document.createElement('div');
+            spacer.style.height = "25%";
+            spacer.style.width = "100%";
+            spacer.style.backgroundColor = "violet";
+            leftCol.appendChild(spacer);
+            rightCol.appendChild(spacer);
 
             for (var i = 0; i < passCorrectList.length; i++){
                 var card = cardList[i];
@@ -326,7 +333,7 @@ var currentPosition = "NEUTRAL";
             if (cardList.length % 2 == 1){
                 // add another card to the right column to make them even
                 var text = document.createElement('span');
-                text.innerText = "SpiderMan: Far From Home";
+                text.innerText = "hi there, this is some long text";
                 rightCol.appendChild(text);
             }
         }, 3000);
