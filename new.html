@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap">
     <style>
         body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-            font-family: "Rubik", sans-serif;
+          margin: 0;
+          padding: 0;
+          height: 100%;
+          overflow: hidden;
+          font-family: "Rubik", sans-serif;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -49,19 +49,19 @@
         }
 
         div {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
         }
 
         span {
-            overflow: hidden auto;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            display: block;
-            margin-bottom: 5px;
-            width: 100%;
+          overflow: hidden auto;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          display: block;
+          margin-bottom: 5px;
+          width: 100%;
         }
 
     </style>
@@ -72,17 +72,17 @@
 <button onclick="getGameList('Gen I')">Create Overlay</button>
 
 <script>
-screen.orientation.lock("landscape");
+    screen.orientation.lock("landscape");
 
-var overlay;
-var resultsPage;
-var startText;
-var gameList;
-var listNum;
-var allowColorChange = false;
-var passCorrectList = [];
-var cardList = [];
-var currentPosition = "NEUTRAL";
+    var overlay;
+    var resultsPage;
+    var startText;
+    var gameList;
+    var listNum;
+    var allowColorChange = false;
+    var passCorrectList = [];
+    var cardList = [];
+    var currentPosition = "NEUTRAL";
 
     function shuffleList(array) {
       for (let i = array.length - 1; i > 0; i--) {
@@ -105,6 +105,7 @@ var currentPosition = "NEUTRAL";
       resultsPage.style.width = "90%";
       resultsPage.style.top = "15%"
       resultsPage.style.position = "fixed";
+      resultsPage.style.alignItems = "flex-start"
       resultsPage.style.backgroundColor = "yellow";
       overlay.appendChild(resultsPage);
 
@@ -170,9 +171,9 @@ var currentPosition = "NEUTRAL";
                 getReady(newNum);
             }, 1000);
         }
-      }
+    }
 
-      function startTimer(countdown){
+    function startTimer(countdown){
         // start the game timer
         if (countdown == 1){
             circle.innerText = "0";
@@ -186,15 +187,15 @@ var currentPosition = "NEUTRAL";
                 startTimer(newNum)
             }, 1000);
         }
-      }
+    }
 
-      function startGame(){
+    function startGame(){
         // start the game timer
         startTimer(10);
         listNum = 0;
         startText.innerText = gameList[listNum];
         allowColorChange = true;
-      }
+    }
 
     function getGameList(gameName){
         // remove me later v
@@ -210,42 +211,42 @@ var currentPosition = "NEUTRAL";
     }
 
     function handleOrientation(event) {
-      if (!allowColorChange){
-        if (typeof passCorrectList == 'undefined' || typeof cardList == 'undefined') {
-    passCorrectList = [];
-    cardList = [];
-}
-        return;
-      }
-      if (event.gamma > -50 && event.gamma < 0) {
-        overlay.style.backgroundColor = 'red';
-        startText.innerText = "PASS"
-        if (currentPosition != "PASS"){
-            // add current item to passed list
-            passCorrectList.push("PASS")
-            cardList.push(gameList[listNum])
-            currentPosition = "PASS";
-        }
-      } else if (event.gamma < 60 && event.gamma > 0) {
-        overlay.style.backgroundColor = 'green';
-        startText.innerText = "CORRECT"
-        if (currentPosition != "CORRECT"){
-            // add current item to correct list
-            passCorrectList.push("CORRECT")
-            cardList.push(gameList[listNum])
-            currentPosition = "CORRECT";
-        }
-      } else {
-        overlay.style.backgroundColor = '';
-        if (currentPosition != "NEUTRAL"){
-            listNum += 1;
-            if (listNum > gameList.length - 1){
-                listNum = 0;
+        if (!allowColorChange){
+            if (typeof passCorrectList == 'undefined' || typeof cardList == 'undefined') {
+                passCorrectList = [];
+                cardList = [];
             }
-            startText.innerText = gameList[listNum];
-            currentPosition = "NEUTRAL";
+            return;
         }
-      }
+        if (event.gamma > -50 && event.gamma < 0) {
+            overlay.style.backgroundColor = 'red';
+            startText.innerText = "PASS"
+            if (currentPosition != "PASS"){
+                // add current item to passed list
+                passCorrectList.push("PASS")
+                cardList.push(gameList[listNum])
+                currentPosition = "PASS";
+            }
+        } else if (event.gamma < 60 && event.gamma > 0) {
+            overlay.style.backgroundColor = 'green';
+            startText.innerText = "CORRECT"
+            if (currentPosition != "CORRECT"){
+                // add current item to correct list
+                passCorrectList.push("CORRECT")
+                cardList.push(gameList[listNum])
+                currentPosition = "CORRECT";
+            }
+        } else {
+            overlay.style.backgroundColor = '';
+            if (currentPosition != "NEUTRAL"){
+                listNum += 1;
+                if (listNum > gameList.length - 1){
+                    listNum = 0;
+                }
+                startText.innerText = gameList[listNum];
+                currentPosition = "NEUTRAL";
+            }
+        }
     }
 
     function requestPermission() {
@@ -286,7 +287,7 @@ var currentPosition = "NEUTRAL";
             leftCol.style.backgroundColor = "orange";
             leftCol.style.height = "auto";
             resultsPage.appendChild(leftCol)
-            
+
             var middleCol = document.createElement('div');
             middleCol.style.width = "10%";
             middleCol.style.backgroundColor = "purple";
