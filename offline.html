@@ -12,7 +12,7 @@
   <!-- Register the service worker -->
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/path/to/sw.js')
+      navigator.serviceWorker.register('https://raw.githubusercontent.com/Oshanotter/test/main/sw.js')
         .then(registration => {
           console.log('Service Worker registered with scope:', registration.scope);
         })
