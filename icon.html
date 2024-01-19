@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, minimum-scale=1, initial-scale=1, minimal-ui, viewport-fit=cover">
+    <title>Icons</title>
+    <!---
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap">
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="styles.css">
+    --->
+    <!---
+    <link rel="icon" href="icons/masked.png" />
+    <link rel="apple-touch-icon" href="icons/full.png">
+    <link rel="mask-icon" href="icons/masked.png" color="#000000">
+    --->
+    <!---
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+<link rel="manifest" href="icons/site.webmanifest">
+<link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="icons/favicon.ico">
+<meta name="msapplication-TileColor" content="#00aba9">
+<meta name="msapplication-config" content="icons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+--->
+
+<link rel="icon" type="image/png" href="https://forumosauploads-12829.kxcdn.com/optimized/3X/a/6/a683858f4955d2425000e35a53350dabb55f8f45_2_32x32.png">
+<link rel="apple-touch-icon" type="image/png" href="https://discourse-cloud-file-uploads.s3.dualstack.us-west-2.amazonaws.com/business6/uploads/forumosa/optimized/2X/6/6dae39f7514da2822816fe89c2623e8aefa037bf_2_180x180.png">
+    <link rel="apple-touch-icon-precomposed" href="https://cdn.osxdaily.com/wp-content/plugins/wptouch-pro/admin/images/default-bookmark.png">
+    
+    
+</head>
+<body>
+
+<!-- Button to trigger createOverlay -->
+<button onclick="getDictionary('pokemon.json')">Pokèmon</button>
+<button onclick="getDictionary('test.json')">Test</button>
+<button onclick="deferredPrompt.prompt()">Install</button>
+
+<script>
+
+    if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('service-worker.js');
+    }
+
+</script>
+<script src="script.js" defer></script>
+
+</body>
+</html>
