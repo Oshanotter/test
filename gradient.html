@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gradient Text with Truncation</title>
+<style>
+  .gradient-text {
+    /* Set gradient background */
+    background: linear-gradient(to right, #ff7e5f, #feb47b); /* Your gradient colors */
+    
+    /* Clip background to the text content */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    /* Set maximum width and enable text truncation */
+    width: 200px; /* Adjust to your desired width */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
+</head>
+<body>
+<div class="gradient-text">
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+</div>
+</body>
+</html>
