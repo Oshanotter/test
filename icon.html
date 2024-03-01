@@ -43,6 +43,32 @@
     if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register('service-worker.js');
     }
+    
+    function getFinalUrl(tinyurl) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          resolve(xhr.responseURL);
+        } else {
+          reject('Failed to retrieve final URL');
+        }
+      }
+    };
+    xhr.open('GET', tinyurl);
+    xhr.send();
+  });
+}
+
+const tinyurl = 'https://tinyurl.com/25u9y2h8';
+getFinalUrl(tinyurl)
+  .then(finalUrl => {
+    console.log('Final URL:', finalUrl);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 
 </script>
 <script src="script.js" defer></script>
