@@ -44,32 +44,39 @@
           navigator.serviceWorker.register('service-worker.js');
     }
     
-    function getFinalUrl(tinyurl) {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          resolve(xhr.responseURL);
-        } else {
-          reject('Failed to retrieve final URL');
-        }
-      }
-    };
-    xhr.open('GET', tinyurl);
-    xhr.send();
-  });
+    // load all dependencies
+var request = require('request');
+var async = require('async');
+var urlExpander = require('expand-url');
+
+// add your own array of links here
+var data = [ "https://tinyurl.com/25u9y2h8"]
+
+var counter=0;
+var q = async.queue(function (shortUrl, callback) {
+			// expander function 
+		    urlExpander.expand(shortUrl, function(err, longUrl){
+		        counter++;
+		        // log the short url and the expanded url in the console
+		        console.log(shortUrl + "," + longUrl);
+		        callback();
+		    });
+		}, 100);
+
+// runs the expander function for each data point
+var i = 0;
+while (i< data.length){
+    q.push(data[i], function (err) {
+    });
+    i++;
 }
 
-const tinyurl = 'https://tinyurl.com/25u9y2h8';
-getFinalUrl(tinyurl)
-  .then(finalUrl => {
-    console.log('Final URL:', finalUrl);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-
+// tells you in your console when you're done 
+q.drain = function() {
+    console.log(counter);
+    console.log('all urls have been processed');
+}
+    
 </script>
 <script src="script.js" defer></script>
 
