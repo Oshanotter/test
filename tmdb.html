@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Movie List</title>
+<style>
+  .movie-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .movie {
+    margin: 10px;
+    cursor: pointer;
+  }
+  .movie img {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+  }
+</style>
+</head>
+<body>
+
+<div class="movie-container" id="movie-container"></div>
+
+<script>
+  const apiKey = '7fc0783efc5723461f03926187de7fb7'; // Replace 'YOUR_API_KEY' with your actual TMDB API key
+
+  // Fetch popular movies from TMDB
+  fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`)
+    .then(response => response.json())
+    .then(data => {
+      const movies = data.results;
+      const movieContainer = document.getElementById('movie-container');
+
+      movies.forEach(movie => {
+        const movieDiv = document.createElement('div');
+        movieDiv.classList.add('movie');
+        const img = document.createElement('img');
+        img.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+        img.alt = movie.title;
+        img.addEventListener('click', () => {
+          displayMovieInfo(movie.id);
+        });
+        movieDiv.appendChild(img);
+        movieContainer.appendChild(movieDiv);
+      });
+    })
+    .catch(error => console.log('Error fetching movies:', error));
+
+  // Function to display movie info
+  function displayMovieInfo(movieId) {
+    fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`)
+      .then(response => response.json())
+      .then(movie => {
+        // Display movie info however you want, for example:
+        alert(`Title: ${movie.title}\nRelease Date: ${movie.release_date}\nOverview: ${movie.overview}`);
+      })
+      .catch(error => console.log('Error fetching movie info:', error));
+  }
+</script>
+
+</body>
+</html>
