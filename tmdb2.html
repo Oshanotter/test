@@ -6,89 +6,89 @@
   <title>Netflix Clone</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-    }
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
 
-    .sidebar {
-      width: 200px;
-      height: 100vh;
-      background-color: #333;
-      color: #fff;
-      float: left;
-    }
+.sidebar {
+  width: 200px;
+  height: 100vh;
+  background-color: #333;
+  color: #fff;
+  float: left;
+}
 
-    .sidebar ul {
-      list-style-type: none;
-      padding: 0;
-    }
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
 
-    .sidebar ul li {
-      padding: 10px;
-      cursor: pointer;
-    }
+.sidebar ul li {
+  padding: 10px;
+  cursor: pointer;
+}
 
-    .sidebar ul li.active {
-      background-color: #555;
-    }
+.sidebar ul li.active {
+  background-color: #555;
+}
 
-    .main {
-      margin-left: 200px;
-    }
+.main {
+  margin-left: 200px;
+}
 
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-    }
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
 
-    .container img {
-      width: 150px;
-      margin: 10px;
-      cursor: pointer;
-    }
+.container img {
+  width: 150px;
+  margin: 10px;
+  cursor: pointer;
+}
 
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      display: none;
-    }
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
 
-    .overlay-content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      text-align: center;
-    }
+.overlay-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
 
-    .overlay button {
-      margin: 10px;
-      padding: 10px 20px;
-      border: none;
-      background-color: #333;
-      color: #fff;
-      cursor: pointer;
-    }
+.overlay button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #333;
+  color: #fff;
+  cursor: pointer;
+}
 
-    .overlay button:hover {
-      background-color: #555;
-    }
+.overlay button:hover {
+  background-color: #555;
+}
+
   </style>
 </head>
 <body>
   <div class="sidebar">
     <ul>
-      <li class="active">Home</li>
-      <li>Movies</li>
-      <li>TV Shows</li>
+      <li id="home" class="active" onclick="displayMoviesAndShows('home')">Home</li>
+      <li id="movies" onclick="displayMoviesAndShows('movies')">Movies</li>
+      <li id="tvShows" onclick="displayMoviesAndShows('tvShows')">TV Shows</li>
     </ul>
   </div>
   
@@ -100,9 +100,9 @@
     <div class="overlay-content">
       <h2 id="title"></h2>
       <p id="overview"></p>
-      <button id="addToList">Add To List</button>
-      <button id="watchTrailer">Watch Trailer</button>
-      <button id="back">Back</button>
+      <button id="addToList" onclick="addToMyList()">Add To List</button>
+      <button id="watchTrailer" onclick="watchTrailer()">Watch Trailer</button>
+      <button id="back" onclick="goBack()">Back</button>
     </div>
   </div>
 
@@ -156,36 +156,20 @@
         }
       });
 
-      document.getElementById('addToList').addEventListener('click', () => {
+      function addToMyList() {
         // Implement functionality for adding to list here
-      });
+      }
 
-      document.getElementById('watchTrailer').addEventListener('click', () => {
+      function watchTrailer() {
         // Implement functionality for watching trailer here
-      });
+      }
 
-      document.getElementById('back').addEventListener('click', () => {
+      function goBack() {
         document.querySelector('.overlay').style.display = 'none';
-      });
+      }
 
       // Initial fetch for home page (mixed movies and TV shows)
       displayMoviesAndShows('home');
-
-      // Event listeners for sidebar categories
-      document.getElementById('home').addEventListener('click', () => {
-        currentCategory = 'home';
-        displayMoviesAndShows('home');
-      });
-
-      document.getElementById('movies').addEventListener('click', () => {
-        currentCategory = 'movies';
-        displayMoviesAndShows('movies');
-      });
-
-      document.getElementById('tvShows').addEventListener('click', () => {
-        currentCategory = 'tvShows';
-        displayMoviesAndShows('tvShows');
-      });
     });
   </script>
 </body>
