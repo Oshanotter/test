@@ -109,7 +109,8 @@
   <script>
     // JavaScript code for fetching data from TMDB API and handling click events
     document.addEventListener('DOMContentLoaded', () => {
-      const apiKey = '7fc0783efc5723461f03926187de7fb7'; // Your TMDB API key
+      const apiKey = 'YOUR_API_KEY'; // Your TMDB API key
+      let currentCategory = 'home';
 
       function fetchData(url) {
         return fetch(url)
@@ -117,15 +118,33 @@
           .catch(error => console.error('Error:', error));
       }
 
-      function displayDetails(id) {
-        const overlay = document.querySelector('.overlay');
-        overlay.style.display = 'block';
+      function displayMoviesAndShows(category) {
+        let url;
+        switch (category) {
+          case 'home':
+            url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false`;
+            break;
+          case 'movies':
+            url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false`;
+            break;
+          case 'tvShows':
+            url = `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false`;
+            break;
+          default:
+            url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false`;
+        }
 
-        // Fetch details for the selected movie or TV show
-        fetchData(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`)
+        fetchData(url)
           .then(data => {
-            document.getElementById('title').innerText = data.title;
-            document.getElementById('overview').innerText = data.overview;
+            const container = document.querySelector('.container');
+            container.innerHTML = ''; // Clear previous content
+
+            data.results.forEach(item => {
+              const img = document.createElement('img');
+              img.src = `https://image.tmdb.org/t/p/w185${item.poster_path}`;
+              img.dataset.id = item.id;
+              container.appendChild(img);
+            });
           })
           .catch(error => console.error('Error:', error));
       }
@@ -137,22 +156,36 @@
         }
       });
 
+      document.getElementById('addToList').addEventListener('click', () => {
+        // Implement functionality for adding to list here
+      });
+
+      document.getElementById('watchTrailer').addEventListener('click', () => {
+        // Implement functionality for watching trailer here
+      });
+
       document.getElementById('back').addEventListener('click', () => {
         document.querySelector('.overlay').style.display = 'none';
       });
 
       // Initial fetch for home page (mixed movies and TV shows)
-      fetchData(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false`)
-        .then(data => {
-          const container = document.querySelector('.container');
-          data.results.forEach(item => {
-            const img = document.createElement('img');
-            img.src = `https://image.tmdb.org/t/p/w185${item.poster_path}`;
-            img.dataset.id = item.id;
-            container.appendChild(img);
-          });
-        })
-        .catch(error => console.error('Error:', error));
+      displayMoviesAndShows('home');
+
+      // Event listeners for sidebar categories
+      document.getElementById('home').addEventListener('click', () => {
+        currentCategory = 'home';
+        displayMoviesAndShows('home');
+      });
+
+      document.getElementById('movies').addEventListener('click', () => {
+        currentCategory = 'movies';
+        displayMoviesAndShows('movies');
+      });
+
+      document.getElementById('tvShows').addEventListener('click', () => {
+        currentCategory = 'tvShows';
+        displayMoviesAndShows('tvShows');
+      });
     });
   </script>
 </body>
