@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TMDB ID Search</title>
+</head>
+<body>
+  <h1>TMDB ID Search</h1>
+  <form id="searchForm">
+    <label for="tmdbIdInput">Enter TMDB ID:</label>
+    <input type="text" id="tmdbIdInput" name="tmdbId">
+    <button type="submit">Search</button>
+  </form>
+  <div id="resultContainer"></div>
+
+  <script>
+    async function searchTmdbId(tmdbId, page = 1) {
+      try {
+        const response = await fetch(`https://vidsrc.xyz/movies/latest/page-${page}.json`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch page ${page}`);
+        }
+        const data = await response.json();
+        const { result, pages } = data;
+
+        // Loop through the result array to find the desired tmdb_id
+        const foundMovie = result.find(movie => movie.tmdb_id === tmdbId);
+        if (foundMovie) {
+          return foundMovie;
+        }
+
+        // If the movie is not found in the current page, check the next page
+        if (page < pages) {
+          return searchTmdbId(tmdbId, page + 1);
+        } else {
+          return null;
+        }
+      } catch (error) {
+        console.error(`Error searching for tmdb_id ${tmdbId} on page ${page}:`, error);
+        return null;
+      }
+    }
+
+    document.getElementById('searchForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const tmdbId = document.getElementById('tmdbIdInput').value.trim();
+      if (!tmdbId) {
+        alert('Please enter a TMDB ID');
+        return;
+      }
+
+      const resultContainer = document.getElementById('resultContainer');
+      resultContainer.innerHTML = ''; // Clear previous result
+
+      try {
+        const movie = await searchTmdbId(tmdbId);
+        if (movie) {
+          const movieDetails = `
+            <h2>Movie Found!</h2>
+            <p>Title: ${movie.title}</p>
+            <p>TMDB ID: ${movie.tmdb_id}</p>
+            <p>IMDB ID: ${movie.imdb_id}</p>
+            <p>Quality: ${movie.quality}</p>
+            <p>Embed URL: <a href="${movie.embed_url}">${movie.embed_url}</a></p>
+          `;
+          resultContainer.innerHTML = movieDetails;
+        } else {
+          resultContainer.innerHTML = '<p>No movie found with the provided TMDB ID.</p>';
+        }
+      } catch (error) {
+        resultContainer.innerHTML = `<p>Error: ${error.message}</p>`;
+      }
+    });
+  </script>
+</body>
+</html>
