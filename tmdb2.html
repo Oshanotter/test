@@ -154,12 +154,12 @@
         const id = event.target.dataset.id;
         displayDetails(id);
       }
-    });*/
+    });
 
     // Initial fetch for home page (mixed movies and TV shows)
     displayMoviesAndShows('home');
   });
-
+*/
   function addToMyList() {
     // Implement functionality for adding to list here
   }
@@ -171,6 +171,8 @@
   function goBack() {
     document.querySelector('.overlay').style.display = 'none';
   }
+
+  displayMoviesAndShows('home');
 </script>
 
 </body>
