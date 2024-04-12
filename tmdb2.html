@@ -142,24 +142,25 @@
           const img = document.createElement('img');
           img.src = `https://image.tmdb.org/t/p/w185${item.poster_path}`;
           img.dataset.id = item.id;
+          img.onclick = function() {
+            displayInfoPage(item.id);
+          };
           container.appendChild(img);
         });
       })
       .catch(error => console.error('Error:', error));
   }
-/*
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.main').addEventListener('click', event => {
-      if (event.target.tagName === 'IMG') {
-        const id = event.target.dataset.id;
-        displayDetails(id);
-      }
-    });
 
-    // Initial fetch for home page (mixed movies and TV shows)
-    displayMoviesAndShows('home');
-  });
-*/
+  function displayInfoPage(movieId){
+    fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`)
+      .then(response => response.json())
+      .then(movie => {
+        // Display movie info however you want, for example:
+        alert(`Title: ${movie.title}\nRelease Date: ${movie.release_date}\nOverview: ${movie.overview}`);
+      })
+      .catch(error => console.log('Error fetching movie info:', error));
+  }
+    
   function addToMyList() {
     // Implement functionality for adding to list here
   }
