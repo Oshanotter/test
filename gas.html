@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fetch JSON Data</title>
+</head>
+<body>
+
+<h1>Fetch JSON Data</h1>
+
+<div id="output"></div>
+
+<button onclick="fetchData()">Fetch Data</button>
+
+<script>
+function fetchData() {
+  // Replace 'https://example.com/data' with your actual URL
+  fetch('https://script.google.com/macros/s/AKfycbwfoCeQU6JTGdJPFHqDArEEcw_loRLSE3ka3HyQnM17jMW3DgTci_LTR8hwdBnFg3RQ/exec')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Display the JSON data on the page
+      displayData(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+function displayData(data) {
+  // Get the output element
+  var outputDiv = document.getElementById('output');
+
+  // Clear previous content
+  outputDiv.innerHTML = '';
+
+  // Create a new pre element to display JSON data
+  var preElement = document.createElement('pre');
+
+  // Format the JSON data for display
+  var jsonData = JSON.stringify(data, null, 2);
+
+  // Set the text content of the pre element to the formatted JSON data
+  preElement.textContent = jsonData;
+
+  // Append the pre element to the output div
+  outputDiv.appendChild(preElement);
+}
+</script>
+
+</body>
+</html>
