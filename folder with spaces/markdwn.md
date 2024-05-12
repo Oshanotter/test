@@ -75,7 +75,10 @@ function doGet(e) {
 Next, at the top of the screen, click on the "Deploy" button, then choose "New Deployment".  
 Then, click on the cog wheel and choose "Web App" as the deployment type.  
 You can type a description if you want, but make sure to leave "Execute as" set to "Me" and change "Who has access" to "Anyone". Don't worry, this doesn't mean that everyone can see your contacts.  
-Then click the "Deploy" button. 
+Then click the "Deploy" button.  
+Next, click "Authorize Access", then choose your Google Account.  
+Click on "Advanced" in the pop up window, then click on "Go to Gmail Plus Contacts Helper (unsafe)", or whatever you named your Google Apps Script. 
+Then, click "Allow" one last time. 
 
 ## Copy Your URL
 Finally, copy the URL that shows up in the pop up window. It should look something like this: https://script.google.com/macros/s/AKycbyiShy6C3rZ2bfSXFvMu6X0nw4SQctyljgytwuz_wKR1Zi7mKNvIMgo/exec  
