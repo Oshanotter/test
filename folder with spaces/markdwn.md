@@ -5,9 +5,10 @@ Using your own Google Apps Script is important so that you only retrieve your co
 ## Table of Contents
 - [Step 1: Log In to Google Apps Script](#Log-In-to-Google-Apps-Script)
 - [Step 2: Create A New Project](#Create-A-New-Project)
-- [Step 3: Paste This Code](#Paste-This-Code)
-- [Step 4: Deploy The Project](#Deploy-The-Project)
-- [Step 5: Copy The URL](#Copy-The-URL)
+- [Step 3: Add The Peopleapi Service](#Add-The-Peopleapi-Service)
+- [Step 4: Paste This Code](#Paste-This-Code)
+- [Step 5: Deploy The Project](#Deploy-The-Project)
+- [Step 6: Copy Your URL](#Copy-Your-URL)
 
 ## Log In to Google Apps Script
 First, go to the [Google Apps Script](https://script.google.com/home/my) home page.  
@@ -17,14 +18,14 @@ Make sure you are logged in to the same Google account that you plan to use for 
 Next, click on "Create New Project" in the top left corner.  
 You can name this project whatever you would like, but I call mine "Gmail Plus Contacts Helper".
 
+## Add The Peopleapi Service
+Next, on the lefthand side, click on the plus icon by "Services".  
+Then, scroll through the list and find the "Peopleapi" service and choose it.  
+Then click the "Add" button. 
+
 ## Paste This Code
 Then, replace the default function that Google made for you with the code below. 
 ```javascript js
-/**
- * Gets a list of people in the user's contacts.
- * @see https://developers.google.com/people/api/rest/v1/people.connections/list
- */
-
 function doGet(e) {
   try {
 
@@ -76,7 +77,7 @@ Then, click on the cog wheel and choose "Web App" as the deployment type.
 You can type a description if you want, but make sure to leave "Execute as" set to "Me" and change "Who has access" to "Anyone". Don't worry, this doesn't mean that everyone can see your contacts.  
 Then click the "Deploy" button. 
 
-## Copy The URL
+## Copy Your URL
 Finally, copy the URL that shows up in the pop up window. It should look something like this: https://script.google.com/macros/s/AKycbyiShy6C3rZ2bfSXFvMu6X0nw4SQctyljgytwuz_wKR1Zi7mKNvIMgo/exec  
 Then just paste it into the box on the Gmail page and you're done!   
 Enjoy Gmail Plus!
