@@ -13,8 +13,8 @@ Title1             |  Title2
 :-------------------------:|:-------------------------:
 ![](https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_gray.png)  |  ![](https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_gray.png)
 
-<img style="width:45%; display:inline-block;"  src="https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_gray.png">
-<img style="width:45%; display:inline-block;"  src="https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_pink.png"> 
+| ![](https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_gray.png) | ![](https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_gray.png) |
+|:-----------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------:|
 
 ## Game Boy Advance SP Overlay
 An overlay for the Nintendo Game Boy Advance SP meant to be used in portrait mode on a touch screen device. 
