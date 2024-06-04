@@ -10,7 +10,7 @@ An overlay for the Nintendo DS meant to be used in portrait mode on a touch scre
 Go to its [Page](./nds) for more details. 
 
 
-:-------------------------:|:-------------------------:
+
 ![](https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_gray.png)  |  ![](https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_pink.png)
 
 <img style="width:45%; display:inline-block;"  src="https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_gray.png">
