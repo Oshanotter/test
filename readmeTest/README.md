@@ -10,7 +10,7 @@ An overlay for the Nintendo DS meant to be used in portrait mode on a touch scre
 Go to its [Page](./nds) for more details. 
 
 <img align="left" height="65vw" src="https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_gray.png">
-<img align="left" height="65vw" src="https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_gray.png">
+<img align="left" height="100vw" src="https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_gray.png">
 
 ## Game Boy Advance SP Overlay
 An overlay for the Nintendo Game Boy Advance SP meant to be used in portrait mode on a touch screen device. 
