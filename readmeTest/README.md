@@ -11,7 +11,7 @@ Go to its [Page](./nds) for more details.
 
 Title1             |  Title2
 :-------------------------:|:-------------------------:
-![](https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_gray.png")  |  ![](https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_pink.png")
+![](https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_gray.png)  |  ![](https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_gray.png)
 
 <img style="width:45%; display:inline-block;"  src="https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_gray.png">
 <img style="width:45%; display:inline-block;"  src="https://raw.githubusercontent.com/Oshanotter/retroarch-overlays/main/nds/nds_pink.png"> 
