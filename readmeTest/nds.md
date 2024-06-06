@@ -1,9 +1,10 @@
 # Nintendo DS Overlay
 
 An overlay for the Nintendo DS meant to be used in portrait mode on a touch screen device. 
-Go to its [Page](./nds) for more details. 
+There are several different color options, including blue, gray, green, orange, pink, purple, red, teal, and yellow! 
+Below are two examples of how the gamepad overlay will look.
 
-|Grey|Pink|
+|Gray|Pink|
 |:---:|:---:|
 | ![](./example_images/nds_ex1.png) | ![](./example_images/nds_ex2.png) |
 
