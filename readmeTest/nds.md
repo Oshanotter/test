@@ -19,7 +19,7 @@ Click the button below to download this overlay.
 > This has currently only been tested on an iPhone 12 with the following settings, however it should work with other touch screen devices with little to no modification. 
 1. Download the zip file linked above and extract it. 
 
-2. Place it somewhere in your TeyroArch folder. 
+2. Place it somewhere in your RetroArch folder. 
 I would recommend placing it in the following location: **RetroArch > overlays > gamepads** 
 
 3. Open RetroArch and start playing a game with the core that you want. Then open the RetroArch Quick Menu.
