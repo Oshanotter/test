@@ -26,6 +26,7 @@ I would recommend placing it in the following location: **RetroArch > overlays >
 
 4. Once in the Quick Menu, tap on "On-Screen Overlay" then "Overlay Preset". Navigate to the overlay that you want and select it. 
 
-5. Back in the "On-Screen Overlay" menu, turn off "Auto-Scale Overlay". 
+> [!IMPORTANT]
+> For this overlay to display properly, follow these extra steps. Back in the "On-Screen Overlay" menu, turn off "Auto-Scale Overlay". 
 
-6. Finally, back in the Quick Menu, tap on "Overrides" then tap "Save Core Overrides". 
+5. Finally, back in the Quick Menu, tap on "Overrides" then tap "Save Core Overrides". 
