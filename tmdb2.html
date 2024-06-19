@@ -175,6 +175,88 @@
 
   displayMoviesAndShows('home');
 </script>
+<script>
+
+	function authenticate(){
+		displayPopup("message", "Close");
+	}
+	
+	function displayPopup(message, closeText = null, continueText = null, continueFunction = null, ...continueArgs) {
+	  // first remove the prevent input element if it already exists
+	  var oldElem = document.getElementById('preventInput');
+	  if (oldElem != null) {
+	    oldElem.remove();
+	  }
+	  // create an element over the top of everything and display a message with options
+	  // create a blank div tag to prevent background items from being clicked
+	  var preventInput = document.createElement('div');
+	  preventInput.id = "preventInput";
+	  preventInput.style.height = "100%";
+	  preventInput.style.width = "100%";
+	  preventInput.style.overflow = "hidden";
+	  preventInput.style.top = "0";
+	  preventInput.style.position = "fixed";
+	  preventInput.style.backgroundColor = "rgba(0, 0, 0, 0.75)";
+	  document.body.appendChild(preventInput);
+	
+	  var mainDiv = document.createElement('div');
+	  mainDiv.classList = "light-or-dark";
+	  mainDiv.style.width = "70%";
+	  mainDiv.style.position = "fixed";
+	  mainDiv.style.top = "50%";
+	  mainDiv.style.left = "50%";
+	  mainDiv.style.transform = 'translate(-50%, -50%)';
+	  mainDiv.style.margin = "auto";
+	  mainDiv.style.overflow = "hidden";
+	  mainDiv.style.borderRadius = "20px";
+	  mainDiv.style.border = "solid";
+	  mainDiv.style.display = "flex";
+	  mainDiv.style.flexDirection = "column";
+	  mainDiv.style.textAlign = "center";
+	  preventInput.appendChild(mainDiv);
+	
+	  var messageDiv = document.createElement('div');
+	  messageDiv.style.margin = "5%";
+	  messageDiv.innerHTML = message;
+	  mainDiv.appendChild(messageDiv);
+	
+	  var buttonContainer = document.createElement('div');
+	  buttonContainer.style.display = "flex";
+	  buttonContainer.style.justifyContent = "space-evenly";
+	  buttonContainer.style.marginBottom = "5%";
+	  mainDiv.appendChild(buttonContainer);
+	
+	  if (closeText != null) {
+	    var cancelBtn = document.createElement('div');
+	    cancelBtn.style.padding = "3% 5% 3% 5%";
+	    cancelBtn.style.borderRadius = "999px";
+	    cancelBtn.classList = "redGradient";
+	    cancelBtn.innerText = closeText;
+	    cancelBtn.addEventListener('click', () => {
+	      preventInput.remove();
+	    });
+	    buttonContainer.appendChild(cancelBtn);
+	  }
+	
+	  if (continueText != null && continueFunction != null) {
+	    var continueBtn = document.createElement('div');
+	    continueBtn.style.padding = "3% 5% 3% 5%";
+	    continueBtn.style.borderRadius = "999px";
+	    continueBtn.classList = "blueGradient";
+	    continueBtn.innerText = continueText;
+	    continueBtn.addEventListener('click', () => {
+	      continueFunction(...continueArgs);
+	      preventInput.remove();
+	    });
+	    buttonContainer.appendChild(continueBtn);
+	  }
+	}
+	
+	authenticate();
+	
+	alert("hi");
+	
+</script>
 
 </body>
 </html>
