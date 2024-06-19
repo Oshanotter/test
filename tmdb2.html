@@ -230,7 +230,7 @@
 	    var cancelBtn = document.createElement('div');
 	    cancelBtn.style.padding = "3% 5% 3% 5%";
 	    cancelBtn.style.borderRadius = "999px";
-	    cancelBtn.classList = "redGradient";
+	    cancelBtn.style.backgroundColor = "red";
 	    cancelBtn.innerText = closeText;
 	    cancelBtn.addEventListener('click', () => {
 	      preventInput.remove();
@@ -242,7 +242,7 @@
 	    var continueBtn = document.createElement('div');
 	    continueBtn.style.padding = "3% 5% 3% 5%";
 	    continueBtn.style.borderRadius = "999px";
-	    continueBtn.classList = "blueGradient";
+	    continueBtn.style.backgroundColor = "blue";
 	    continueBtn.innerText = continueText;
 	    continueBtn.addEventListener('click', () => {
 	      continueFunction(...continueArgs);
@@ -253,8 +253,6 @@
 	}
 	
 	authenticate();
-	
-	alert("hi");
 	
 </script>
 
