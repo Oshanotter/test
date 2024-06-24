@@ -81,6 +81,15 @@
   background-color: #555;
 }
 
+#infoPage {
+  height: 100vh;
+  width: 100vw;
+  backgroundColor: red;
+  overflow: "hidden";
+  top: 0;
+  position: "fixed";
+}
+
   </style>
 </head>
 <body>
@@ -159,9 +168,6 @@
         alert(`Title: ${movie.title}\nRelease Date: ${movie.release_date}\nOverview: ${movie.overview}`);
         var infoPage = document.createElement('div');
         infoPage.id = 'infoPage';
-        infoPage.style.width = '100vw';
-        infoPage.style.height = '100vh'
-        infoPage.style.backgroundColor = 'red';
         var title = document.createElement('div');
         title.id = 'infoTitle';
         title.innerText = movie.title;
