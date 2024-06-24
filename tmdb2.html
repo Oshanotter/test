@@ -157,6 +157,24 @@
       .then(movie => {
         // Display movie info however you want, for example:
         alert(`Title: ${movie.title}\nRelease Date: ${movie.release_date}\nOverview: ${movie.overview}`);
+        var infoPage = document.createElement('div');
+        infoPage.id = 'infoPage';
+        infoPage.style.width = '100vw';
+        infoPage.style.height = '100vh'
+        infoPage.style.backgroundColor = 'red';
+        var title = document.createElement('div');
+        title.id = 'infoTitle';
+        title.innerText = movie.title;
+        infoPage.appendChild(title);
+        var releaseDate = document.createElement('div');
+        releaseDate.id = 'infoReleaseDate';
+        releaseDate.innerText = movie.release_date;
+        infoPage.appendChild(releaseDate);
+        var description = document.createElement('div');
+        description.id = 'infoDescription';
+        description.innerText = movie.overview;
+        infoPage.appendChild(description);
+        document.body.appendChild(infoPage);
       })
       .catch(error => console.log('Error fetching movie info:', error));
   }
@@ -258,7 +276,7 @@
     displayPopup("Username: " + username + "\nPassword: " + password);
   }
 	
-	authenticate();
+	//authenticate();
 	
 </script>
 
