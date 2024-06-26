@@ -181,9 +181,40 @@
         description.innerText = movie.overview;
         infoPage.appendChild(description);
         document.body.appendChild(infoPage);
+	getMovieTrailer(movieId).then(data => {
+		var trailerUrl = data.trailerUrl;
+		var youtube = document.createElement('a');
+		youtube.id = 'infoDescription';
+        	youtube.innerText = trailerUrl;
+        	infoPage.appendChild(youtube);
+	});
+	a
       })
       .catch(error => console.log('Error fetching movie info:', error));
   }
+
+// Function to get the movie videos
+async function getMovieTrailer(movieId) {
+  const url = `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${API_KEY}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('Network response was not ok ' + response.statusText);
+    }
+    const data = await response.json();
+    
+    // Find the YouTube trailer
+    const trailer = data.results.find(video => video.site === 'YouTube' && video.type === 'Trailer');
+    if (trailer) {
+      return `https://www.youtube.com/watch?v=${trailer.key}`;
+    } else {
+      return 'No trailer found';
+    }
+  } catch (error) {
+    console.error('There has been a problem with your fetch operation:', error);
+  }
+}
     
   function addToMyList() {
     // Implement functionality for adding to list here
