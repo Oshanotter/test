@@ -181,10 +181,7 @@
         description.innerText = movie.overview;
         infoPage.appendChild(description);
         document.body.appendChild(infoPage);
-	getMovieTrailer(movieId).then(data => {
-		var trailerUrl = data.trailerUrl;
-		console.log(trailerUrl);
-		console.log(data);
+	getMovieTrailer(movieId).then(trailerUrl => {
 		var youtube = document.createElement('a');
 		youtube.id = 'trailer';
         	youtube.innerText = trailerUrl;
