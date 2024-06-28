@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Clone</title>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .sidebar {
+            width: 200px;
+            height: 100vh;
+            background-color: #333;
+            color: #fff;
+            float: left;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .sidebar ul li.active {
+            background-color: #555;
+        }
+
+        .main {
+            margin-left: 200px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        .container img {
+            width: 150px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .overlay-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .overlay button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .overlay button:hover {
+            background-color: #555;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        #infoPage {
+            background-color: green;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            top: 0;
+            margin: 0;
+            padding: 0;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #infoSplit1 {
+            background-color: red;
+
+            width: 100vw;
+            height: 50vh;
+        }
+
+        #infoSplit2 {
+
+            background-color: blue;
+            width: 100vw;
+            height: 50vh;
+        }
+
+        @media (orientation: landscape) {
+            #infoPage {
+                flex-direction: row;
+            }
+
+            #infoSplit1 {
+                width: 30vw;
+                height: 100vh;
+            }
+
+            #infoSplit2 {
+                width: 70vw;
+                height: 100vh;
+            }
+        }
+
+        .button {
+            border: solid green;
+            border-radius: 1vh;
+            max-width: 100%;
+            text-align: center;
+            vertical-align: middle;
+            margin: 1vh 1vh 0vh 1vh;
+            background-color: yellow;
+            cursor: pointer;
+        }
+
+        #buttonContainer {
+            width: 90%;
+            margin: auto;
+            background-color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <ul>
+            <li id="home" class="active" onclick="displayMoviesAndShows('home')">Home</li>
+            <li id="movies" onclick="displayMoviesAndShows('movies')">Movies</li>
+            <li id="tvShows" onclick="displayMoviesAndShows('tvShows')">TV Shows</li>
+        </ul>
+    </div>
+
+    <div class="main">
+        <div class="container"></div>
+    </div>
+
+    <div id="infoPage" class="hidden">
+        <div id="infoSplit1">
+            <h1 style="width: 90%; margin: auto; margin-top: 5%;">Title of Film</h1>
+            <p style="width: 90%; margin: auto; margin-top: 2%;">Sep 20, 1987</p>
+            <p style="width: 90%; margin: 2% auto 5% auto;">Description of the movie or series. This should be a few sentences long. Some desvriptions are longer than others though.</p>
+            <div id="buttonContainer">
+                <div id="playButton" class="button" onclick="playMovie()">Play</div>
+                <div id="resumeButton" class="button">Resume</div>
+                <div id="addToListButton" class="button" onclick="addToList()">Add To List</div>
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <div id="stopTrailer" class="button" style="width: calc(50% - 1vh)" onclick="stopTrailer()">Stop Trailer</div>
+                    <div id="restartTrailer" class="button" style="width: calc(50% - 1vh)" onclick="restartTrailer()">Restart Trailer</div>
+                </div>
+                <div id="backButton" class="button" onclick="resetInfoPage()">Back</div>
+            </div>
+        </div>
+        <div id="infoSplit2">
+            <div id="ytTrailerPlayer" style="display:none; width: 100%; height: 100%;"></div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript code for fetching data from TMDB API and handling click events
+        const apiKey = '7fc0783efc5723461f03926187de7fb7'; // Your TMDB API key
+        let currentCategory = 'home';
+
+        function fetchData(url) {
+            return fetch(url)
+                .then(response => response.json())
+                .catch(error => console.error('Error:', error));
+        }
+
+        function displayMoviesAndShows(category) {
+            let url;
+            switch (category) {
+                case 'home':
+                    url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false`;
+                    break;
+                case 'movies':
+                    url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false`;
+                    break;
+                case 'tvShows':
+                    url = `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false`;
+                    break;
+                default:
+                    url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false`;
+            }
+
+            fetchData(url)
+                .then(data => {
+                    const container = document.querySelector('.container');
+                    container.innerHTML = ''; // Clear previous content
+
+                    data.results.forEach(item => {
+                        const img = document.createElement('img');
+                        img.src = `https://image.tmdb.org/t/p/w185${item.poster_path}`;
+                        img.dataset.id = item.id;
+                        img.onclick = function() {
+                            displayInfoPage(item.id);
+                        };
+                        container.appendChild(img);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function displayInfoPage(movieId) {
+            fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`)
+                .then(response => response.json())
+                .then(movie => {
+                    // Display movie info however you want, for example:
+                    //alert(`Title: ${movie.title}\nRelease Date: ${movie.release_date}\nOverview: ${movie.overview}`);
+                    var infoPage = document.getElementById('infoPage');
+                    infoPage.classList.remove('hidden');
+                    var infoSplit1 = document.getElementById('infoSplit1');
+                    var titleElem = infoSplit1.children[0];
+                    titleElem.innerText = movie.title;
+                    var releaseElem = infoSplit1.children[1];
+                    releaseElem.innerText = movie.release_date;
+                    var overviewElem = infoSplit1.children[2];
+                    overviewElem.innerText = movie.overview;
+                    getMovieTrailer(movieId).then(trailerID => {
+                        var playerElement = document.getElementById('ytTrailerPlayer');
+                        playerElement.style.display = 'block';
+                        trailerPlayer.loadVideoById(trailerID);
+                    });
+                })
+                .catch(error => console.log('Error fetching movie info:', error));
+        }
+
+        // Function to get the movie videos
+        async function getMovieTrailer(movieId) {
+            const url = `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                const data = await response.json();
+
+                // Find the YouTube trailer
+                const trailer = data.results.find(video => video.site === 'YouTube' && video.type === 'Trailer');
+                if (trailer) {
+                    return trailer.key;
+                } else {
+                    return 'No trailer found';
+                }
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        }
+
+        function addToList() {
+            alert('Add to list');
+        }
+
+        displayMoviesAndShows('home');
+    </script>
+    <script>
+        function authenticate() {
+            displayPopup('<h1>Login To Continue</h1><br><input type="text" id="username" name="username" placeholder="Username"><br><br><input type="text" id="password" name="password" placeholder="Password">', null, "Login", login);
+        }
+
+        function displayPopup(message, closeText = null, continueText = null, continueFunction = null, ...continueArgs) {
+            // first remove the prevent input element if it already exists
+            var oldElem = document.getElementById('preventInput');
+            if (oldElem != null) {
+                oldElem.remove();
+            }
+            // create an element over the top of everything and display a message with options
+            // create a blank div tag to prevent background items from being clicked
+            var preventInput = document.createElement('div');
+            preventInput.id = "preventInput";
+            preventInput.style.height = "100%";
+            preventInput.style.width = "100%";
+            preventInput.style.overflow = "hidden";
+            preventInput.style.top = "0";
+            preventInput.style.position = "fixed";
+            preventInput.style.backgroundColor = "rgba(0, 0, 0, 0.75)";
+            document.body.appendChild(preventInput);
+
+            var mainDiv = document.createElement('div');
+            mainDiv.style.backgroundColor = "white";
+            mainDiv.style.width = "70%";
+            mainDiv.style.position = "fixed";
+            mainDiv.style.top = "50%";
+            mainDiv.style.left = "50%";
+            mainDiv.style.transform = 'translate(-50%, -50%)';
+            mainDiv.style.margin = "auto";
+            mainDiv.style.overflow = "hidden";
+            mainDiv.style.borderRadius = "20px";
+            mainDiv.style.border = "solid";
+            mainDiv.style.display = "flex";
+            mainDiv.style.flexDirection = "column";
+            mainDiv.style.textAlign = "center";
+            preventInput.appendChild(mainDiv);
+
+            var messageDiv = document.createElement('div');
+            messageDiv.style.margin = "5%";
+            messageDiv.innerHTML = message;
+            mainDiv.appendChild(messageDiv);
+
+            var buttonContainer = document.createElement('div');
+            buttonContainer.style.display = "flex";
+            buttonContainer.style.justifyContent = "space-evenly";
+            buttonContainer.style.marginBottom = "5%";
+            mainDiv.appendChild(buttonContainer);
+
+            if (closeText != null) {
+                var cancelBtn = document.createElement('div');
+                cancelBtn.style.padding = "3% 5% 3% 5%";
+                cancelBtn.style.borderRadius = "999px";
+                cancelBtn.style.backgroundColor = "red";
+                cancelBtn.innerText = closeText;
+                cancelBtn.addEventListener('click', () => {
+                    preventInput.remove();
+                });
+                buttonContainer.appendChild(cancelBtn);
+            }
+
+            if (continueText != null && continueFunction != null) {
+                var continueBtn = document.createElement('div');
+                continueBtn.style.padding = "3% 5% 3% 5%";
+                continueBtn.style.borderRadius = "999px";
+                continueBtn.style.backgroundColor = "blue";
+                continueBtn.innerText = continueText;
+                continueBtn.addEventListener('click', () => {
+                    continueFunction(...continueArgs);
+                    preventInput.remove();
+                });
+                buttonContainer.appendChild(continueBtn);
+            }
+        }
+
+        function login() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            displayPopup("Username: " + username + "\nPassword: " + password);
+        }
+
+        //authenticate();
+    </script>
+    <script>
+        // declare some global variables
+        var trailerPlayer;
+
+        // This function creates an <iframe> (and YouTube player)
+        // after the API code downloads.
+        function onYouTubeIframeAPIReady() {
+            trailerPlayer = new YT.Player('ytTrailerPlayer', {
+                height: 'auto',
+                width: '100%',
+                videoId: '',
+                events: {
+                    'onStateChange': onTrailerStateChange
+                },
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'iv_load_policy': 3
+                }
+            });
+        }
+
+        // The API calls this function when the player's state changes.
+        function onTrailerStateChange(event) {
+            if (event.data == YT.PlayerState.ENDED) {
+                var playerElement = document.getElementById('ytTrailerPlayer');
+                playerElement.style.display = 'none';
+            }
+        }
+
+        function stopTrailer() {
+            trailerPlayer.pauseVideo();
+        }
+
+        function restartTrailer() {
+            trailerPlayer.seekTo(0);
+            trailerPlayer.playVideo();
+        }
+
+        function resetInfoPage() {
+            // stop the trailer
+            stopTrailer();
+            // set the movie info back to normal
+            var infoPage = document.getElementById('infoPage');
+            infoPage.classList.add('hidden');
+            var infoSplit1 = document.getElementById('infoSplit1');
+            var titleElem = infoSplit1.children[0];
+            titleElem.innerText = "";
+            var releaseElem = infoSplit1.children[1];
+            releaseElem.innerText = "";
+            var overviewElem = infoSplit1.children[2];
+            overviewElem.innerText = "";
+            // display the overlay over the trailer again
+            var playerElement = document.getElementById('ytTrailerPlayer');
+            playerElement.style.display = 'block';
+        }
+
+        function loadMovie(tmdbID) {
+            alert('Load movie with id: ' + tmdbID);
+        }
+
+        function playMovie() {
+            alert('Play movie');
+        }
+    </script>
+
+</body>
+
+</html>
