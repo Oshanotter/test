@@ -545,8 +545,8 @@
         }
 
         window.addEventListener('message', message => {
-            alert(message.source + "\n\n" + message.data);
-            console.log(message.source + "\n\n" + message.data);
+            alert(message.origin + "\n\n" + message.data);
+            console.log(message.origin + "\n\n" + message.data);
         });
     </script>
 
