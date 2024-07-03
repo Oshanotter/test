@@ -190,7 +190,6 @@
         #movieIframe {
             width: 100%;
             height: 90%;
-            border: none;
         }
         
         #iframeContainer {
@@ -536,6 +535,7 @@
             var iframe = document.getElementById('movieIframe');
             iframe.src = "http://vidsrc.to/embed/movie/" + movieId;
             iframe.parentNode.classList.remove('hidden');
+            console.log(iframe);
         }
         
         function stopMovie() {
