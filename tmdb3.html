@@ -104,14 +104,49 @@
             background-color: red;
 
             width: 100vw;
-            height: 50vh;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .noFlex {
+            flex: none;
+        }
+
+        .flex {
+            flex: 1;
+            /* This element will take up the remaining space */
+            position: relative;
+            /* Positioning context for the gradient overlay */
+            overflow: hidden;
+            /* Hide the gradient's overflow */
+        }
+
+        .flex-content {
+            height: 100%;
+            overflow: auto;
+            padding-bottom: 1em;
+        }
+
+        .flex::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1em;
+            /* Height of the gradient overlay */
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+            pointer-events: none;
+            /* Ensure the gradient doesn't interfere with scrolling */
         }
 
         #infoSplit2 {
 
             background-color: blue;
             width: 100vw;
-            height: 50vh;
+            height: 40vh;
         }
 
         @media (orientation: landscape) {
@@ -128,6 +163,10 @@
                 width: 70vw;
                 height: 100vh;
             }
+
+            .flex {
+                max-height: 100%;
+            }
         }
 
         .button {
@@ -139,12 +178,28 @@
             margin: 1vh 1vh 0vh 1vh;
             background-color: yellow;
             cursor: pointer;
+            padding: 0.25em;
         }
 
         #buttonContainer {
             width: 90%;
-            margin: auto;
+            margin: 2% auto 5% auto;
             background-color: orange;
+        }
+
+        #movieIframe {
+            width: 100%;
+            height: 90%;
+            border: none;
+        }
+        
+        #iframeContainer {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            top: 0;
+            position: fixed;
+            background-color: red;
         }
     </style>
 </head>
@@ -164,11 +219,13 @@
 
     <div id="infoPage" class="hidden">
         <div id="infoSplit1">
-            <h1 style="width: 90%; margin: auto; margin-top: 5%;">Title of Film</h1>
-            <p style="width: 90%; margin: auto; margin-top: 2%;">Sep 20, 1987</p>
-            <p style="width: 90%; margin: 2% auto 5% auto;">Description of the movie or series. This should be a few sentences long. Some desvriptions are longer than others though.</p>
-            <div id="buttonContainer">
-                <div id="playButton" class="button" onclick="playMovie()">Play</div>
+            <h1 style="width: 90%; margin: 5% auto 0% auto;" class="noFlex">Title of Film</h1>
+            <p style="width: 90%; margin: 2% auto;" class="noFlex">Sep 20, 1987</p>
+            <div style="width: 90%; margin: 0% auto 0% auto;" class="flex">
+                <div class="flex-content">Description of the movie or series. This should be a few sentences long. Some desvriptions are longer than others though.</div>
+            </div>
+            <div id="buttonContainer" class="noFlex">
+                <div id="playButton" class="button" onclick="" style="padding: 0.5em;">Play</div>
                 <div id="resumeButton" class="button">Resume</div>
                 <div id="addToListButton" class="button" onclick="addToList()">Add To List</div>
                 <div style="display: flex; flex-direction: row; justify-content: space-between;">
@@ -181,6 +238,13 @@
         <div id="infoSplit2">
             <div id="ytTrailerPlayer" style="display:none; width: 100%; height: 100%;"></div>
         </div>
+    </div>
+    <div id="iframeContainer" class="hidden">
+        <div style="width: 100%; height: 10%; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="stopMovie()">
+            &larr; Back
+        </div>
+        <iframe src="" id="movieIframe">
+        </iframe>
     </div>
 
     <script>
@@ -241,8 +305,19 @@
                     titleElem.innerText = movie.title;
                     var releaseElem = infoSplit1.children[1];
                     releaseElem.innerText = movie.release_date;
-                    var overviewElem = infoSplit1.children[2];
+                    var overviewElem = infoSplit1.children[2].children[0];
                     overviewElem.innerText = movie.overview;
+
+                    // add the onclick function to play the movie
+                    var playBtn = document.getElementById('playButton');
+                    playBtn.onclick = function() {
+                        playMovie(movieId);
+                    };
+
+                    // adjust the height of the overview / description element
+                    adjustOverviewHeight();
+
+                    // load the movie trailer
                     getMovieTrailer(movieId).then(trailerID => {
                         var playerElement = document.getElementById('ytTrailerPlayer');
                         playerElement.style.display = 'block';
@@ -250,6 +325,24 @@
                     });
                 })
                 .catch(error => console.log('Error fetching movie info:', error));
+        }
+
+        // adjusts the description/overview height
+        function adjustOverviewHeight() {
+            var flexElement = document.querySelector("#infoSplit1 > div.flex");
+            flexElement.style.maxHeight = '1px';
+
+            // Check if the device is in landscape mode
+            if (window.matchMedia("(orientation: landscape)").matches) {
+                console.log('in landscape');
+                // It is in landscape mode, so set the max height to the scroll height of the flex content
+                var flexContent = document.querySelector('.flex-content');
+                flexElement.style.maxHeight = flexContent.scrollHeight + 'px';
+            } else {
+                console.log('in portrait');
+                // it is not in landscape mode, so set the max heoght of the flex element to 100%
+                flexElement.style.maxHeight = "100%";
+            }
         }
 
         // Function to get the movie videos
@@ -364,16 +457,27 @@
         }
 
         //authenticate();
+
+        function main() {
+            // Add event listener for changes in orientation to adjust the max height of the overview flex element
+            window.addEventListener('orientationchange', function() {
+                var infoPage = document.getElementById('infoPage');
+                if (!infoPage.classList.contains('hidden')) {
+                    adjustOverviewHeight();
+                }
+            });
+        }
     </script>
     <script>
         // declare some global variables
         var trailerPlayer;
+        var globalMovieId;
 
         // This function creates an <iframe> (and YouTube player)
         // after the API code downloads.
         function onYouTubeIframeAPIReady() {
             trailerPlayer = new YT.Player('ytTrailerPlayer', {
-                height: 'auto',
+                height: '100%',
                 width: '100%',
                 videoId: '',
                 events: {
@@ -406,8 +510,8 @@
         }
 
         function resetInfoPage() {
-            // stop the trailer
-            stopTrailer();
+            // stop the trailer by loading an invalid video
+            trailerPlayer.loadVideoById('none');
             // set the movie info back to normal
             var infoPage = document.getElementById('infoPage');
             infoPage.classList.add('hidden');
@@ -416,7 +520,7 @@
             titleElem.innerText = "";
             var releaseElem = infoSplit1.children[1];
             releaseElem.innerText = "";
-            var overviewElem = infoSplit1.children[2];
+            var overviewElem = infoSplit1.children[2].children[0];
             overviewElem.innerText = "";
             // display the overlay over the trailer again
             var playerElement = document.getElementById('ytTrailerPlayer');
@@ -427,9 +531,23 @@
             alert('Load movie with id: ' + tmdbID);
         }
 
-        function playMovie() {
-            alert('Play movie');
+        function playMovie(movieId) {
+            trailerPlayer.loadVideoById('none');
+            var iframe = document.getElementById('movieIframe');
+            iframe.src = "http://vidsrc.to/embed/movie/" + movieId;
+            iframe.parentNode.classList.remove('hidden');
         }
+        
+        function stopMovie() {
+            var iframe = document.getElementById('movieIframe');
+            iframe.src = "http://vidsrc.to/embed/movie/";
+            iframe.parentNode.classList.add('hidden');
+        }
+
+        window.addEventListener('message', message => {
+            alert(message.source + "\n\n" + message.data);
+            console.log(message.source + "\n\n" + message.data);
+        });
     </script>
 
 </body>
