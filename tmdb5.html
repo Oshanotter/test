@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Clone</title>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .sidebar {
+            width: 200px;
+            height: 100vh;
+            background-color: #333;
+            color: #fff;
+            float: left;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .sidebar ul li.active {
+            background-color: #555;
+        }
+
+        .main {
+            margin-left: 200px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        .container img {
+            width: 150px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .overlay-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .overlay button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .overlay button:hover {
+            background-color: #555;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        #infoPage {
+            background-color: green;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            top: 0;
+            margin: 0;
+            padding: 0;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #infoSplit1 {
+            background-color: red;
+
+            width: 100vw;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .noFlex {
+            flex: none;
+        }
+
+        .flex {
+            flex: 1;
+            /* This element will take up the remaining space */
+            position: relative;
+            /* Positioning context for the gradient overlay */
+            overflow: hidden;
+            /* Hide the gradient's overflow */
+        }
+
+        .flex-content {
+            height: 100%;
+            overflow: auto;
+            padding-bottom: 1em;
+        }
+
+        .flex::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1em;
+            /* Height of the gradient overlay */
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+            pointer-events: none;
+            /* Ensure the gradient doesn't interfere with scrolling */
+        }
+
+        #infoSplit2 {
+
+            background-color: blue;
+            width: 100vw;
+            height: 40vh;
+        }
+
+        @media (orientation: landscape) {
+            #infoPage {
+                flex-direction: row;
+            }
+
+            #infoSplit1 {
+                width: 30vw;
+                height: 100vh;
+            }
+
+            #infoSplit2 {
+                width: 70vw;
+                height: 100vh;
+            }
+
+            .flex {
+                max-height: 100%;
+            }
+        }
+
+        .button {
+            border: solid green;
+            border-radius: 1vh;
+            max-width: 100%;
+            text-align: center;
+            vertical-align: middle;
+            margin: 1vh 1vh 0vh 1vh;
+            background-color: yellow;
+            cursor: pointer;
+            padding: 0.25em;
+        }
+
+        #buttonContainer {
+            width: 90%;
+            margin: 2% auto 5% auto;
+            background-color: orange;
+        }
+
+        #movieIframe {
+            width: 100%;
+            height: 90%;
+            border: none;
+            overflow: hidden;
+        }
+
+        #iframeContainer {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            top: 0;
+            position: fixed;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <ul>
+            <li id="home" class="active" onclick="displayMoviesAndShows('home')">Home</li>
+            <li id="movies" onclick="displayMoviesAndShows('movies')">Movies</li>
+            <li id="tvShows" onclick="displayMoviesAndShows('tvShows')">TV Shows</li>
+        </ul>
+    </div>
+
+    <div class="main">
+        <div class="container"></div>
+    </div>
+
+    <div id="infoPage" class="hidden">
+        <div id="infoSplit1">
+            <h1 style="width: 90%; margin: 5% auto 0% auto;" class="noFlex">Title of Film</h1>
+            <p style="width: 90%; margin: 2% auto;" class="noFlex">Sep 20, 1987</p>
+            <div style="width: 90%; margin: 0% auto 0% auto;" class="flex">
+                <div class="flex-content">Description of the movie or series. This should be a few sentences long. Some desvriptions are longer than others though.</div>
+            </div>
+            <div id="buttonContainer" class="noFlex">
+                <div id="playButton" class="button" onclick="" style="padding: 0.5em;">Play</div>
+                <div id="resumeButton" class="button">Resume</div>
+                <div id="addToListButton" class="button" onclick="addToList()">Add To List</div>
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <div id="stopTrailer" class="button" style="width: calc(50% - 1vh)" onclick="stopTrailer()">Stop Trailer</div>
+                    <div id="restartTrailer" class="button" style="width: calc(50% - 1vh)" onclick="restartTrailer()">Restart Trailer</div>
+                </div>
+                <div id="backButton" class="button" onclick="resetInfoPage()">Back</div>
+            </div>
+        </div>
+        <div id="infoSplit2">
+            <div id="ytTrailerPlayer" style="display:none; width: 100%; height: 100%;"></div>
+        </div>
+    </div>
+    <div id="iframeContainer" class="hidden">
+        <div style="width: 100%; height: 10%; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="stopMovie()">
+            &larr; Back
+        </div>
+        <iframe id="movieIframe" src="" allow="autoplay; fullscreen" allowfullscreen="yes" frameborder="no" scrolling="no"></iframe>
+    </div>
+
+    <script>
+        // JavaScript code for fetching data from TMDB API and handling click events
+        const apiKey = '7fc0783efc5723461f03926187de7fb7'; // Your TMDB API key
+        let currentCategory = 'home';
+
+        function fetchData(url) {
+            return fetch(url)
+                .then(response => response.json())
+                .catch(error => console.error('Error:', error));
+        }
+
+        function displayMoviesAndShows(category) {
+            let url;
+            switch (category) {
+                case 'home':
+                    url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false`;
+                    break;
+                case 'movies':
+                    url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false`;
+                    break;
+                case 'tvShows':
+                    url = `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false`;
+                    break;
+                default:
+                    url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false`;
+            }
+
+            fetchData(url)
+                .then(data => {
+                    const container = document.querySelector('.container');
+                    container.innerHTML = ''; // Clear previous content
+
+                    data.results.forEach(item => {
+                        const img = document.createElement('img');
+                        img.src = `https://image.tmdb.org/t/p/w185${item.poster_path}`;
+                        img.dataset.id = item.id;
+                        img.onclick = function() {
+                            displayInfoPage(item.id);
+                        };
+                        container.appendChild(img);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function displayInfoPage(movieId) {
+            fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`)
+                .then(response => response.json())
+                .then(movie => {
+                    // Display movie info however you want, for example:
+                    //alert(`Title: ${movie.title}\nRelease Date: ${movie.release_date}\nOverview: ${movie.overview}`);
+                    var infoPage = document.getElementById('infoPage');
+                    infoPage.classList.remove('hidden');
+                    var infoSplit1 = document.getElementById('infoSplit1');
+                    var titleElem = infoSplit1.children[0];
+                    titleElem.innerText = movie.title;
+                    var releaseElem = infoSplit1.children[1];
+                    releaseElem.innerText = movie.release_date;
+                    var overviewElem = infoSplit1.children[2].children[0];
+                    overviewElem.innerText = movie.overview;
+
+                    // add the onclick function to play the movie
+                    var playBtn = document.getElementById('playButton');
+                    playBtn.onclick = function() {
+                        playMovie(movieId);
+                    };
+
+                    // adjust the height of the overview / description element
+                    adjustOverviewHeight();
+
+                    // load the movie trailer
+                    getMovieTrailer(movieId).then(trailerID => {
+                        var playerElement = document.getElementById('ytTrailerPlayer');
+                        playerElement.style.display = 'block';
+                        trailerPlayer.loadVideoById(trailerID);
+                    });
+                })
+                .catch(error => console.log('Error fetching movie info:', error));
+        }
+
+        // adjusts the description/overview height
+        function adjustOverviewHeight() {
+            var flexElement = document.querySelector("#infoSplit1 > div.flex");
+            flexElement.style.maxHeight = '1px';
+
+            // Check if the device is in landscape mode
+            if (window.matchMedia("(orientation: landscape)").matches) {
+                console.log('in landscape');
+                // It is in landscape mode, so set the max height to the scroll height of the flex content
+                var flexContent = document.querySelector('.flex-content');
+                flexElement.style.maxHeight = flexContent.scrollHeight + 'px';
+            } else {
+                console.log('in portrait');
+                // it is not in landscape mode, so set the max heoght of the flex element to 100%
+                flexElement.style.maxHeight = "100%";
+            }
+        }
+
+        // Function to get the movie videos
+        async function getMovieTrailer(movieId) {
+            const url = `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                const data = await response.json();
+
+                // Find the YouTube trailer
+                const trailer = data.results.find(video => video.site === 'YouTube' && video.type === 'Trailer');
+                if (trailer) {
+                    return trailer.key;
+                } else {
+                    return 'No trailer found';
+                }
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        }
+
+        function addToList() {
+            alert('Add to list');
+        }
+
+        displayMoviesAndShows('home');
+    </script>
+    <script>
+        function authenticate() {
+            displayPopup('<h1>Login To Continue</h1><br><input type="text" id="username" name="username" placeholder="Username"><br><br><input type="text" id="password" name="password" placeholder="Password">', null, "Login", login);
+        }
+
+        function displayPopup(message, closeText = null, continueText = null, continueFunction = null, ...continueArgs) {
+            // first remove the prevent input element if it already exists
+            var oldElem = document.getElementById('preventInput');
+            if (oldElem != null) {
+                oldElem.remove();
+            }
+            // create an element over the top of everything and display a message with options
+            // create a blank div tag to prevent background items from being clicked
+            var preventInput = document.createElement('div');
+            preventInput.id = "preventInput";
+            preventInput.style.height = "100%";
+            preventInput.style.width = "100%";
+            preventInput.style.overflow = "hidden";
+            preventInput.style.top = "0";
+            preventInput.style.position = "fixed";
+            preventInput.style.backgroundColor = "rgba(0, 0, 0, 0.75)";
+            document.body.appendChild(preventInput);
+
+            var mainDiv = document.createElement('div');
+            mainDiv.style.backgroundColor = "white";
+            mainDiv.style.width = "70%";
+            mainDiv.style.position = "fixed";
+            mainDiv.style.top = "50%";
+            mainDiv.style.left = "50%";
+            mainDiv.style.transform = 'translate(-50%, -50%)';
+            mainDiv.style.margin = "auto";
+            mainDiv.style.overflow = "hidden";
+            mainDiv.style.borderRadius = "20px";
+            mainDiv.style.border = "solid";
+            mainDiv.style.display = "flex";
+            mainDiv.style.flexDirection = "column";
+            mainDiv.style.textAlign = "center";
+            preventInput.appendChild(mainDiv);
+
+            var messageDiv = document.createElement('div');
+            messageDiv.style.margin = "5%";
+            messageDiv.innerHTML = message;
+            mainDiv.appendChild(messageDiv);
+
+            var buttonContainer = document.createElement('div');
+            buttonContainer.style.display = "flex";
+            buttonContainer.style.justifyContent = "space-evenly";
+            buttonContainer.style.marginBottom = "5%";
+            mainDiv.appendChild(buttonContainer);
+
+            if (closeText != null) {
+                var cancelBtn = document.createElement('div');
+                cancelBtn.style.padding = "3% 5% 3% 5%";
+                cancelBtn.style.borderRadius = "999px";
+                cancelBtn.style.backgroundColor = "red";
+                cancelBtn.innerText = closeText;
+                cancelBtn.addEventListener('click', () => {
+                    preventInput.remove();
+                });
+                buttonContainer.appendChild(cancelBtn);
+            }
+
+            if (continueText != null && continueFunction != null) {
+                var continueBtn = document.createElement('div');
+                continueBtn.style.padding = "3% 5% 3% 5%";
+                continueBtn.style.borderRadius = "999px";
+                continueBtn.style.backgroundColor = "blue";
+                continueBtn.innerText = continueText;
+                continueBtn.addEventListener('click', () => {
+                    continueFunction(...continueArgs);
+                    preventInput.remove();
+                });
+                buttonContainer.appendChild(continueBtn);
+            }
+        }
+
+        function login() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            displayPopup("Username: " + username + "\nPassword: " + password);
+        }
+
+        //authenticate();
+
+        function main() {
+            // Add event listener for changes in orientation to adjust the max height of the overview flex element
+            window.addEventListener('orientationchange', function() {
+                var infoPage = document.getElementById('infoPage');
+                if (!infoPage.classList.contains('hidden')) {
+                    adjustOverviewHeight();
+                }
+            });
+        }
+    </script>
+    <script>
+        // declare some global variables
+        var trailerPlayer;
+        var globalMovieId;
+
+        // This function creates an <iframe> (and YouTube player)
+        // after the API code downloads.
+        function onYouTubeIframeAPIReady() {
+            trailerPlayer = new YT.Player('ytTrailerPlayer', {
+                height: '100%',
+                width: '100%',
+                videoId: '',
+                events: {
+                    'onStateChange': onTrailerStateChange
+                },
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'iv_load_policy': 3
+                }
+            });
+        }
+
+        // The API calls this function when the player's state changes.
+        function onTrailerStateChange(event) {
+            if (event.data == YT.PlayerState.ENDED) {
+                var playerElement = document.getElementById('ytTrailerPlayer');
+                playerElement.style.display = 'none';
+            }
+        }
+
+        function stopTrailer() {
+            trailerPlayer.pauseVideo();
+        }
+
+        function restartTrailer() {
+            trailerPlayer.seekTo(0);
+            trailerPlayer.playVideo();
+        }
+
+        function resetInfoPage() {
+            // stop the trailer by loading an invalid video
+            trailerPlayer.loadVideoById('none');
+            // set the movie info back to normal
+            var infoPage = document.getElementById('infoPage');
+            infoPage.classList.add('hidden');
+            var infoSplit1 = document.getElementById('infoSplit1');
+            var titleElem = infoSplit1.children[0];
+            titleElem.innerText = "";
+            var releaseElem = infoSplit1.children[1];
+            releaseElem.innerText = "";
+            var overviewElem = infoSplit1.children[2].children[0];
+            overviewElem.innerText = "";
+            // display the overlay over the trailer again
+            var playerElement = document.getElementById('ytTrailerPlayer');
+            playerElement.style.display = 'block';
+        }
+
+
+        function playMovie(movieId) {
+            trailerPlayer.loadVideoById('none');
+            var iframe = document.getElementById('movieIframe');
+            //iframe.src = "https://vidsrc.to/embed/movie/" + movieId;
+            loadMovie(movieId);
+            iframe.parentNode.classList.remove('hidden');
+        }
+
+        function stopMovie() {
+            var iframe = document.getElementById('movieIframe');
+            iframe.src = "https://vidsrc.to/embed/movie/";
+            iframe.parentNode.classList.add('hidden');
+        }
+
+        /*
+        window.addEventListener('message', message => {
+            alert(message.origin + "\n\n" + message.data);
+            console.log(message.origin + "\n\n" + message.data);
+        });
+        */
+
+        async function loadMovie(tmdbID) {
+            // find the iframe
+            var iframe = document.getElementById('movieIframe');
+            // get the vidsrc id from tmdb id
+            var vidsrcID = await getVidsrcId(tmdbID);
+            var sourcesDict = await getSources(vidsrcID);
+            // get the fid of the first source
+            var sourceID = sourcesDict[Object.keys(sourcesDict)[0]];
+            // get the url of the movie
+            var sourceURL = await getSourceUrl(sourceID);
+
+            // add the autostart parameter to the url
+            if (sourceURL.includes('?')) {
+                var sourceURL = sourceURL + "&autostart=true";
+            } else {
+                var sourceURL = sourceURL + "?autostart=true";
+            }
+
+            iframe.src = sourceURL;
+        }
+
+        async function getVidsrcId(tmdbID) {
+            var url = "https://vidsrc.to/embed/movie/" + tmdbID;
+            var html = (await (await fetch(url)).text());
+            var doc = new DOMParser().parseFromString(html, 'text/html');
+            var allATags = doc.querySelectorAll('a');
+            var specificATags = Array.from(allATags).filter(a => a.href === "javascript:;");
+            var vidsrcID = specificATags[0].dataset["id"];
+            return vidsrcID;
+        }
+
+
+        async function getSources(vidsrcId) {
+            const response = await (await fetch('https://vidsrc.to/ajax/embed/episode/' + vidsrcId + '/sources')).json();
+            const data = response.result;
+            return data.reduce((acc, video) => {
+                acc[video.title] = video.id;
+                return acc;
+            }, {});
+        }
+
+
+        async function getSourceUrl(sourceId) {
+            const response = await fetch('https://vidsrc.to/ajax/embed/source/' + sourceId);
+            const data = await response.json();
+            const encryptedSourceUrl = data.result.url;
+            return decryptSourceUrl(encryptedSourceUrl);
+        }
+
+
+        function decryptSourceUrl(sourceUrl) {
+            const encoded = decodeBase64UrlSafe(sourceUrl);
+            const decoded = adecode(encoded);
+
+            const decodedText = new TextDecoder('utf-8').decode(decoded);
+            return decodeURIComponent(decodedText);
+        }
+
+
+        function decodeBase64UrlSafe(str) {
+            var standardizedInput = str.replace(/_/g, '/').replace(/-/g, '+');
+
+            // Decode the base64 URL-safe string
+            var binaryData = atob(standardizedInput);
+
+            var buffer = stringToBuffer(binaryData);
+            return buffer;
+        }
+
+
+        function stringToBuffer(str) {
+            // Create an ArrayBuffer with a size equal to the length of the string
+            let buffer = new ArrayBuffer(str.length);
+
+            // Create a Uint8Array view for the buffer
+            let uint8View = new Uint8Array(buffer);
+
+            // Set each byte in the buffer to the character code of the corresponding character in the string
+            for (let i = 0; i < str.length; i++) {
+                uint8View[i] = str.charCodeAt(i);
+            }
+
+            return uint8View;
+        }
+
+
+        function adecode(buffer) {
+            const keyBytes = stringToBuffer('WXrUARXb1aDLaZjI');
+            let j = 0;
+            const s = new Uint8Array(256).map((_, i) => i);
+
+            for (let i = 0; i < 256; i++) {
+                j = (j + s[i] + keyBytes[i % keyBytes.length]) & 0xff;
+                [s[i], s[j]] = [s[j], s[i]];
+            }
+
+            const decoded = new Uint8Array(buffer.length);
+            let i = 0;
+            let k = 0;
+
+            for (let index = 0; index < buffer.length; index++) {
+                i = (i + 1) & 0xff;
+                k = (k + s[i]) & 0xff;
+                [s[i], s[k]] = [s[k], s[i]];
+                const t = (s[i] + s[k]) & 0xff;
+                decoded[index] = buffer[index] ^ s[t];
+            }
+
+            return decoded;
+        }
+
+
+        // a function for debugging
+        function logBuffer(buffer) {
+            // Log the entire buffer as a hexadecimal string
+            let hexString = Array.from(buffer).map(byte => byte.toString(16).padStart(2, '0')).join(' ');
+            console.log(`<Buffer ${hexString}>`);
+        }
+    </script>
+
+</body>
+
+</html>
