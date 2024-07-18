@@ -147,6 +147,9 @@
             background-color: blue;
             width: 100vw;
             height: 40vh;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         @media (orientation: landscape) {
@@ -189,7 +192,7 @@
 
         #movieIframe {
             width: 100%;
-            height: 90%;
+            height: 100%;
             border: none;
             overflow: hidden;
         }
@@ -201,6 +204,31 @@
             top: 0;
             position: fixed;
             background-color: red;
+        }
+
+        #xMovie {
+            background-color: red;
+            width: 10vh;
+            height: 10vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            top: 0;
+            margin: 5vh;
+            font-size: 300%;
+            position: fixed;
+            border-radius: 1vh;
+        }
+
+        #transparentOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /*pointer-events: none;*/
+            /* Ignore pointer events */
         }
     </style>
 </head>
@@ -221,7 +249,18 @@
     <div id="infoPage" class="hidden">
         <div id="infoSplit1">
             <h1 style="width: 90%; margin: 5% auto 0% auto;" class="noFlex">Title of Film</h1>
-            <p style="width: 90%; margin: 2% auto;" class="noFlex">Sep 20, 1987</p>
+            <div id="infoCluster" style="width: 90%; margin: 2% auto;" class="noFlex">
+                <table style="background-color: pink; width: 100%; font-weight: bold;">
+                    <tr>
+                        <td>Sep 20, 1987</td>
+                        <td>10 / 10</td>
+                    </tr>
+                    <tr>
+                        <td>PG-13</td>
+                        <td>1h 48m</td>
+                    </tr>
+                </table>
+            </div>
             <div style="width: 90%; margin: 0% auto 0% auto;" class="flex">
                 <div class="flex-content">Description of the movie or series. This should be a few sentences long. Some desvriptions are longer than others though.</div>
             </div>
@@ -241,9 +280,8 @@
         </div>
     </div>
     <div id="iframeContainer" class="hidden">
-        <div style="width: 100%; height: 10%; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="stopMovie()">
-            &larr; Back
-        </div>
+        <div id="xMovie" onclick="stopMovie()">x</div>
+        <div id="transparentOverlay"></div>
         <iframe id="movieIframe" src="" allow="autoplay; fullscreen" allowfullscreen="yes" frameborder="no" scrolling="no"></iframe>
     </div>
 
@@ -293,36 +331,46 @@
         }
 
         function displayInfoPage(movieId) {
+            console.log(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`)
             fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`)
                 .then(response => response.json())
                 .then(movie => {
-                    // Display movie info however you want, for example:
-                    //alert(`Title: ${movie.title}\nRelease Date: ${movie.release_date}\nOverview: ${movie.overview}`);
+                    // Display movie info
                     var infoPage = document.getElementById('infoPage');
                     infoPage.classList.remove('hidden');
                     var infoSplit1 = document.getElementById('infoSplit1');
+                    // set the title
                     var titleElem = infoSplit1.children[0];
                     titleElem.innerText = movie.title;
-                    var releaseElem = infoSplit1.children[1];
-                    releaseElem.innerText = movie.release_date;
+                    // set the date
+                    displayReleaseDate(movie.release_date);
+                    // set the critic rating
+                    displayRating(movie.vote_average);
+                    // set the runtime
+                    displayRuntime(movie.runtime);
+                    // set the certification rating
+                    displayCertification(movieId);
+                    // set the description / overview
                     var overviewElem = infoSplit1.children[2].children[0];
                     overviewElem.innerText = movie.overview;
-
-                    // add the onclick function to play the movie
-                    var playBtn = document.getElementById('playButton');
-                    playBtn.onclick = function() {
-                        playMovie(movieId);
-                    };
 
                     // adjust the height of the overview / description element
                     adjustOverviewHeight();
 
-                    // load the movie trailer
-                    getMovieTrailer(movieId).then(trailerID => {
-                        var playerElement = document.getElementById('ytTrailerPlayer');
-                        playerElement.style.display = 'block';
-                        trailerPlayer.loadVideoById(trailerID);
-                    });
+                    // get the backdrop of the movie
+                    var infoSplit2 = document.getElementById('infoSplit2');
+                    infoSplit2.style.backgroundImage = 'url("https://image.tmdb.org/t/p/original' + movie.backdrop_path + '")';
+
+                    setTimeout(function() {
+                        // load the movie trailer
+                        getMovieTrailer(movieId).then(trailerID => {
+                            var playerElement = document.getElementById('ytTrailerPlayer');
+                            playerElement.style.display = 'block';
+                            trailerPlayer.loadVideoById(trailerID);
+                        });
+                    }, 5000);
+
+                    preLoadMovie(movieId);
                 })
                 .catch(error => console.log('Error fetching movie info:', error));
         }
@@ -528,11 +576,15 @@
         }
 
 
-        function playMovie(movieId) {
+        function playMovie(sourceURL) {
+            // stop the trailer and show the pister again
             trailerPlayer.loadVideoById('none');
+            var playerElement = document.getElementById('ytTrailerPlayer');
+            playerElement.style.display = 'none';
+            // set the iframe source to the source url
             var iframe = document.getElementById('movieIframe');
-            //iframe.src = "https://vidsrc.to/embed/movie/" + movieId;
-            loadMovie(movieId);
+            iframe.src = sourceURL;
+            // display the iframe's parent element
             iframe.parentNode.classList.remove('hidden');
         }
 
@@ -549,9 +601,7 @@
         });
         */
 
-        async function loadMovie(tmdbID) {
-            // find the iframe
-            var iframe = document.getElementById('movieIframe');
+        async function preLoadMovie(tmdbID) {
             // get the vidsrc id from tmdb id
             var vidsrcID = await getVidsrcId(tmdbID);
             var sourcesDict = await getSources(vidsrcID);
@@ -567,7 +617,11 @@
                 var sourceURL = sourceURL + "?autostart=true";
             }
 
-            iframe.src = sourceURL;
+            // add the onclick function to play the movie
+            var playBtn = document.getElementById('playButton');
+            playBtn.onclick = function() {
+                playMovie(sourceURL);
+            };
         }
 
         async function getVidsrcId(tmdbID) {
@@ -667,6 +721,96 @@
             let hexString = Array.from(buffer).map(byte => byte.toString(16).padStart(2, '0')).join(' ');
             console.log(`<Buffer ${hexString}>`);
         }
+
+
+
+
+        function displayReleaseDate(inputDate) {
+            console.log(inputDate)
+            // display the release date of the movie
+            var releaseDate = new Date(inputDate);
+            var releaseElem = document.querySelector("#infoCluster > table > tbody > tr:nth-child(1) > td:nth-child(1)");
+            var options = {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            }
+            var releaseText = releaseDate.toLocaleDateString('en-US', options);
+            releaseElem.innerText = releaseText;
+        }
+
+        function displayRating(ratingNum) {
+            // display the critic rating
+            console.log(ratingNum + " / 10");
+        }
+
+
+        function displayRuntime(runTime) {
+            // display the runtime
+            console.log(runTime + " minutes");
+            var hours = Math.floor(runTime / 60);
+            var minutes = runTime % 60;
+            var string = hours + "h " + minutes + "m";
+            var runtimeElem = document.querySelector("#infoCluster > table > tbody > tr:nth-child(2) > td:nth-child(2)");
+            runtimeElem.innerText = string;
+            
+        }
+
+
+        function displayCertification(movieId) {
+            // display the certification rating
+            fetch('https://api.themoviedb.org/3/movie/' + movieId + '/release_dates?api_key=' + apiKey)
+                .then(response => response.json())
+                .then(releaseData => {
+                    // Find the US certification
+                    const usRelease = releaseData.results.find(country => country.iso_3166_1 === 'US');
+                    if (usRelease) {
+                        const usCertification = usRelease.release_dates[0].certification;
+                        var certificationElem = document.querySelector("#infoCluster > table > tbody > tr:nth-child(2) > td:nth-child(1)");
+                        certificationElem.innerText = usCertification;
+                        console.log('US Rating:', usCertification);
+                    } else {
+                        var certificationElem = document.querySelector("#infoCluster > table > tbody > tr:nth-child(2) > td:nth-child(1)");
+                        certificationElem.innerText = "NR";
+                        console.log('US Rating not found');
+                    }
+                });
+        }
+
+
+
+
+
+
+        function listenForMouseMove() {
+            const hoverElement = document.getElementById('xMovie');
+            const invisible = document.getElementById('transparentOverlay');
+            let xMovieTimeout;
+
+            const showElement = () => {
+                hoverElement.style.display = 'flex';
+                invisible.style.pointerEvents = "none";
+            };
+
+            const hideElement = () => {
+                invisible.style.pointerEvents = "auto";
+                setTimeout(function() {
+                    hoverElement.style.display = 'none';
+                }, 100);
+            };
+
+            var elm = document.getElementById('transparentOverlay');
+            document.addEventListener('mousemove', (event) => {
+                clearTimeout(xMovieTimeout); // Clear any existing timeout
+
+                if (hoverElement.style.display === 'none') {
+                    showElement(); // Show the element if it's hidden
+                }
+
+                xMovieTimeout = setTimeout(hideElement, 5000); // Hide after 5000ms of inactivity
+            });
+        };
+        listenForMouseMove();
     </script>
 
 </body>
