@@ -361,14 +361,13 @@
                     var infoSplit2 = document.getElementById('infoSplit2');
                     infoSplit2.style.backgroundImage = 'url("https://image.tmdb.org/t/p/original' + movie.backdrop_path + '")';
 
-                    setTimeout(function() {
+                    
                         // load the movie trailer
                         getMovieTrailer(movieId).then(trailerID => {
                             var playerElement = document.getElementById('ytTrailerPlayer');
                             playerElement.style.display = 'block';
                             trailerPlayer.loadVideoById(trailerID);
                         });
-                    }, 5000);
 
                     preLoadMovie(movieId);
                 })
