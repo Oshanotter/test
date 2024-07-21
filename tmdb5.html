@@ -361,13 +361,14 @@
                     var infoSplit2 = document.getElementById('infoSplit2');
                     infoSplit2.style.backgroundImage = 'url("https://image.tmdb.org/t/p/original' + movie.backdrop_path + '")';
 
-                    
+                    trailerPlayerTimeout = setTimeout(function() {
                         // load the movie trailer
                         getMovieTrailer(movieId).then(trailerID => {
                             var playerElement = document.getElementById('ytTrailerPlayer');
                             playerElement.style.display = 'block';
                             trailerPlayer.loadVideoById(trailerID);
                         });
+                    }, 5000);
 
                     preLoadMovie(movieId);
                 })
@@ -518,6 +519,7 @@
     <script>
         // declare some global variables
         var trailerPlayer;
+        var trailerPlayerTimeout;
         var globalMovieId;
 
         // This function creates an <iframe> (and YouTube player)
@@ -565,18 +567,21 @@
             var infoSplit1 = document.getElementById('infoSplit1');
             var titleElem = infoSplit1.children[0];
             titleElem.innerText = "";
-            var releaseElem = infoSplit1.children[1];
-            releaseElem.innerText = "";
+            var infoCluster = document.getElementById('infoCluster');
+            infoCluster.innerHTML = '<table style="width: 100%; font-weight: bold;"><tr><td>Not Yet Released</td><td>- / 10</td></tr><tr><td>NR</td><td>-h -m</td></tr></table>';
             var overviewElem = infoSplit1.children[2].children[0];
             overviewElem.innerText = "";
             // display the overlay over the trailer again
             var playerElement = document.getElementById('ytTrailerPlayer');
-            playerElement.style.display = 'block';
+            playerElement.style.display = 'none';
+            // stop the trailer feom playing if the timeout has not happened yet
+            clearTimeout(trailerPlayerTimeout);
         }
 
 
         function playMovie(sourceURL) {
-            // stop the trailer and show the pister again
+            // stop the trailer and show the poster again, also clear the timeout for the trailer
+            clearTimeout(trailerPlayerTimeout);
             trailerPlayer.loadVideoById('none');
             var playerElement = document.getElementById('ytTrailerPlayer');
             playerElement.style.display = 'none';
@@ -727,32 +732,48 @@
         function displayReleaseDate(inputDate) {
             console.log(inputDate)
             // display the release date of the movie
-            var releaseDate = new Date(inputDate);
-            var releaseElem = document.querySelector("#infoCluster > table > tbody > tr:nth-child(1) > td:nth-child(1)");
-            var options = {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
+            if (inputDate == null || inputDate == undefined || inputDate == "") {
+                var releaseText = "Not Yet Released";
+            } else {
+                var releaseDate = new Date(inputDate);
+                var options = {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                }
+                var releaseText = releaseDate.toLocaleDateString('en-US', options);
             }
-            var releaseText = releaseDate.toLocaleDateString('en-US', options);
+
+            var releaseElem = document.querySelector("#infoCluster > table > tbody > tr:nth-child(1) > td:nth-child(1)");
             releaseElem.innerText = releaseText;
         }
 
         function displayRating(ratingNum) {
             // display the critic rating
             console.log(ratingNum + " / 10");
+            if (ratingNum == null || ratingNum == undefined || ratingNum == "") {
+                var ratingNum = "-";
+            }
+            var ratingElem = document.querySelector("#infoCluster > table > tbody > tr:nth-child(1) > td:nth-child(2)");
+            var string = ratingNum + " / 10 ★";
+            ratingElem.innerText = string;
         }
 
 
         function displayRuntime(runTime) {
             // display the runtime
             console.log(runTime + " minutes");
-            var hours = Math.floor(runTime / 60);
-            var minutes = runTime % 60;
-            var string = hours + "h " + minutes + "m";
+            if (runTime == null || runTime == undefined || runTime == "") {
+                var string = "-h -m";
+            } else {
+                var hours = Math.floor(runTime / 60);
+                var minutes = runTime % 60;
+                var string = hours + "h " + minutes + "m";
+            }
+
             var runtimeElem = document.querySelector("#infoCluster > table > tbody > tr:nth-child(2) > td:nth-child(2)");
             runtimeElem.innerText = string;
-            
+
         }
 
 
@@ -764,8 +785,11 @@
                     // Find the US certification
                     const usRelease = releaseData.results.find(country => country.iso_3166_1 === 'US');
                     if (usRelease) {
-                        const usCertification = usRelease.release_dates[0].certification;
+                        var usCertification = usRelease.release_dates[0].certification;
                         var certificationElem = document.querySelector("#infoCluster > table > tbody > tr:nth-child(2) > td:nth-child(1)");
+                        if (usCertification == "") {
+                            var usCertification = "NR";
+                        }
                         certificationElem.innerText = usCertification;
                         console.log('US Rating:', usCertification);
                     } else {
