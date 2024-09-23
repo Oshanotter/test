@@ -1133,7 +1133,7 @@ BELOW ARE ELEMENTS AFFECTED WHEN IN LANDSCAPE MODE
     padding-right: 2vw !important;
     margin-right: -2vw !important;
     border-radius: 0px 15px 15px 0px;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease, background-color 0.3s ease;;
     img {
       margin-left: 3vw;
     }
