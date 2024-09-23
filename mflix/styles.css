@@ -1116,6 +1116,7 @@ BELOW ARE ELEMENTS AFFECTED WHEN IN LANDSCAPE MODE
     font-weight: bold;
     padding-left: env(safe-area-inset-left, 0px);
     margin-left: calc(-1 * env(safe-area-inset-left, 0px));
+    width: 100%;
 
     /* Add transitions to both active and non-active states */
     transition: margin 0.3s ease, padding 0.3s ease, width 0.3s ease, all 0.3s ease;
