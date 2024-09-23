@@ -1132,7 +1132,8 @@ BELOW ARE ELEMENTS AFFECTED WHEN IN LANDSCAPE MODE
   }
 
   div.active {
-    padding-right: 2vw !important;
+    padding-right: 0px !important;
+    width: calc(100% + 2vw);
     margin-right: -2vw !important;
     border-radius: 0px 15px 15px 0px;
 
