@@ -1341,3 +1341,25 @@ BELOW ARE ELEMENTS THAT ARE USED FOR ANIMATION
     transform: translate(25%, 25%);
   }
 }
+
+.moving {
+  transition: transform 0.3s ease;
+}
+
+.disappearingVertical {
+  opacity: 0;
+  transition: opacity 0.3s ease, height .3s ease, margin 0.3s ease, padding 0.3s ease;
+  height: 0 !important;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.disappearingHorizontal {
+  opacity: 0;
+  transition: opacity 0.3s ease, width .3s ease, margin 0.3s ease, padding 0.3s ease;
+  width: 0 !important;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}

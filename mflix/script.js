@@ -15,9 +15,9 @@ function main() {
   appendLoadingPosters('tvShowsPage', 20);
   appendLoadingPosters('tvShowsPage');
 
-  var movieHistory = document.getElementById('moviesHistory');
+  var movieHistory = document.getElementById('loadingMoviesHistory');
   appendLoadingPosters(movieHistory, 10);
-  var tvHistory = document.getElementById('tvShowsHistory');
+  var tvHistory = document.getElementById('loadingTvShowsHistory');
   appendLoadingPosters(tvHistory, 10);
   var loadingLists = document.getElementById('loadingLists');
   appendLoadingPosters(loadingLists, 10);
@@ -248,6 +248,115 @@ function loadPageFromUrlHash() {
   }
 }
 
+function animateMoveElement(element, steps, direction) {
+  const parent = element.parentNode;
+  let sibling = element;
+
+  // Ensure steps are not zero
+  if (steps === 0) return;
+
+  // Define the element size (height for vertical, width for horizontal)
+  const size = direction === 'v' ? sibling.offsetHeight : sibling.offsetWidth;
+
+  // Helper function to handle DOM swap after animation
+  const swapElementsInDOM = (element, target) => {
+    if (target) {
+      // Move element up (insertBefore the target)
+      if (steps > 0) {
+        parent.insertBefore(element, target);
+      }
+      // Move element down (insert target before element)
+      else {
+        parent.insertBefore(target, element);
+      }
+    }
+  };
+
+  // Helper function to animate both elements
+  const animateSwap = (sibling, target) => {
+    // Add transition class for both elements
+    sibling.classList.add('moving');
+    target.classList.add('moving');
+
+    // Calculate and apply the translation based on direction (vertical or horizontal)
+    const translation = size * steps;
+    if (direction === 'v') {
+      sibling.style.transform = `translateY(${-translation}px)`;
+      target.style.transform = `translateY(${translation}px)`;
+    } else {
+      sibling.style.transform = `translateX(${-translation}px)`;
+      target.style.transform = `translateX(${translation}px)`;
+    }
+
+    // After the transition finishes, swap the elements in the DOM and reset the styles
+    setTimeout(() => {
+      // Reset the transformation
+      sibling.style.transform = '';
+      target.style.transform = '';
+
+      // Swap the elements in the DOM
+      swapElementsInDOM(sibling, target);
+
+      // Remove the transition class
+      sibling.classList.remove('moving');
+      target.classList.remove('moving');
+    }, 300); // Match the transition duration with CSS
+  };
+
+  // Handle moving up (positive steps)
+  if (steps > 0) {
+    for (let i = 0; i < steps; i++) {
+      const previousSibling = sibling.previousElementSibling;
+      if (previousSibling) {
+        animateSwap(sibling, previousSibling); // Animate the swap with previous sibling
+        sibling = previousSibling; // Continue with the previous sibling for next iteration
+      } else {
+        break; // Stop if reached the first sibling
+      }
+    }
+  }
+
+  // Handle moving down (negative steps)
+  if (steps < 0) {
+    for (let i = 0; i > steps; i--) {
+      const nextSibling = sibling.nextElementSibling;
+      if (nextSibling) {
+        animateSwap(sibling, nextSibling); // Animate the swap with next sibling
+        sibling = nextSibling; // Continue with the next sibling for next iteration
+      } else {
+        break; // Stop if reached the last sibling
+      }
+    }
+  }
+}
+
+function animateRemoval(element, direction) {
+  // Add the 'disappearing' class to smoothly fade out and shrink the element
+  if (direction == "v") {
+    const elementHeight = element.offsetHeight;
+    element.style.height = `${elementHeight}px`;
+    var className = 'disappearingVertical';
+  } else if (direction == "h") {
+    const elementWidth = element.offsetWidth;
+    element.style.width = `${elementWidth}px`;
+    var className = 'disappearingHorizontal';
+  }
+
+  // Step 2: Apply the transition in the next tick (after a tiny delay)
+  setTimeout(() => {
+    // Add the 'disappearing' class, which will cause the element to fade out and collapse
+    element.classList.add(className);
+  }, 10); // Small delay to ensure the height is applied first
+
+  // Step 3: Wait for the transition to finish, then remove the element from the DOM
+  setTimeout(() => {
+    element.parentNode.removeChild(element);
+  }, 310); // 300ms to match the CSS transition (plus a little buffer)
+}
+
+
+
+
 
 
 // functions for loging in users
@@ -425,6 +534,12 @@ function loadPageContent(category) {
   } else if (category == 'myListsPage') {
     // load the content for the myListsPage
     getWatchLists();
+
+    // if the currently showing page is the history page, update the url hash
+    var historyContainer = document.getElementById('myListsPage').getElementsByClassName('container')[1];
+    if (!historyContainer.classList.contains('hidden')) {
+      window.location.hash = "page-history";
+    }
   }
 }
 
@@ -1479,17 +1594,20 @@ function appendExistingList(name, mediaList) {
 
   // add an onclick event to the delete button
   newList.querySelector('div:nth-of-type(1) > div:nth-of-type(2)').onclick = function() {
-    newList.remove();
+    //newList.remove();
+    animateRemoval(newList, 'v');
   };
 
   // add an onclick event to move the list up amongst its siblings
   newList.querySelector('div:nth-of-type(2) > div:nth-of-type(1)').onclick = function() {
-    moveElement(newList, 1);
+    //moveElement(newList, 1);
+    animateMoveElement(newList, 1, 'v');
   }
 
   // add an onclick event to move the list down amongst its siblings
   newList.querySelector('div:nth-of-type(2) > div:nth-of-type(2)').onclick = function() {
-    moveElement(newList, -1);
+    //moveElement(newList, -1);
+    animateMoveElement(newList, -1, 'v');
   }
 
   // Creating an array of fetch promises for each movie ID
@@ -1529,16 +1647,19 @@ function appendExistingList(name, mediaList) {
           if (poster.parentNode.children.length == 1) {
             poster.parentNode.innerHTML = '<div>Add Movies or TV Shows to this list...</div>';
           } else {
-            poster.remove();
+            //poster.remove();
+            animateRemoval(poster, 'h');
           }
           event.stopPropagation();
         }
         buttonsOverlay.querySelector('div:nth-of-type(2)').onclick = function() {
-          moveElement(poster, 1);
+          //moveElement(poster, 1);
+          animateMoveElement(poster, 1, 'h');
           event.stopPropagation();
         }
         buttonsOverlay.querySelector('div:nth-of-type(3)').onclick = function() {
-          moveElement(poster, -1);
+          //moveElement(poster, -1);
+          animateMoveElement(poster, -1, 'h');
           event.stopPropagation();
         }
         buttonsOverlay.onclick = function() {
@@ -2049,8 +2170,10 @@ async function getHistory() {
       var mediaType = key;
       if (mediaType == "tv") {
         var horizontalScroll = document.getElementById('tvShowsHistory');
+        var loadingList = document.getElementById('loadingTvShowsHistory');
       } else {
         var horizontalScroll = document.getElementById('moviesHistory');
+        var loadingList = document.getElementById('loadingMoviesHistory');
       }
 
       for (var j = 0; j < list.length; j++) {
@@ -2066,7 +2189,8 @@ async function getHistory() {
       }
 
       // after all the lists are done loading, remove the loading posters
-      removeLoadingPosters(horizontalScroll);
+      loadingList.parentNode.remove();
+      horizontalScroll.parentNode.classList.remove('hidden');
 
       container.dataset.loading = "false";
       var historyPage = document.querySelector("#myListsPage").getElementsByClassName('container')[1];
@@ -2126,7 +2250,8 @@ async function addToHistory(id, mediaType, position, save = false) {
       if (poster.parentNode.children.length == 1) {
         poster.parentNode.innerHTML = '<div>Watch media to see it in your history...</div>';
       } else {
-        poster.remove();
+        //poster.remove();
+        animateRemoval(poster, 'h');
       }
       event.stopPropagation();
     }
