@@ -1108,7 +1108,7 @@ BELOW ARE ELEMENTS AFFECTED WHEN IN LANDSCAPE MODE
   border-right: 2px solid var(--mflixOrange);
   margin-top: calc(3em + 2px);
 
-  >div {
+  div {
     display: flex;
     flex-direction: row;
     height: 3em;
@@ -1129,6 +1129,7 @@ BELOW ARE ELEMENTS AFFECTED WHEN IN LANDSCAPE MODE
 
     div {
       margin-right: 1vw;
+      transition: none;
     }
   }
 
