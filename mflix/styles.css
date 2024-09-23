@@ -1116,28 +1116,34 @@ BELOW ARE ELEMENTS AFFECTED WHEN IN LANDSCAPE MODE
     font-weight: bold;
     padding-left: env(safe-area-inset-left, 0px);
     margin-left: calc(-1 * env(safe-area-inset-left, 0px));
-    transition: all 0.3s ease, background-color 0.3s ease; /* Include background-color in the transition */
     
+    /* Only animate the active element, leaving other menu items unchanged */
+    transition: none;
+
     img {
       margin-left: 1vw;
       margin-right: 1vw;
-      transition: margin 0.3s ease; /* Smooth transition for image spacing */
+      transition: none; /* No animation on the images in inactive items */
     }
 
     div {
       margin-right: 1vw;
+      transition: none; /* No animation on the text container */
     }
   }
 
   div.active {
+    /* Animate only the active element to grow */
     padding-right: 2vw !important;
     margin-right: -2vw !important;
     border-radius: 0px 15px 15px 0px;
-    background-color: var(--mflixOrange); /* Change background color for the active item */
-    transition: all 0.3s ease, background-color 0.3s ease; /* Ensure background-color is transitioned */
     
+    /* Add smooth transitions to the active element */
+    transition: margin 0.3s ease, padding 0.3s ease, border-radius 0.3s ease;
+
     img {
       margin-left: 3vw;
+      transition: margin 0.3s ease; /* Smooth transition for the image */
     }
   }
 }
