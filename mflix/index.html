@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, minimum-scale=1, initial-scale=1, minimal-ui, viewport-fit=cover">
+    <title>Mflix</title>
+    <!--- include the following script to make the youtube player work--->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="styles.css">
+
+    <!--- Declare the icons for the webpage --->
+    <link rel="icon" href="icons/masked.png" />
+    <link rel="apple-touch-icon" href="icons/full.png">
+    <link rel="mask-icon" href="icons/masked.png" color="#000000">
+</head>
+
+<body>
+
+
+    <div id="header">
+        <img src="icons/logo.png" alt="logo" onclick="document.location.href = document.location.origin + document.location.pathname;">
+        <div>
+            <div>user.name</div>
+            <img src="icons/general/account_circle.svg">
+            <div id="userDropdownOptions" class="hidden">
+                <div onclick="displayPage('settingsPage'); event.stopPropagation();" class="button">
+                    Settings
+                </div>
+                <div onclick="logout(); event.stopPropagation();" class="button">
+                    Logout
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="searchPage" class="main hidden">
+        <div>
+            <h2>Search TMDB</h2>
+            <small>*Note that not all movies or tv shows are avalible to watch</small>
+            <input type="text" id="searchInput" placeholder="Search for a movie or TV show..." autocomplete="off">
+            <img src="icons/general/search.svg" alt="img-search">
+            <div id="searchDropdown"></div>
+        </div>
+        <div class="container" data-lastpagenum="0" data-loading="false"></div>
+        <div class="spacer"></div>
+    </div>
+
+    <div id="homePage" class="main">
+        <h2>Trending Movies</h2>
+        <div class="container"></div>
+        <div class="spacer"></div>
+    </div>
+
+    <div id="moviesPage" class="main hidden">
+        <h2>Newly Added Movies</h2>
+        <div class="container" data-lastpagenum="0" data-loading="false"></div>
+        <div class="spacer"></div>
+    </div>
+
+    <div id="tvShowsPage" class="main hidden">
+        <h2>Newly Added TV Shows</h2>
+        <div class="container" data-lastpagenum="0" data-loading="false"></div>
+        <div class="spacer"></div>
+    </div>
+
+    <div id="myListsPage" class="main hidden">
+        <h2>My Lists</h2>
+        <div>
+            <div class="button active" onclick="showList('watchLists')"><img src="icons/general/list.svg" alt="list">Watch Lists</div>
+            <div class="button" onclick="showList('history')"><img src="icons/general/history.svg" alt="history">History</div>
+        </div>
+        <div class="container">
+            <div class="listContainer">
+                <h4>Loading Lists...</h4>
+                <div id="loadingLists" class="horizontalScroll"></div>
+            </div>
+        </div>
+        <div id="listEditContainer" class="hidden">
+            <div class="button" onclick="createNewList()"><img src="icons/general/add.svg" alt="create">Create List</div>
+            <div class="button" onclick="editLists()"><img src="icons/general/edit.svg" alt="edit">Edit Lists</div>
+            <div class="button hidden" onclick="saveLists()"><img src="icons/general/save.svg" alt="save">Save Lists</div>
+        </div>
+        <div class="container hidden">
+            <div class="listContainer">
+                <h4>Movie History</h4>
+                <div id="moviesHistory" class="horizontalScroll"></div>
+            </div>
+            <div class="listContainer">
+                <h4>TV History</h4>
+                <div id="tvShowsHistory" class="horizontalScroll"></div>
+            </div>
+        </div>
+        <div id="historyEditContainer" class="hidden">
+            <div class="button" onclick="editHistory()"><img src="icons/general/edit.svg" alt="edit">Edit History</div>
+            <div class="button hidden" onclick="saveHistory()"><img src="icons/general/save.svg" alt="save">Save History</div>
+        </div>
+        <div class="spacer"></div>
+    </div>
+
+    <div id="settingsPage" class="main hidden">
+        <h2>Settings</h2>
+        <div class="container">
+            <div id="autoStartTrailerContainer" class="settingContainer">
+                <h4>
+                    Auto Start Trailer:
+                </h4>
+                <input type="radio" name="autoStartTrailer" value="yes" class="button" onclick="setSetting('autoStartTrailer', true)">
+                <label>Yes</label>
+                <input type="radio" name="autoStartTrailer" value="no" class="button" onclick="setSetting('autoStartTrailer', false)">
+                <label>No</label>
+            </div>
+            <div id="saveWatchHistoryContainer" class="settingContainer">
+                <h4>
+                    Save Watch History:
+                </h4>
+                <input type="radio" name="saveWatchHistory" value="yes" class="button" onclick="setSetting('saveWatchHistory', true)">
+                <label>Yes</label>
+                <input type="radio" name="saveWatchHistory" value="no" class="button" onclick="setSetting('saveWatchHistory', false)">
+                <label>No</label>
+            </div>
+            <div id="showDeselectEpisodeContainer" class="settingContainer">
+                <h4>
+                    Show Deselect Episode Button:
+                </h4>
+                <input type="radio" name="showDeselectEpisode" value="yes" class="button" onclick="setSetting('showDeselectEpisode', true)">
+                <label>Yes</label>
+                <input type="radio" name="showDeselectEpisode" value="no" class="button" onclick="setSetting('showDeselectEpisode', false)">
+                <label>No</label>
+            </div>
+            <div class="settingContainer">
+                <h4>
+                    Zoom Level:
+                </h4>
+                <div onclick="setZoom('-')" class="button">−</div>
+                <input type="number" id="zoomInput" name="zoomLevel" value="100" max="300" min="30">
+                <div onclick="setZoom('+')" class="button">+</div>
+            </div>
+        </div>
+        <div class="spacer"></div>
+    </div>
+
+
+    <div id="menubar">
+        <div id="search" onclick="displayPage('searchPage')" class="button">
+            <img src="icons/general/search.svg" alt="img-search">
+            <div>Search</div>
+        </div>
+        <div id="home" onclick="displayPage('homePage')" class="button active">
+            <img src="icons/general/home.svg" alt="img-home">
+            <div>Home</div>
+        </div>
+        <div id="movies" onclick="displayPage('moviesPage')" class="button">
+            <img src="icons/general/movie.svg" alt="img-movie">
+            <div>Movies</div>
+        </div>
+        <div id="tvShows" onclick="displayPage('tvShowsPage')" class="button">
+            <img src="icons/general/tv.svg" alt="img-tv">
+            <div>TV Shows</div>
+        </div>
+        <div id="myLists" onclick="displayPage('myListsPage')" class="button">
+            <img src="icons/general/list.svg" alt="img-list">
+            <div>My Lists</div>
+        </div>
+    </div>
+
+
+    <div id="infoPage" class="hidden">
+        <div id="infoSplit1">
+            <h1 class="noFlex">Title of Film</h1>
+            <div id="infoCluster" class="noFlex">
+                <table>
+                    <tr>
+                        <td>Sep 20, 1987</td>
+                        <td>10 / 10</td>
+                    </tr>
+                    <tr>
+                        <td>PG-13</td>
+                        <td>1h 48m</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="descriptionContainer" class="flex">
+                <div id="descriptionContent">Description of the movie or series. This should be a few sentences long. Some descriptions are longer than others though.</div>
+            </div>
+            <div id="buttonContainer" class="noFlex">
+                <div id="playButton" class="button" onclick=""><img src="icons/general/play_arrow.svg">
+                    <div>Play</div>
+                </div>
+                <div id="resumeButton" class="button hidden" onclick="resumeMedia()"><img src="icons/general/resume.svg">Resume</div>
+                <div id="episodesButton" class="button hidden" onclick="dropdownEpisodeSelector()"><img src="icons/general/episodes.svg">Episodes</div>
+                <div id="episodesDropdown" class="hidden">
+                    <div>
+                        <div class="loadingWave">Loading Last Watched Episode...</div>
+                        <div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <div id="showDeselectEpisode" class="button hidden" onclick="deselectEpisode()">Deselect Episode</div>
+                    </div>
+                </div>
+                <div id="addToListButton" class="button" onclick="dropdownAddToListMenu()"><img src="icons/general/playlist_add.svg">Add To List</div>
+                <div id="addToListDropdown" class="hidden">
+                    <div>
+                        <div>
+                            <div class="loadingWave"></div>
+                            <div class="loadingWave"></div>
+                            <div class="loadingWave"></div>
+                            <div class="hidden onList">
+                                <input type="text" placeholder="New List Name" value="">
+                                <div class="button">
+                                    <img src="icons/general/delete.svg" alt="delete" onclick="removeCreateButtonOnDropdown('delete')">
+                                </div>
+                                <div class="button">
+                                    <img src="icons/general/save.svg" alt="save" onclick="removeCreateButtonOnDropdown('save')">
+                                </div>
+                            </div>
+                            <div onclick="createNewListOnInfoPage()" class="button hidden">
+                                <img src="icons/general/add.svg" alt="add">
+                                <div>Create New List</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div id="stopTrailer" class="button" onclick="startTrailer()">Start Trailer</div>
+                    <div id="restartTrailer" class="button" onclick="restartTrailer()">Restart Trailer</div>
+                </div>
+                <div id="backButton" class="button" onclick="resetInfoPage()"><img src="icons/general/arrow_back.svg">Back</div>
+            </div>
+        </div>
+        <div id="infoSplit2">
+            <img src="icons/general/no_image.svg" alt="default-img" class="hidden">
+            <div id="ytTrailerPlayer"></div>
+        </div>
+    </div>
+    <div id="iframeContainer" class="hidden">
+        <div id="xMovie" onclick="stopMovie()" class="button"><img src="icons/general/close.svg" alt="X"></div>
+
+        <iframe id="movieIframe" src="" allowfullscreen="yes" frameborder="no" scrolling="no" autoplay="yes"></iframe>
+    </div>
+
+    <div id="loginPage">
+        <img src="icons/logo.png">
+        <h1>Login To Continue</h1>
+        <input type="text" id="username" name="username" placeholder="Username">
+        <input type="password" id="password" name="password" placeholder="Password">
+        <div></div>
+        <div onclick="login()" class="button">
+            Login
+        </div>
+        <div>
+            <img src="icons/general/loading_wheel.gif" class="hidden">
+        </div>
+    </div>
+
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js');
+        }
+    </script>
+    <script src="script.js" defer></script>
+
+</body>
+
+</html>
