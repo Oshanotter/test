@@ -1248,6 +1248,7 @@ BELOW ARE ELEMENTS AFFECTED WHEN IN PORTRAIT MODE
       padding-bottom: 2vh;
       margin-top: -2vh;
       border-radius: 15px 15px 0px 0px;
+      transition: border 0.3s ease, padding 0.3s ease;
     }
   }
 
