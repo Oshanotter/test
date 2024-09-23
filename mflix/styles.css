@@ -1116,7 +1116,6 @@ BELOW ARE ELEMENTS AFFECTED WHEN IN LANDSCAPE MODE
     font-weight: bold;
     padding-left: env(safe-area-inset-left, 0px);
     margin-left: calc(-1 * env(safe-area-inset-left, 0px));
-    border-radius: 0px 15px 15px 0px;
 
     /* Add transitions to both active and non-active states */
     transition: margin 0.3s ease, padding 0.3s ease, width 0.3s ease, all 0.3s ease;
@@ -1136,7 +1135,8 @@ BELOW ARE ELEMENTS AFFECTED WHEN IN LANDSCAPE MODE
     padding-right: 0px !important;
     width: calc(100% + 2vw);
     margin-right: -2vw !important;
-    /*border-radius: 0px 15px 15px 0px;*/
+    border-radius: 0px 15px 15px 0px;
+    transition: all 0.3s ease;
 
     img {
       margin-left: 3vw; /* Expand image margin */
