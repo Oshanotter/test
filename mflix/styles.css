@@ -1116,8 +1116,8 @@ BELOW ARE ELEMENTS AFFECTED WHEN IN LANDSCAPE MODE
     font-weight: bold;
     padding-left: env(safe-area-inset-left, 0px);
     margin-left: calc(-1 * env(safe-area-inset-left, 0px));
-    transition: all 0.3s ease;
-
+    transition: all 0.3s ease, background-color 0.3s ease; /* Include background-color in the transition */
+    
     img {
       margin-left: 1vw;
       margin-right: 1vw;
@@ -1133,7 +1133,9 @@ BELOW ARE ELEMENTS AFFECTED WHEN IN LANDSCAPE MODE
     padding-right: 2vw !important;
     margin-right: -2vw !important;
     border-radius: 0px 15px 15px 0px;
-    transition: all 0.3s ease, background-color 0.3s ease;;
+    background-color: var(--mflixOrange); /* Change background color for the active item */
+    transition: all 0.3s ease, background-color 0.3s ease; /* Ensure background-color is transitioned */
+    
     img {
       margin-left: 3vw;
     }
