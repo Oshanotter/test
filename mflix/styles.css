@@ -1119,7 +1119,7 @@ BELOW ARE ELEMENTS AFFECTED WHEN IN LANDSCAPE MODE
     border-radius: 0px 15px 15px 0px;
 
     /* Add transitions to both active and non-active states */
-    transition: margin 0.3s ease, padding 0.3s ease;
+    transition: margin 0.3s ease, padding 0.3s ease, width 0.3s ease;;
 
     img {
       margin-left: 1vw;
