@@ -1229,6 +1229,7 @@ BELOW ARE ELEMENTS AFFECTED WHEN IN PORTRAIT MODE
       display: flex;
       width: 20%;
       height: 100%;
+      transition: border 0.3s ease, margin 0.3s ease;
 
       div {
         /* the menu item text */
@@ -1248,7 +1249,7 @@ BELOW ARE ELEMENTS AFFECTED WHEN IN PORTRAIT MODE
       padding-bottom: 2vh;
       margin-top: -2vh;
       border-radius: 15px 15px 0px 0px;
-      transition: border 0.3s ease, padding 0.3s ease;
+      transition: border 0.3s ease, margin 0.3s ease;
     }
   }
 
