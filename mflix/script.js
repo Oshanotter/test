@@ -50,9 +50,6 @@ function main() {
   // adjust the page to reflect the current settings
   executeSettings();
 
-  // load the page from the hash in the window's url
-  loadPageFromUrlHash();
-
 }
 
 
@@ -245,6 +242,8 @@ function loadPageFromUrlHash() {
       });
 
     }
+  } else {
+    loadPageContent('homePage');
   }
 }
 
@@ -365,7 +364,8 @@ function authenticate() {
 
   apiKey = getLocalStorage('Mflix.apiKey');
   if (apiKey) {
-    loadPageContent('homePage');
+    // load the page from the hash in the window's url
+    loadPageFromUrlHash();
     // hide the login page
     var loginPage = document.getElementById('loginPage');
     loginPage.classList.add("hidden");
