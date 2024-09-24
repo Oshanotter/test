@@ -36,16 +36,12 @@ function main() {
   addHeaderListeners();
   // add listeners for the zoom function
   addZoomListeners();
-  //add listeners fot the login page
+  // add listeners fot the login page
   addLoginPageListeners();
+  // add listeners for orientation changes
+  addOrientationListeners();
 
-  // Add event listener for changes in orientation to adjust the max height of the overview flex element
-  window.addEventListener('orientationchange', function() {
-    var infoPage = document.getElementById('infoPage');
-    if (!infoPage.classList.contains('hidden')) {
-      adjustOverviewHeight();
-    }
-  });
+
 
   // adjust the page to reflect the current settings
   executeSettings();
@@ -372,8 +368,6 @@ function authenticate() {
     // add the user's name to the header
     var userProfileDiv = document.querySelector('#header > div > div');
     userProfileDiv.innerText = getLocalStorage('username');
-    // display search suggestions on the search page
-    loadSearchSuggestions();
 
   } else {
     var username = getLocalStorage('username');
@@ -521,6 +515,9 @@ function loadPageContent(category) {
           container.appendChild(poster);
         });
 
+        // append invisible posters
+        appendInvisiblePosters(container);
+
         // show that the content is already loaded
         container.dataset.loaded = "true";
       })
@@ -540,6 +537,9 @@ function loadPageContent(category) {
     if (!historyContainer.classList.contains('hidden')) {
       window.location.hash = "page-history";
     }
+  } else if (category == 'searchPage') {
+    // display search suggestions on the search page
+    loadSearchSuggestions();
   }
 }
 
@@ -713,6 +713,82 @@ function removeLoadingPosters(mediaPageID) {
 
   for (var i = 0; i < loadingPosters.length; i++) {
     loadingPosters[i].remove();
+  }
+}
+
+function appendInvisiblePosters(mediaPageID, repeatNum) {
+  // creates loading posters to display at the bottom of the movies and tv shows page
+
+  // if the page id is a string, get the container in that string
+  if (typeof mediaPageID == "string") {
+    var container = document.getElementById(mediaPageID).querySelector('.container');
+
+  } else {
+    // mediaPageID is an element, so append the posters directly to it
+    var container = mediaPageID;
+
+  }
+
+
+  if (!repeatNum) {
+    var numColumns = countColumns();
+    var numPosters = container.children.length;
+    var repeatNum = numColumns - (numPosters % numColumns);
+    if (repeatNum == numColumns) {
+      repeatNum = 0;
+    }
+  }
+
+  for (var i = 0; i < repeatNum; i++) {
+    var mainElm = document.createElement('div');
+    mainElm.classList.add('posterContainer');
+    mainElm.classList.add('noHover');
+
+    var qaulityElm = document.createElement('div');
+
+    var titleElm = document.createElement('div');
+
+    var span = document.createElement('span');
+
+    mainElm.appendChild(span);
+    mainElm.appendChild(qaulityElm);
+    mainElm.appendChild(titleElm);
+
+    container.appendChild(mainElm);
+  }
+
+}
+
+function adjustPosterSpacing() {
+  // adjusts how many loading or invisible posters are displayed on various pages
+
+  var containerList = ['searchPage', 'homePage', 'moviesPage', 'tvShowsPage'];
+
+  for (var i = 0; i < containerList.length; i++) {
+    let container = document.querySelector('#' + containerList[i] + ' > .container');
+    let children = container.querySelectorAll('.posterContainer');
+
+    // don't do anything if the following are true
+    if (container.dataset.lastpagenum == 0 || container.dataset.loaded == 'false' || children.length == 0) {
+      continue;
+    }
+
+    let posters = container.querySelectorAll('.loadingWave');
+    removeLoadingPosters(container);
+    if (posters.length > 0) {
+      // the posters should be loading
+      setTimeout(function() {
+        appendLoadingPosters(container);
+      }, 1);
+
+    } else {
+      // the posters shoud be invisible
+      setTimeout(function() {
+        appendInvisiblePosters(container);
+      }, 100);
+
+    }
+
   }
 }
 
@@ -1475,6 +1551,9 @@ function displaySearchResults(dict) {
     var poster = makePosterDiv(item.id, title, qualityDiv, item.poster_path, item.media_type);
     container.appendChild(poster);
   });
+
+  // append some invisible posters
+  appendInvisiblePosters(container);
 
   // update the page hash
   var query = document.getElementById('searchInput').value;
@@ -2799,6 +2878,37 @@ function addScrollListeners() {
       });
     })(); // IIFE to capture the correct `element`
   }
+}
+
+function addOrientationListeners() {
+  // adds a listener for when the orientation changes
+
+  // window.addEventListener('orientationchange', function() {
+  //
+  //   // adjust the max height of the overview flex element
+  //   var infoPage = document.getElementById('infoPage');
+  //   if (!infoPage.classList.contains('hidden')) {
+  //     adjustOverviewHeight();
+  //   }
+  //
+  //   // adjust how many loading or invisible posters are seen
+  //   console.log('orientation change')
+  //   adjustPosterSpacing();
+  // });
+
+
+  window.addEventListener('resize', function() {
+
+    // adjust the max height of the overview flex element
+    var infoPage = document.getElementById('infoPage');
+    if (!infoPage.classList.contains('hidden')) {
+      adjustOverviewHeight();
+    }
+
+    // adjust how many loading or invisible posters are seen
+    console.log('orientation change')
+    adjustPosterSpacing();
+  });
 }
 
 function addSearchListeners() {
