@@ -967,71 +967,6 @@ BELOW ARE ELEMENTS RELATING TO THE MY LISTS PAGE
     }
   }
 
-  .listContainer {
-    width: 100%;
-
-    h4 {
-      /* the headers for list sections */
-      width: 90%;
-      height: 1.5em;
-      border-top: 2px solid var(--mflixOrange);
-      padding: 0.5em 5% 0 0;
-      margin: 0 0 0 5%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-
-      div {
-        /* all div elements in the h4 tag */
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        height: 100%;
-      }
-
-      >div:nth-of-type(1) {
-
-        /* the element with the title, input, and trash can */
-        input {
-          display: none;
-        }
-
-        div:nth-of-type(2) {
-          /* the second div with the trash can */
-          /* this filter needs to be here for a glitch that turns icon red */
-          filter: brightness(1);
-          display: none;
-
-          img {
-            filter: var(--orangeFilter);
-            margin-left: 1em;
-            height: 100%;
-          }
-        }
-      }
-
-      >div:nth-of-type(2) {
-        /* the element with the up and down arrows */
-        display: none;
-
-        >div {
-          background-color: var(--mflixOrange);
-          border: 2px solid var(--mflixWhite);
-          border-radius: 999px;
-          aspect-ratio: 1 / 1;
-          box-sizing: border-box;
-          margin-right: 0.5em;
-
-          img {
-            height: 100%;
-            filter: var(--whiteFilter);
-          }
-        }
-      }
-    }
-  }
-
   .editList {
     h4 {
       >div:nth-of-type(1) {
@@ -1092,6 +1027,71 @@ BELOW ARE ELEMENTS RELATING TO THE MY LISTS PAGE
       height: 1.5em;
       margin-right: 0.5em;
       filter: var(--whiteFilter);
+    }
+  }
+}
+
+.listContainer {
+  width: 100%;
+
+  h4 {
+    /* the headers for list sections */
+    width: 90%;
+    height: 1.5em;
+    border-top: 2px solid var(--mflixOrange);
+    padding: 0.5em 5% 0 0;
+    margin: 0 0 0 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    div {
+      /* all div elements in the h4 tag */
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 100%;
+    }
+
+    >div:nth-of-type(1) {
+
+      /* the element with the title, input, and trash can */
+      input {
+        display: none;
+      }
+
+      div:nth-of-type(2) {
+        /* the second div with the trash can */
+        /* this filter needs to be here for a glitch that turns icon red */
+        filter: brightness(1);
+        display: none;
+
+        img {
+          filter: var(--orangeFilter);
+          margin-left: 1em;
+          height: 100%;
+        }
+      }
+    }
+
+    >div:nth-of-type(2) {
+      /* the element with the up and down arrows */
+      display: none;
+
+      >div {
+        background-color: var(--mflixOrange);
+        border: 2px solid var(--mflixWhite);
+        border-radius: 999px;
+        aspect-ratio: 1 / 1;
+        box-sizing: border-box;
+        margin-right: 0.5em;
+
+        img {
+          height: 100%;
+          filter: var(--whiteFilter);
+        }
+      }
     }
   }
 }

@@ -38,8 +38,8 @@ function main() {
   addZoomListeners();
   // add listeners fot the login page
   addLoginPageListeners();
-  // add listeners for orientation changes
-  addOrientationListeners();
+  // add listeners for orientation changes or window size changes
+  addWindowResizeListeners();
 
 
 
@@ -63,6 +63,18 @@ function shuffleList(array) {
 
   // return the shuffled array
   return newArray;
+}
+
+function getRandomNumber(min, max) {
+  // gets a random number between two numbers (inclusive)
+
+  if (!max) {
+    // if max doesn't exist, that means that the input for min is max and min is actually zero
+    var max = min;
+    var min = 0;
+  }
+  var max = max + 1; // makes it inclusive
+  return Math.random() * (max - min) + min;
 }
 
 function stringToHash(string) {
@@ -520,6 +532,31 @@ function loadPageContent(category) {
 
         // show that the content is already loaded
         container.dataset.loaded = "true";
+
+        var genreDict = {
+          10751: "Family Movies",
+          28: "Action Movies",
+          16: "Animation Movies",
+          12: "Adventure Movies",
+          14: "Fantasy Movies",
+          27: "Horror Movies",
+          878: "Science Fiction Movies",
+          18: "Drama Movies",
+          35: "Comedy Movies"
+        };
+
+        var currentDate = new Date().toISOString().split('T')[0]; // get current date in YYYY-MM-DD format
+
+        var keys = Object.keys(genreDict);
+        for (var i = 0; i < keys.length; i++) {
+          var genreId = keys[i];
+          var title = genreDict[genreId];
+          var pageNum = getRandomNumber(2, 50);
+          var url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=' + pageNum + '&region=US&release_date.lte=' + currentDate + '&sort_by=popularity.desc&with_genres=' + genreId + '&with_origin_country=US&with_original_language=en&api_key=' + apiKey;
+          var mediaType = '';
+          createHorizontalList(title, url, mediaType, container);
+        }
+
       })
       .catch(error => console.error('Error:', error));
 
@@ -790,6 +827,52 @@ function adjustPosterSpacing() {
     }
 
   }
+}
+
+async function createHorizontalList(title, url, mediaType, container) {
+  // creates a list in the container that is specified
+
+  // generate a new list
+  var newList = document.createElement('div');
+  newList.classList.add('listContainer');
+  newList.innerHTML = '<h4><div><div>' + title + '</div></div></div></h4><div class="horizontalScroll"></div>';
+
+
+  // fetch the url
+  var response = await fetch(url);
+  var data = await response.json();
+
+  var media = data.results;
+
+
+  var scrollContainer = newList.querySelector('.horizontalScroll');
+
+  // loop through each modia to create a poster
+  for (let i = 0; i < media.length; i++) {
+    let item = media[i];
+
+    var id = item.id;
+    var title = item.title || item.name;
+    if (mediaType == 'tv') {
+      var qualityDiv = "TV";
+    } else if (mediaType == 'movie') {
+      var qualityDiv = "Movie";
+    }
+    var imgURL = item.poster_path;
+
+    // make the poster with the info, plus add an overlay that will move the media in the list
+    let poster = makePosterDiv(id, title, qualityDiv, imgURL, mediaType);
+
+    scrollContainer.appendChild(poster);
+  }
+
+
+  // append the list to the container
+  container.appendChild(newList);
+
+  // return the element
+  return newList;
+
 }
 
 
@@ -2880,8 +2963,8 @@ function addScrollListeners() {
   }
 }
 
-function addOrientationListeners() {
-  // adds a listener for when the orientation changes
+function addWindowResizeListeners() {
+  // adds a listener for when the orientation changes or the window resizes
 
   // window.addEventListener('orientationchange', function() {
   //
@@ -2906,7 +2989,6 @@ function addOrientationListeners() {
     }
 
     // adjust how many loading or invisible posters are seen
-    console.log('orientation change')
     adjustPosterSpacing();
   });
 }
@@ -3034,7 +3116,7 @@ function loadSearchSuggestions() {
 
   var container = document.getElementById('searchPage').querySelector('.container');
 
-  var pageNum = Math.floor(Math.random() * 500);
+  var pageNum = getRandomNumber(500);
   var movieURL = "https://api.themoviedb.org/3/discover/movie?region=US&with_origin_country=US&language=en-US&page=" + pageNum + "&api_key=" + apiKey;
   var tvURL = "https://api.themoviedb.org/3/discover/tv?region=US&with_origin_country=US&language=en-US&page=" + pageNum + "&api_key=" + apiKey;
 
