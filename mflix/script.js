@@ -553,8 +553,8 @@ function loadPageContent(category) {
           var title = genreDict[genreId];
           var pageNum = getRandomNumber(2, 50);
           var url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=' + pageNum + '&region=US&release_date.lte=' + currentDate + '&sort_by=popularity.desc&with_genres=' + genreId + '&with_origin_country=US&with_original_language=en&api_key=' + apiKey;
-          var mediaType = '';
-          createHorizontalList(title, url, mediaType, container);
+          var mediaType = 'movie';
+          createHorizontalList(title, url, mediaType, container, '');
         }
 
       })
@@ -829,7 +829,7 @@ function adjustPosterSpacing() {
   }
 }
 
-async function createHorizontalList(title, url, mediaType, container) {
+async function createHorizontalList(title, url, mediaType, container, label) {
   // creates a list in the container that is specified
 
   // generate a new list
@@ -853,7 +853,9 @@ async function createHorizontalList(title, url, mediaType, container) {
 
     var id = item.id;
     var title = item.title || item.name;
-    if (mediaType == 'tv') {
+    if (label != undefined) {
+      var qualityDiv = label;
+    } else if (mediaType == 'tv') {
       var qualityDiv = "TV";
     } else if (mediaType == 'movie') {
       var qualityDiv = "Movie";
@@ -2966,20 +2968,6 @@ function addScrollListeners() {
 function addWindowResizeListeners() {
   // adds a listener for when the orientation changes or the window resizes
 
-  // window.addEventListener('orientationchange', function() {
-  //
-  //   // adjust the max height of the overview flex element
-  //   var infoPage = document.getElementById('infoPage');
-  //   if (!infoPage.classList.contains('hidden')) {
-  //     adjustOverviewHeight();
-  //   }
-  //
-  //   // adjust how many loading or invisible posters are seen
-  //   console.log('orientation change')
-  //   adjustPosterSpacing();
-  // });
-
-
   window.addEventListener('resize', function() {
 
     // adjust the max height of the overview flex element
@@ -3084,31 +3072,42 @@ function addLoginPageListeners() {
 }
 
 async function getAvalibleSource() {
-  // see which movie source is avalible, sidsrc.to or vidsrc.me
+  // see which movie source website is avalible
 
-  try {
-    var response = await fetch('https://vidsrc.to/movies/latest/page-1.json', {
-      method: 'HEAD'
-    }); // Use 'HEAD' method to fetch only headers
-    if (response.ok) {
-      currentSource = 'https://vidsrc.to/';
-    } else {
-      throw new Error('VidSrc.to is down!');
+  var list = [
+    'https://vidsrc.me/movies/latest/page-1.json',
+    'https://vidsrc.to/movies/latest/page-1.json',
+    'https://vidsrc.cc',
+    'https://vidsrc.icu'
+  ];
+
+  for (var i = 0; i < list.length; i++) {
+    var url = new URL(list[i]);
+    if (i == 1) {
+      var defaultURL = url.origin + "/";
     }
-  } catch (error) {
+
     try {
-      var response = await fetch('https://vidsrc.me/movies/latest/page-1.json', {
+      var response = await fetch(url.href, {
         method: 'HEAD'
       }); // Use 'HEAD' method to fetch only headers
       if (response.ok) {
-        currentSource = 'https://vidsrc.me/';
+        currentSource = url.origin + "/";
+        console.log(currentSource)
+        return;
       } else {
-        throw new Error('VidSrc.me is down!');
+        throw new Error(url.origin + ' is down!');
       }
-    } catch (error2) {
-      console.error('Both VidSrc.to and VidSrc.me are down!\n');
+    } catch (error) {
+      continue;
     }
+
   }
+
+  // if the function made it this far, all of the sources are down
+  alertMessage('All sources are down!');
+  currentSource = defaultURL;
+  throw new Error('All sources are down!');
 }
 
 function loadSearchSuggestions() {
