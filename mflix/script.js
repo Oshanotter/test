@@ -1188,7 +1188,13 @@ function resetInfoPage() {
 
   // find which page is showing and update the page's hash
   var previousHash = document.getElementById('backButton').dataset.previousHash;
-  window.location.hash = previousHash;
+  if (previousHash.includes('#watch-')){
+    // the page was reloaded, so shiw the home page
+    displayPage('homePage');
+  }else{
+    // set the hash to the previousHash
+    window.location.hash = previousHash;
+  }
 }
 
 
@@ -3210,3 +3216,26 @@ function observeForHidden(targetElement, onHiddenFunction) {
 
 // execute the main function right away
 main();
+
+
+
+
+
+
+
+
+function toggleServerSelection(){
+var container = document.getElementById('serverSelection');
+var children = container.children;
+
+// start at index 1 to skip over the first element
+for (var i = 1; i < children.length; i++){
+var child = children[i];
+child.classList.toggle('hidden');
+}
+
+}
+
+function selectServer(serverId){
+alert(serverId)
+}
