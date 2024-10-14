@@ -3,7 +3,7 @@ var apiKey;
 var appsScriptBaseUrl = 'https://script.google.com/macros/s/AKfycbyFDxOpK9tZyuQWtzqPV7zXe979LLQSk288L4p5kIizBDGcLKRPX9YMfbNveG2tvyZ9bw/exec';
 var trailerPlayer;
 var trailerPlayerTimeout;
-var currentSource;
+var currentServerNum;
 
 // main function
 function main() {
@@ -646,6 +646,10 @@ function getLatestMedia(pageNum = 1, category) {
         })
         .catch(error => console.error('Error fetching movie details:', error));
 
+    })
+    .catch(error => {
+      console.error(error);
+      alertMessage('Failed to get newly added media, server is down');
     });
 }
 
@@ -996,7 +1000,10 @@ async function displayInfoPage(mediaId, mediaType, optionalTitle) {
       }
 
     })
-    .catch(error => console.error(error));
+    .catch(error => {
+      console.error(error);
+      alertMessage(error);
+    });
 
   // store the previous hash and update the page's hash to the new one
   document.getElementById('backButton').dataset.previousHash = window.location.hash;
@@ -1188,10 +1195,10 @@ function resetInfoPage() {
 
   // find which page is showing and update the page's hash
   var previousHash = document.getElementById('backButton').dataset.previousHash;
-  if (previousHash.includes('#watch-')){
+  if (previousHash.includes('#watch-')) {
     // the page was reloaded, so shiw the home page
     displayPage('homePage');
-  }else{
+  } else {
     // set the hash to the previousHash
     window.location.hash = previousHash;
   }
@@ -1324,6 +1331,8 @@ async function preLoadMedia(tmdbID, mediaType, seasonNum, episodeNum) {
   var playBtn = document.getElementById('playButton');
   playBtn.onclick = "";
 
+  var infoPage = document.getElementById('infoPage');
+
 
   try {
     // get the vidsrc id from tmdb id
@@ -1341,11 +1350,8 @@ async function preLoadMedia(tmdbID, mediaType, seasonNum, episodeNum) {
       var sourceURL = sourceURL + "?autostart=true";
     }
   } catch {
-    // when getting the direct source fails
-    var sourceURL = currentSource + "embed/" + mediaType + "/" + tmdbID;
-    if (seasonNum && episodeNum) {
-      var sourceURL = sourceURL + "?season=" + seasonNum + "&episode=" + episodeNum;
-    }
+    // when getting the direct source fails, use the regular sources
+    var sourceURL = selectServer(currentServerNum, mediaType, tmdbID, seasonNum, episodeNum);
   }
 
 
@@ -1376,8 +1382,12 @@ async function preLoadMedia(tmdbID, mediaType, seasonNum, episodeNum) {
 
   if (mediaType == 'tv' && seasonNum && episodeNum) {
     playBtn.querySelector('div').innerText = "Play S" + seasonNum + " E" + episodeNum;
+    infoPage.dataset.season = seasonNum;
+    infoPage.dataset.episode = episodeNum;
   } else {
     playBtn.querySelector('div').innerText = "Play";
+    infoPage.removeAttribute('data-season');
+    infoPage.removeAttribute('data-episode');
   }
 }
 
@@ -1543,6 +1553,113 @@ function stopMovie() {
 
 function resumeMedia() {
   alert('Resume function coming soon');
+}
+
+function toggleServerSelection() {
+  // function to toggle the visibility of the server selection tab
+
+  var container = document.getElementById('serverSelection');
+  var children = container.children;
+
+  // start at index 1 to skip over the first element
+  for (var i = 1; i < children.length; i++) {
+    var child = children[i];
+    child.classList.toggle('hidden');
+  }
+
+  // make an event listener for when the user clicks off of the dropdown
+  var clickFunction = function(e) {
+
+    // if the user clicks on the 'Try a different server' button, toggle the serverSelection
+    if (e.srcElement != children[0]) {
+      toggleServerSelection();
+    }
+
+    //remove the event listener if the user clicks the try a different server button
+    document.removeEventListener('click', clickFunction);
+
+  }
+
+  // add or remove the background color
+  if (container.style.backgroundColor == '') {
+    // add the background color and border
+    container.style.backgroundColor = 'var(--mflixGrey)';
+    container.style.border = '1px solid var(--mflixWhite)';
+    // add the event listener after a delay
+    setTimeout(function() {
+      document.addEventListener('click', clickFunction);
+    }, 0);
+  } else {
+    // remove the background color and border
+    container.style.backgroundColor = '';
+    container.style.border = '';
+  }
+
+}
+
+function selectServer(index, mediaType, id, season, episode) {
+  // function to select which server the iframe should use
+
+  var list = [{
+      movie: "https://vidsrc.me/embed/movie?tmdb=<id>",
+      tv: "https://vidsrc.me/embed/tv?tmdb=<id>&season=<s>&episode=<e>"
+    },
+    {
+      movie: "https://vidsrc.to/embed/movie/<id>",
+      tv: "https://vidsrc.to/embed/tv/<id>/<s>/<e>"
+    },
+    {
+      movie: "https://vidsrc.cc/v2/embed/movie/<id>",
+      tv: "https://vidsrc.cc/v2/embed/tv/<id>/<s>/<e>"
+    },
+    {
+      movie: "https://vidsrc.icu/embed/movie/<id>",
+      tv: "https://vidsrc.icu/embed/tv/<id>/<s>/<e>"
+    }
+  ];
+
+  var container = document.getElementById('serverSelection');
+  var children = container.children;
+
+  // remove the active class from the active server
+  container.querySelector('.active').classList.remove('active');
+
+  // add the active class to the new server
+  children[index].classList.add('active');
+
+  if (!mediaType && !id) {
+    // get the id, media type, and season and episode numbers
+    var infoPage = document.getElementById('infoPage');
+    var id = infoPage.dataset.id;
+    var mediaType = infoPage.dataset.mediaType;
+    var seasonNum = infoPage.dataset.season;
+    var episodeNum = infoPage.dataset.episode;
+    var skipSetUrl = false;
+  } else {
+    var skipSetUrl = true;
+  }
+
+  // get the correct url from the list of dicts by getting the dict at the zero based index
+  var dict = list[index - 1];
+  var url = dict[mediaType];
+
+  // if the season and episode numbers are undefined, use the server without specifing them
+  if (!seasonNum || !episodeNum) {
+    var url = url.split('<id>')[0] + id;
+  } else {
+    var url = url.replace('<id>', id).replace('<s>', seasonNum).replace('<e>', episodeNum);
+  }
+
+  if (skipSetUrl) {
+    // just return the url
+    return url;
+
+  } else {
+    // set the url of the iframe to the new url
+    var iframe = document.getElementById('movieIframe');
+    iframe.src = url;
+  }
+
 }
 
 
@@ -3080,40 +3197,26 @@ function addLoginPageListeners() {
 async function getAvalibleSource() {
   // see which movie source website is avalible
 
-  var list = [
-    'https://vidsrc.me/movies/latest/page-1.json',
-    'https://vidsrc.to/movies/latest/page-1.json',
-    'https://vidsrc.cc',
-    'https://vidsrc.icu'
-  ];
+  // set the source to the default source immediately
+  var defaultSource = new URL('https://vidsrc.me/');
+  var url = defaultSource + 'movies/latest/page-1.json';
+  currentServerNum = 1;
 
-  for (var i = 0; i < list.length; i++) {
-    var url = new URL(list[i]);
-    if (i == 1) {
-      var defaultURL = url.origin + "/";
+  try {
+    var response = await fetch(url, {
+      method: 'HEAD'
+    }); // Use 'HEAD' method to fetch only headers
+    if (response.ok) {
+      // do nothing, the default server is already set
+      return;
+    } else {
+      // set the current server number to the backup server
+      currentServerNum = 3;
     }
-
-    try {
-      var response = await fetch(url.href, {
-        method: 'HEAD'
-      }); // Use 'HEAD' method to fetch only headers
-      if (response.ok) {
-        currentSource = url.origin + "/";
-        console.log(currentSource)
-        return;
-      } else {
-        throw new Error(url.origin + ' is down!');
-      }
-    } catch (error) {
-      continue;
-    }
-
+  } catch (e) {
+    console.error(e);
   }
 
-  // if the function made it this far, all of the sources are down
-  alertMessage('All sources are down!');
-  currentSource = defaultURL;
-  throw new Error('All sources are down!');
 }
 
 function loadSearchSuggestions() {
@@ -3216,26 +3319,3 @@ function observeForHidden(targetElement, onHiddenFunction) {
 
 // execute the main function right away
 main();
-
-
-
-
-
-
-
-
-function toggleServerSelection(){
-var container = document.getElementById('serverSelection');
-var children = container.children;
-
-// start at index 1 to skip over the first element
-for (var i = 1; i < children.length; i++){
-var child = children[i];
-child.classList.toggle('hidden');
-}
-
-}
-
-function selectServer(serverId){
-alert(serverId)
-}

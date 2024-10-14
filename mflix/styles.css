@@ -699,7 +699,7 @@ BELOW ARE ELEMENTS RELATING TO THE MEDIA AND YOUTUBE PLAYERS
   overflow: hidden;
 }
 
-#xMovie {
+#xMediaBtn {
   /* the close button to go back from the playing media */
   background-color: var(--mflixOrange);
   width: 4em;
@@ -717,6 +717,34 @@ BELOW ARE ELEMENTS RELATING TO THE MEDIA AND YOUTUBE PLAYERS
   img {
     height: 100%;
     filter: var(--whiteFilter);
+  }
+}
+
+#serverSelection {
+  position: absolute;
+  top: 2em;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  color: var(--mflixOrange);
+  text-decoration: underline;
+  border-radius: 5px;
+  padding: 0.25em 0.5em;
+
+  div:nth-of-type(1) {
+    color: var(--mflixOrange)
+  }
+
+  div {
+    color: var(--mflixWhite);
+    text-decoration: underline;
+    display: flex;
+    justify-content: center;
+    padding: 0.15em 0;
+  }
+
+  .active {
+    color: var(--mflixOrange);
   }
 }
 
@@ -1378,40 +1406,4 @@ BELOW ARE ELEMENTS THAT ARE USED FOR ANIMATION
   padding: 0;
   margin: 0;
   overflow: hidden;
-}
-
-
-
-
-
-
-
-#serverSelection{
-
-position: absolute; 
-top: 5vh; left: 50%;
--webkit-transform: translateX(-50%);
-transform: translateX(-50%); 
-color: var(--mflixOrange); 
-text-decoration: underline; 
-background-color: var(--mflixGrey); 
-border: 1px solid var(--mflixWhite); 
-border-radius: 5px; 
-padding: 0.25em 0.5em;
-
-div::nth-of-type(1){
-color: var(--mflixOrange)
-}
-
-div::not(nth-of-type(1)){
-color: var(--mflixWhite); 
-text-decoration: underline; 
-display: flex; 
-justify-content: center;
-}
-
-.active{
-color: var(--mflixOrange);
-}
-
 }
