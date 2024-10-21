@@ -1351,12 +1351,16 @@ async function preLoadMedia(tmdbID, mediaType, seasonNum, episodeNum) {
     }
   } catch {
     // when getting the direct source fails, use the regular sources
-    var sourceURL = selectServer(currentServerNum, mediaType, tmdbID, seasonNum, episodeNum);
+    var sourceURL = null;
   }
 
 
   // add the onclick function to play the movie
   playBtn.onclick = async function() {
+
+    if (sourceURL == null) {
+      var sourceURL = selectServer(1, mediaType, tmdbID, seasonNum, episodeNum);
+    }
     // play the movie by loading the sourceURL into the iframe
     playMovie(sourceURL);
 
@@ -1627,6 +1631,7 @@ function selectServer(index, mediaType, id, season, episode) {
   // add the active class to the new server
   children[index].classList.add('active');
 
+  // if the user clicked on the 'Try a different server' button
   if (!mediaType && !id) {
     // get the id, media type, and season and episode numbers
     var infoPage = document.getElementById('infoPage');
@@ -1636,6 +1641,8 @@ function selectServer(index, mediaType, id, season, episode) {
     var episodeNum = infoPage.dataset.episode;
     var skipSetUrl = false;
   } else {
+    var seasonNum = season;
+    var episodeNum = episode;
     var skipSetUrl = true;
   }
 
