@@ -966,6 +966,20 @@ BELOW ARE THE ELEMENTS RELATING TO THE SETTINGS PAGE
       margin-right: 1em;
     }
 
+    .btnContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 1em;
+
+      label {
+        width: 100%;
+        margin-right: 0;
+        text-align: center;
+        white-space: nowrap;
+      }
+    }
+
     .button {
       background-color: var(--mflixBlue);
       border: 2px solid var(--mflixOrange);

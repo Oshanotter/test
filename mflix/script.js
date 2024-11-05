@@ -25,8 +25,6 @@ function main() {
   // authenticate the current user immediately
   authenticate();
 
-  // get the source to use to watch the movies
-  //getAvalibleSource();
 
   // add the scroll listeners in order to load more media
   addScrollListeners();
@@ -1001,9 +999,7 @@ async function displayInfoPage(mediaId, mediaType, optionalTitle, optionalSeason
         document.getElementById('episodesButton').classList.remove('hidden');
         populateEpisodesDropdown(media.seasons, media.last_episode_to_air);
         // select the correct season and episode
-        //if (getSetting('saveWatchHistory') && mediaType == 'tv') {
         selectLastEpisode(mediaId);
-        //}
       }
 
     })
@@ -1796,6 +1792,58 @@ async function watchNextEpisode() {
 
 }
 
+function toggleEpisodesButtons(mediaType, seasonNum, episodeNum) {
+  // function to show it hide the previous and next episode buttons over the iframe
+
+  var prevBtn = document.getElementById('previousEpisodeBtn');
+  var nextBtn = document.getElementById('nextEpisodeBtn');
+
+  if (mediaType == 'movie' || (mediaType == 'tv' && (!seasonNum || !episodeNum))) {
+    prevBtn.classList.add('hidden');
+    nextBtn.classList.add('hidden');
+    return;
+  }
+
+  // the mediaType must be tv, so show the buttons and figure out if the episodes are out if range
+  prevBtn.classList.remove('hidden');
+  nextBtn.classList.remove('hidden');
+
+  var seasonsContainer = document.querySelector("#episodesDropdown > div > div:nth-child(2) > div:nth-child(1)");
+  var numSeasons = seasonsContainer.children.length;
+  var lastSeasonElm = seasonsContainer.children[numSeasons - 1];
+  var lastEpisode = lastSeasonElm.dataset.numEpisodes;
+
+  // if the current episode is the last avalible episode
+  if (seasonNum == numSeasons && episodeNum == lastEpisode) {
+    // make the next episode button unavalible
+    nextBtn.classList.add('disabled');
+
+  } else {
+    nextBtn.classList.remove('disabled');
+  }
+
+  // if the current episode is the very first episode
+  if (seasonNum == 1 && episodeNum == 1) {
+    // make the next episode button unavalible
+    prevBtn.classList.add('disabled');
+
+  } else {
+    prevBtn.classList.remove('disabled');
+  }
+
+
+}
+
+function getDefaultServer() {
+  // function to get either the selected server or the default server
+
+  // if the selected server isn't defined, use the default server
+  if (selectedServer == null) {
+    return getSetting('defaultServer');
+  }
+
+  return selectedServer;
+}
 
 
 
@@ -3159,10 +3207,10 @@ function executeSettings() {
 
   // adjust defaultServer buttons
   var container = document.getElementById('defaultServer');
-  var btn1 = container.querySelector('input:nth-of-type(1)');
-  var btn2 = container.querySelector('input:nth-of-type(2)');
-  var btn3 = container.querySelector('input:nth-of-type(3)');
-  var btn4 = container.querySelector('input:nth-of-type(4)');
+  var btn1 = container.querySelector('.btnContainer:nth-of-type(1) > input');
+  var btn2 = container.querySelector('.btnContainer:nth-of-type(2) > input');
+  var btn3 = container.querySelector('.btnContainer:nth-of-type(3) > input');
+  var btn4 = container.querySelector('.btnContainer:nth-of-type(4) > input');
   var serverList = [btn1, btn2, btn3, btn4];
   var selection = getSetting('defaultServer') - 1;
   for (var i = 0; i < serverList.length; i++) {
@@ -3350,31 +3398,6 @@ function addLoginPageListeners() {
 
 }
 
-async function getAvalibleSource() {
-  // see which movie source website is avalible
-
-  // set the source to the default source immediately
-  var defaultSource = new URL('https://vidsrc.me/');
-  var url = defaultSource + 'movies/latest/page-1.json';
-  currentServerNum = 1;
-
-  try {
-    var response = await fetch(url, {
-      method: 'HEAD'
-    }); // Use 'HEAD' method to fetch only headers
-    if (response.ok) {
-      // do nothing, the default server is already set
-      return;
-    } else {
-      // set the current server number to the backup server
-      currentServerNum = 3;
-    }
-  } catch (e) {
-    console.error(e);
-  }
-
-}
-
 function loadSearchSuggestions() {
   // this function gets a random selection of movies and tv shows on tmdb for search suggestions on the search page
 
@@ -3475,57 +3498,3 @@ function observeForHidden(targetElement, onHiddenFunction) {
 
 // execute the main function right away
 main();
-
-
-function toggleEpisodesButtons(mediaType, seasonNum, episodeNum) {
-  // function to show it hide the previous and next episode buttons over the iframe
-
-  var prevBtn = document.getElementById('previousEpisodeBtn');
-  var nextBtn = document.getElementById('nextEpisodeBtn');
-
-  if (mediaType == 'movie' || (mediaType == 'tv' && (!seasonNum || !episodeNum))) {
-    prevBtn.classList.add('hidden');
-    nextBtn.classList.add('hidden');
-    return;
-  }
-
-  // the mediaType must be tv, so show the buttons and figure out if the episodes are out if range
-  prevBtn.classList.remove('hidden');
-  nextBtn.classList.remove('hidden');
-
-  var seasonsContainer = document.querySelector("#episodesDropdown > div > div:nth-child(2) > div:nth-child(1)");
-  var numSeasons = seasonsContainer.children.length;
-  var lastSeasonElm = seasonsContainer.children[numSeasons - 1];
-  var lastEpisode = lastSeasonElm.dataset.numEpisodes;
-
-  // if the current episode is the last avalible episode
-  if (seasonNum == numSeasons && episodeNum == lastEpisode) {
-    // make the next episode button unavalible
-    nextBtn.classList.add('disabled');
-
-  } else {
-    nextBtn.classList.remove('disabled');
-  }
-
-  // if the current episode is the very first episode
-  if (seasonNum == 1 && episodeNum == 1) {
-    // make the next episode button unavalible
-    prevBtn.classList.add('disabled');
-
-  } else {
-    prevBtn.classList.remove('disabled');
-  }
-
-
-}
-
-function getDefaultServer() {
-  // function to get either the selected server or the default server
-
-  // if the selected server isn't defined, use the default server
-  if (selectedServer == null) {
-    return getSetting('defaultServer');
-  }
-
-  return selectedServer;
-}
