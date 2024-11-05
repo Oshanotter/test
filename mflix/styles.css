@@ -42,6 +42,11 @@ BELOW ARE SOME COMMONLY USED CLASSES
   display: none !important;
 }
 
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 .button {
   cursor: pointer;
 }
@@ -746,6 +751,23 @@ BELOW ARE ELEMENTS RELATING TO THE MEDIA AND YOUTUBE PLAYERS
   .active {
     color: var(--mflixOrange);
   }
+}
+
+#previousEpisodeBtn, #nextEpisodeBtn {
+  position: absolute;
+  bottom: 15%;
+  background-color: var(--mflixOrange);
+  border: 2px solid var(--mflixWhite);
+  border-radius: 5px;
+  padding: 0.25em 0.5em;
+}
+
+#previousEpisodeBtn {
+  left: 1em;
+}
+
+#nextEpisodeBtn {
+  right: 1em;
 }
 
 /*
