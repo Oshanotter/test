@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="color-scheme" content="light dark">
+</head>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+<div onclick="launcher(0)">Firefox</div>
+<div onclick="launcher(1)">Retroarch</div>
+
+<script>
+  function launcher(num){
+    if (num == 0){
+      window.location.href = "launcher://firefox/fec-Max/https://youtube.com";
+    }else if (num = 1){
+      window.location.href = "launcher://retroarch";
+    }
+  }
+</script>
+
+</body>
+</html>
