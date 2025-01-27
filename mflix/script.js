@@ -587,7 +587,9 @@ function loadPageContent(category) {
     
     // check if the device is in landscape mode
     if (window.matchMedia("(orientation: landscape)").matches){
-      document.getElementById('searchInput').focus();
+      setTimeout(function(){
+        document.getElementById('searchInput').focus();
+      }, 0);
     }
   }
 }
