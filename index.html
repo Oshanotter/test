@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEC Home Page</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="icon" href="https://i.imgur.com/RTyFUCz.png" />
+    <link rel="apple-touch-icon" href="https://i.imgur.com/n9P31nk.jpeg">
+    <link rel="mask-icon" href="https://i.imgur.com/RTyFUCz.png" color="#000000">
+</head>
+
+<body>
+    <div id="header">
+        <div id="menuBtn" class="button" onclick="toggleSettingsMenu()">☰</div>
+        <div id="time"></div>
+        <img src="https://i.imgur.com/RTyFUCz.png" alt="fec-logo">
+    </div>
+
+    <div id="appsContainer">
+    </div>
+
+    <div id="settingsMenu" class="offScreen">
+        <div class="setting">
+            <div>
+                Theme
+            </div>
+            <div>
+                Colors:
+                <div id="colorContainer">
+                    <div class="color" style="background-color: #333333;" onclick="changeTheme('#333333')"></div>
+                    <div class="color" style="background-color: #000000;" onclick="changeTheme('#000000')"></div>
+                    <div class="color" style="background-color: #ffffff;" onclick="changeTheme('#ffffff')"></div>
+                    <div class="color" style="background-color: red;" onclick="changeTheme('red')"></div>
+                    <div class="color" style="background-color: orange;" onclick="changeTheme('orange')"></div>
+                    <div class="color" style="background-color: yellow;" onclick="changeTheme('yellow')"></div>
+                    <div class="color" style="background-color: green;" onclick="changeTheme('green')"></div>
+                    <div class="color" style="background-color: blue;" onclick="changeTheme('blue')"></div>
+                    <div class="color" style="background-color: indigo;" onclick="changeTheme('indigo')"></div>
+                    <div class="color" style="background-color: violet;" onclick="changeTheme('violet')"></div>
+                    <div class="color" style="background-color: #1E1E1E;" onclick="changeTheme('#1E1E1E')"></div>
+                    <div class="color" style="background-color: #29FFF1;" onclick="changeTheme('#29FFF1')"></div>
+                    <div class="color" style="background-color: #34495E;" onclick="changeTheme('#34495E')"></div>
+                    <div class="color" style="background-color: #16A085;" onclick="changeTheme('#16A085')"></div>
+                    <div class="color" style="background-color: #27AE60;" onclick="changeTheme('#27AE60')"></div>
+                    <div class="color" style="background-color: #2980B9;" onclick="changeTheme('#2980B9')"></div>
+                    <div class="color" style="background-color: #8E44AD;" onclick="changeTheme('#8E44AD')"></div>
+                    <div class="color" style="background-color: #E67E22;" onclick="changeTheme('#E67E22')"></div>
+                    <div class="color" style="background-color: #F1C40F;" onclick="changeTheme('#F1C40F')"></div>
+                    <div class="color" style="background-color: #D35400;" onclick="changeTheme('#D35400')"></div>
+                    <div class="color" style="background-color: #C0392B;" onclick="changeTheme('#C0392B')"></div>
+                    <div class="color" style="background-color: #ECF0F1;" onclick="changeTheme('#ECF0F1')"></div>
+                    <div class="color" style="background-color: #95A5A6;" onclick="changeTheme('#95A5A6')"></div>
+                    <div class="color" style="background-color: #FF3729;" onclick="changeTheme('#FF3729')"></div>
+                    <div class="color" style="background-color: #4AB7FF;" onclick="changeTheme('#4AB7FF')"></div>
+                    <div class="color" style="background-color: #5D6D7E;" onclick="changeTheme('#5D6D7E')"></div>
+                    <div class="color" style="background-color: #A569BD;" onclick="changeTheme('#A569BD')"></div>
+                    <div class="color" style="background-color: #555555;" onclick="changeTheme('#555555')"></div>
+                    <div class="color" style="background-color: #FF4AAB;" onclick="changeTheme('#FF4AAB')"></div>
+                    <div class="color" style="background-color: #FF9999;" onclick="changeTheme('#FF9999')"></div>
+                    <div class="color" style="background-color: #FFB266;" onclick="changeTheme('#FFB266')"></div>
+                    <div class="color" style="background-color: #FFEB99;" onclick="changeTheme('#FFEB99')"></div>
+                    <div class="color" style="background-color: #99CC99;" onclick="changeTheme('#99CC99')"></div>
+                    <div class="color" style="background-color: #99B3FF;" onclick="changeTheme('#99B3FF')"></div>
+                    <div class="color" style="background-color: #A999E6;" onclick="changeTheme('#A999E6')"></div>
+                    <div class="color" style="background-color: #D9A9E6;" onclick="changeTheme('#D9A9E6')"></div>
+                    <div class="color" style="background-color: #BDC3C7;" onclick="changeTheme('#BDC3C7')"></div>
+                    <div class="color" style="background-color: #A2D9CE;" onclick="changeTheme('#A2D9CE')"></div>
+                    <div class="color" style="background-color: #F7CAC9;" onclick="changeTheme('#F7CAC9')"></div>
+                    <div class="color" style="background-color: #D5A6BD;" onclick="changeTheme('#D5A6BD')"></div>
+                    <div class="color" style="background-color: #F9E79F;" onclick="changeTheme('#F9E79F')"></div>
+                    <div class="color" style="background-color: #B3E5FC;" onclick="changeTheme('#B3E5FC')"></div>
+                    <div class="color" style="background-color: #FFE0B2;" onclick="changeTheme('#FFE0B2')"></div>
+                    <div class="color" style="background-color: #C5E1A5;" onclick="changeTheme('#C5E1A5')"></div>
+                </div>
+            </div>
+            <div>
+                Gradients:
+                <div id="gradientContainer">
+                    <img class="color" src="https://i.imgur.com/Rl7R970.jpeg" onclick="changeTheme('none')">
+                    <div class="color" style="background: linear-gradient(45deg, #555555, #888888);" onclick="changeTheme('linear-gradient(45deg, #555555, #888888)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #F5F5F5, #C1C1C1);" onclick="changeTheme('linear-gradient(45deg, #F5F5F5, #C1C1C1)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #FF9999, #FF6666);" onclick="changeTheme('linear-gradient(45deg, #FF9999, #FF6666)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #FFB266, #FF884D);" onclick="changeTheme('linear-gradient(45deg, #FFB266, #FF884D)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #FFEB99, #FFD700);" onclick="changeTheme('linear-gradient(45deg, #FFEB99, #FFD700)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #99CC99, #66A366);" onclick="changeTheme('linear-gradient(45deg, #99CC99, #66A366)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #99B3FF, #3366FF);" onclick="changeTheme('linear-gradient(45deg, #99B3FF, #3366FF)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #A999E6, #6B5B95);" onclick="changeTheme('linear-gradient(45deg, #A999E6, #6B5B95)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #D9A9E6, #C27BA0);" onclick="changeTheme('linear-gradient(45deg, #D9A9E6, #C27BA0)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #2C3E50, #4CA1AF);" onclick="changeTheme('linear-gradient(45deg, #2C3E50, #4CA1AF)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #16A085, #1ABC9C);" onclick="changeTheme('linear-gradient(45deg, #16A085, #1ABC9C)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #FF6B6B, #FFD166);" onclick="changeTheme('linear-gradient(45deg, #FF6B6B, #FFD166)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #B3E5FC, #81D4FA);" onclick="changeTheme('linear-gradient(45deg, #B3E5FC, #81D4FA)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #FFE0B2, #FFCC80);" onclick="changeTheme('linear-gradient(45deg, #FFE0B2, #FFCC80)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #C5E1A5, #AED581);" onclick="changeTheme('linear-gradient(45deg, #C5E1A5, #AED581)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #FFCAED, #FF7BED);" onclick="changeTheme('linear-gradient(45deg, #FFCAED, #FF7BED)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #8E44AD, #C39BD3);" onclick="changeTheme('linear-gradient(45deg, #8E44AD, #C39BD3)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #34495E, #2C3E50);" onclick="changeTheme('linear-gradient(45deg, #34495E, #2C3E50)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #FF3636, #FC506E);" onclick="changeTheme('linear-gradient(45deg, #FF3636, #FC506E)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #B41FFF, #FF75CF);" onclick="changeTheme('linear-gradient(45deg, #B41FFF, #FF75CF)')"></div>
+                    <div class="color" style="background: linear-gradient(45deg, #2A4EFF, #21E1FF);" onclick="changeTheme('linear-gradient(45deg, #2A4EFF, #21E1FF)')"></div>
+                </div>
+            </div>
+            <div>
+                Images:
+                <div id="imagesContainer">
+                    <img src="" alt="bg-picture" class="bgPicture" onclick="changeTheme('none')">
+                    <img src="" alt="bg-picture" class="bgPicture" onclick="changeTheme('picture-1')">
+                    <img src="" alt="bg-picture" class="bgPicture" onclick="changeTheme('picture-2')">
+                    <img src="" alt="bg-picture" class="bgPicture" onclick="changeTheme('picture-3')">
+                    <img src="" alt="bg-picture" class="bgPicture" onclick="changeTheme('picture-4')">
+                    <img src="" alt="bg-picture" class="bgPicture" onclick="changeTheme('picture-5')">
+                    <img src="" alt="bg-picture" class="bgPicture" onclick="changeTheme('picture-6')">
+                    <img src="" alt="bg-picture" class="bgPicture" onclick="changeTheme('picture-7')">
+                    <img src="" alt="bg-picture" class="bgPicture" onclick="changeTheme('picture-8')">
+                    <img src="" alt="bg-picture" class="bgPicture" onclick="changeTheme('picture-9')">
+                    <img src="" alt="bg-picture" class="bgPicture" onclick="changeTheme('picture-10')">
+                    <img src="" alt="bg-picture" class="bgPicture" onclick="changeTheme('picture-11')">
+                </div>
+            </div>
+            <div>
+                Accent Color:
+                <div id="textColorsContainer">
+                    <div class="color" style="background-color: #333333;" onclick="changeAccentColor('#333333')"></div>
+                    <div class="color" style="background-color: #000000;" onclick="changeAccentColor('#000000')"></div>
+                    <div class="color" style="background-color: #ffffff;" onclick="changeAccentColor('#ffffff')"></div>
+                    <div class="color" style="background-color: red;" onclick="changeAccentColor('red')"></div>
+                    <div class="color" style="background-color: orange;" onclick="changeAccentColor('orange')"></div>
+                    <div class="color" style="background-color: yellow;" onclick="changeAccentColor('yellow')"></div>
+                    <div class="color" style="background-color: green;" onclick="changeAccentColor('green')"></div>
+                    <div class="color" style="background-color: blue;" onclick="changeAccentColor('blue')"></div>
+                    <div class="color" style="background-color: indigo;" onclick="changeAccentColor('indigo')"></div>
+                    <div class="color" style="background-color: violet;" onclick="changeAccentColor('violet')"></div>
+                </div>
+            </div>
+        </div>
+        <div class="setting">
+            <div>
+                Apps Per Row
+            </div>
+            <div id="appsPerRowContainer">
+                <div onclick="changeAppsPerRow(-1)">-</div>
+                <input type="number" id="appsPerRow" name="appsPerRow" value="4" max="8" min="1">
+                <div onclick="changeAppsPerRow(1)">+</div>
+            </div>
+        </div>
+        <div class="setting">
+            <div>
+                Add An App
+            </div>
+            <form id="addAppContainer">
+                <div>
+                    <div>Title:</div>
+                    <input type="text" id="newAppTitle" name="newAppTitle" value="" placeholder="App Name" autocomplete="off" required>
+                </div>
+                <div>
+                    <div>URL or Desktop App:</div>
+                    <input type="text" id="newAppUrl" name="newAppUrl" value="" placeholder="https://example.com" autocomplete="off" required>
+                </div>
+                <div>
+                    <div>Image URL:</div>
+                    <input type="url" id="newAppImage" name="newAppImage" value="" placeholder="https://imgur.com/1a2b3c.jpg" autocomplete="off" required>
+                </div>
+                <div>
+                    <div>Ask For User:</div>
+                    <input id="askForUserTrue" type="radio" name="askForUser" required>
+                    <label>Yes</label>
+                    <input id="askForUserFalse" type="radio" name="askForUser" required>
+                    <label>No</label>
+                </div>
+                <button type="submit">Add App</button>
+            </form>
+        </div>
+        <div class="setting">
+            <div>
+                Delete An App
+            </div>
+            <form id="deleteAppContainer">
+                <div>
+                    <div>Select An App To Delete:</div>
+                    <select name="appToDelete" id="appToDelete" required>
+                        <option value="" disabled>Select An App</option>
+                    </select>
+                </div>
+                <button type="submit">Delete App</button>
+            </form>
+        </div>
+        <div class="setting">
+            <div>
+                Add A User
+            </div>
+            <form id="addUserContainer">
+                <div>
+                    <div>Username:</div>
+                    <input type="text" id="newUserUsername" name="newUserUsername" value="" placeholder="Username" autocomplete="off" required>
+                </div>
+                <div>
+                    <div>Password:</div>
+                    <input type="password" id="newUserPassword" name="newUserPassword" value="" placeholder="Password" autocomplete="off" required>
+                </div>
+                <button type="submit">Add User</button>
+            </form>
+        </div>
+        <div class="setting">
+            <div>
+                Delete A User
+            </div>
+            <form id="deleteUserContainer">
+                <div>
+                    <div>Select A User To Delete:</div>
+                    <select name="userToDelete" id="userToDelete" required>
+                        <option value="" disabled>Select A User</option>
+                    </select>
+                </div>
+                <button type="submit">Delete User</button>
+            </form>
+        </div>
+        <div class="setting">
+            <div>
+                Recover An App
+            </div>
+            <form id="recoverAppContainer">
+                <div>
+                    <div>Select An App To Recover:</div>
+                    <select name="appToRecover" id="appToRecover" required>
+                        <option value="" disabled>Select An App</option>
+                    </select>
+                </div>
+                <button type="submit">Recover App</button>
+            </form>
+        </div>
+        <div class="setting">
+            <div>
+                Advanced Options
+            </div>
+            <div id="advancedOptionsContainer">
+
+                <button onclick="document.location.href = document.location.href">Refresh Page</button>
+                <button onclick="showDesktop()">Show Desktop</button>
+                <button onclick="resetSettings()">Reset Settings</button>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <div id="userDrawer" class="offScreen">
+        <div id="closeUserDrawer" class="button" onclick="closeUserDrawer()">Close</div>
+    </div>
+
+    <div id="preventInput" class="hidden"></div>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
