@@ -253,7 +253,7 @@ function addNewApp() {
 
   addApp(appName, launchUrl, imageUrl, askForUser);
 
-  showNotification('Successfully added new app!');
+  showNotification('Successfully added new app: ' + appName);
 
   document.querySelector("#newAppTitle").value = '';
   document.querySelector("#newAppUrl").value = '';
@@ -317,21 +317,23 @@ function launchApp(launchUrl, askForUser) {
 async function getAllApps(checkTheServer = false) {
   /* gets all of the apps from the server or from the local storage */
 
+  var localApps = getLocalStorage('apps') || [];
+  console.log(localApps)
+
   if (checkTheServer) {
     // get all the apps from the server
     var url = appsScriptBaseUrl + "?exec=getApps";
     var response = await fetch(url);
     var data = await response.json();
     var serverApps = data.appsList;
+    var appsList = mergeAppLists(serverApps, localApps);
   } else {
-    var serverApps = [];
+    var appsList = localApps;
   }
 
-  var localApps = getLocalStorage('apps') || [];
-  console.log(localApps)
 
-  var appsList = mergeAppLists(serverApps, localApps);
   console.log(appsList)
+
 
   // remove all the apps first
   var currentApps = document.querySelectorAll('.app');
@@ -363,22 +365,24 @@ function deleteApp() {
 
   var appToDeleteElem = document.querySelector("#appToDelete");
   var appToDelete = appToDeleteElem.value;
+  var appIndex = appToDeleteElem.selectedIndex - 1;
 
   var apps = getLocalStorage('apps');
-  for (var i = 0; i < apps.length; i++) {
-    var name = apps[i].name;
-    var defaultApp = apps[i].defaultApp;
-    if (name == appToDelete) {
-      if (defaultApp) {
-        apps[i].removed = true;
-      } else {
-        console.log('not default')
-        apps.splice(i, 1);
-      }
-      break;
+  var name = apps[appIndex].name;
+  var defaultApp = apps[appIndex].defaultApp;
+  if (name == appToDelete) {
+    if (defaultApp) {
+      apps[appIndex].removed = true;
+    } else {
+      // not default
+      apps.splice(appIndex, 1);
     }
+  } else {
+    showNotification('Error: the app ' + appToDelete + ' could not be found at index ' + appIndex);
+    return;
   }
 
+  showNotification('Successfully deleted app: ' + appToDelete);
   setLocalStorage('apps', apps);
   adjustDropdowns();
   getAllApps();
@@ -400,27 +404,70 @@ function recoverApp() {
     }
   }
 
+  showNotification('Successfully recovered app: ' + recoverAppName);
   setLocalStorage('apps', apps);
   adjustDropdowns();
   getAllApps();
 
 }
 
-function mergeAppLists(list1, list2) {
-  const mergedMap = new Map();
+function mergeAppLists(serverAppsList, localAppsList) {
 
-  [...list1, ...list2].forEach(app => {
-    const key = JSON.stringify({
-      ...app,
-      removed: undefined
-    }); // Ignore "removed" for uniqueness
+  var acceptedLocalApps = [];
+  //var serverAppsList = JSON.parse(JSON.stringify(serverApps));
+  //var localAppsList = JSON.parse(JSON.stringify(localApps));
 
-    if (!mergedMap.has(key) || app.removed) {
-      mergedMap.set(key, app); // Store or replace with "removed": true version
+  for (var i = 0; i < localAppsList.length; i++) {
+    var localApp = localAppsList[i];
+    var foundOnServer = false;
+    for (var j = 0; j < serverAppsList.length; j++) {
+      var serverApp = serverAppsList[j];
+
+      // if the local app and server app have the same name
+      console.log("local app " + i)
+      console.log("server app " + j)
+      console.log(localApp.name)
+      console.log(serverApp.name)
+      console.log(localApp.defaultApp)
+      console.log(serverApp.defaultApp)
+      if (localApp.name == serverApp.name && localApp.defaultApp == serverApp.defaultApp) {
+        console.log(localApp.name + ' is on the list')
+        var foundOnServer = true;
+
+        // check to see if the local app is hidden
+        if (localApp.removed) {
+          serverApp.removed = true;
+        }
+        break;
+      }
     }
+
+
+    if (!foundOnServer) {
+      // the local app was not found on the server, so add it to the accepted list with defaultApp as false
+      console.log(localApp.name + ' was not found on the server apps list, so it will be added');
+      localApp.defaultApp = false;
+      acceptedLocalApps.push(localApp);
+    }
+
+  }
+  console.log("server apps: ")
+  console.log(serverAppsList)
+  console.log("accepted local apps: ")
+  console.log(acceptedLocalApps)
+  // combine the two lists
+  var mergedApps = serverAppsList.concat(acceptedLocalApps);
+  console.log(mergedApps)
+
+  // remove duplicates
+  let seen = new Map();
+  let finalApps = mergedApps.filter(app => {
+    let key = app.name + '-' + app.defaultApp;
+    return seen.has(key) ? false : seen.set(key, true);
   });
 
-  return Array.from(mergedMap.values());
+  return finalApps;
+
 }
 
 
@@ -515,7 +562,7 @@ async function addNewUser() {
     return;
   }
 
-  showNotification('Successfully added new user!');
+  showNotification('Successfully added new user: ' + username);
   usernameElem.value = '';
   passwordElem.value = '';
   preventInputElem.classList.add('hidden');
@@ -548,7 +595,7 @@ function deleteUser() {
 
   setLocalStorage('users', users);
 
-  showNotification('Successfully deleted user.');
+  showNotification('Successfully deleted user: ' + selectedUser);
   adjustDropdowns();
   placeUsersInDrawer();
 }

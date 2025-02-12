@@ -189,6 +189,20 @@
         </div>
         <div class="setting">
             <div>
+                Recover An App
+            </div>
+            <form id="recoverAppContainer">
+                <div>
+                    <div>Select An App To Recover:</div>
+                    <select name="appToRecover" id="appToRecover" required>
+                        <option value="" disabled>Select An App</option>
+                    </select>
+                </div>
+                <button type="submit">Recover App</button>
+            </form>
+        </div>
+        <div class="setting">
+            <div>
                 Add A User
             </div>
             <form id="addUserContainer">
@@ -219,27 +233,14 @@
         </div>
         <div class="setting">
             <div>
-                Recover An App
-            </div>
-            <form id="recoverAppContainer">
-                <div>
-                    <div>Select An App To Recover:</div>
-                    <select name="appToRecover" id="appToRecover" required>
-                        <option value="" disabled>Select An App</option>
-                    </select>
-                </div>
-                <button type="submit">Recover App</button>
-            </form>
-        </div>
-        <div class="setting">
-            <div>
                 Advanced Options
             </div>
             <div id="advancedOptionsContainer">
 
                 <button onclick="document.location.href = document.location.href">Refresh Page</button>
-                <button onclick="showDesktop()">Show Desktop</button>
                 <button onclick="resetSettings()">Reset Settings</button>
+                <button onclick="syncUserSettings()">Sync User Settings</button>
+                <button onclick="showDesktop()">Show Desktop</button>
 
             </div>
         </div>
