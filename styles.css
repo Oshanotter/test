@@ -38,11 +38,29 @@ button:hover, .button:hover {
 #preventInput {
   width: 100vw;
   height: 100vh;
+  z-index: 99;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+#loadingOverlay {
+  width: 100vw;
+  height: 100vh;
   z-index: 9999;
   position: fixed;
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  >img {
+    width: 10vw;
+    aspect-ratio: 1 / 1;
+  }
 }
 
 #header {
@@ -149,6 +167,7 @@ button:hover, .button:hover {
 
   >div:first-of-type {
     font-size: 2em;
+    margin-bottom: 1vh;
   }
 }
 
@@ -230,6 +249,7 @@ button:hover, .button:hover {
     color: var(--accent-color);
     font-size: 1em;
     cursor: pointer;
+    margin-top: 1vh;
   }
 }
 
@@ -262,7 +282,7 @@ button:hover, .button:hover {
   padding: 3vh;
   padding-bottom: 5vw;
   transition: bottom 0.5s ease-in-out;
-  z-index: 99999;
+  z-index: 999;
   display: flex;
   flex-direction: row;
   justify-content: center;

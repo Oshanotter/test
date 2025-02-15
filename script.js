@@ -25,6 +25,9 @@ function main() {
   updateTime()
   setInterval(updateTime, 1000);
 
+  // create the guest profile in firefox if this is the first time visiting the website
+  installGuestProfile();
+
   // add all the apps to the app container
   getAllApps();
 
@@ -132,7 +135,6 @@ function addListeners() {
   // add a listener for the appsPerRow input
   var appsPerRowInput = document.getElementById('appsPerRow');
   appsPerRowInput.addEventListener('input', function() {
-    console.log('hi')
     var appsPerRow = parseInt(appsPerRowInput.value, 10);
     document.documentElement.style.setProperty('--apps-per-row', appsPerRow);
   });
@@ -140,8 +142,6 @@ function addListeners() {
   // add listener for when the Add App button is pressed
   document.getElementById("addAppContainer").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevents the page from reloading
-    // Your code to handle form submission goes here
-    console.log("Form submitted!");
     addNewApp();
   });
 
@@ -149,32 +149,24 @@ function addListeners() {
   // add listener for when the Delete App button is pressed
   document.getElementById("deleteAppContainer").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevents the page from reloading
-    // Your code to handle form submission goes here
-    console.log("Form submitted!");
     deleteApp();
   });
 
   // add listener for when the Add User button is pressed
   document.getElementById("addUserContainer").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevents the page from reloading
-    // Your code to handle form submission goes here
-    console.log("Form submitted!");
     addNewUser();
   });
 
   // add listener for when the Delete User button is pressed
   document.getElementById("deleteUserContainer").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevents the page from reloading
-    // Your code to handle form submission goes here
-    console.log("Form submitted!");
     deleteUser();
   });
 
   // add listener for when the Recover App button is pressed
   document.getElementById("recoverAppContainer").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevents the page from reloading
-    // Your code to handle form submission goes here
-    console.log("Form submitted!");
     recoverApp();
   });
 
@@ -288,9 +280,6 @@ function addApp(name, launchUrl, imageUrl, askForUser) {
 function launchApp(launchUrl, askForUser) {
   /* launches the specified app and asks for the user if specified to do so */
 
-  console.log(launchUrl)
-  console.log(askForUser)
-
   if (askForUser) {
     var userDrawer = document.getElementById('userDrawer');
     userDrawer.classList.remove('offScreen');
@@ -303,13 +292,16 @@ function launchApp(launchUrl, askForUser) {
       let name = user.dataset.userName;
       user.onclick = function() {
         document.location.href = "launcher://firefox/" + name + "/" + launchUrl;
+        showTempOverlay("There may have been a problem launching this app for this user.");
       };
     }
   } else {
     if (launchUrl.includes('https://')) {
-      document.location.href = "launcher://firefox/Guest/" + launchUrl;
+      document.location.href = "launcher://firefox/fec.guest/" + launchUrl;
+      showTempOverlay("There may have been a problem launching this app for this user.");
     } else {
       document.location.href = "launcher://" + launchUrl;
+      showTempOverlay("There may have been a problem launching this app.");
     }
   }
 }
@@ -318,7 +310,6 @@ async function getAllApps(checkTheServer = false) {
   /* gets all of the apps from the server or from the local storage */
 
   var localApps = getLocalStorage('apps') || [];
-  console.log(localApps)
 
   if (checkTheServer) {
     // get all the apps from the server
@@ -330,9 +321,6 @@ async function getAllApps(checkTheServer = false) {
   } else {
     var appsList = localApps;
   }
-
-
-  console.log(appsList)
 
 
   // remove all the apps first
@@ -414,8 +402,6 @@ function recoverApp() {
 function mergeAppLists(serverAppsList, localAppsList) {
 
   var acceptedLocalApps = [];
-  //var serverAppsList = JSON.parse(JSON.stringify(serverApps));
-  //var localAppsList = JSON.parse(JSON.stringify(localApps));
 
   for (var i = 0; i < localAppsList.length; i++) {
     var localApp = localAppsList[i];
@@ -424,14 +410,7 @@ function mergeAppLists(serverAppsList, localAppsList) {
       var serverApp = serverAppsList[j];
 
       // if the local app and server app have the same name
-      console.log("local app " + i)
-      console.log("server app " + j)
-      console.log(localApp.name)
-      console.log(serverApp.name)
-      console.log(localApp.defaultApp)
-      console.log(serverApp.defaultApp)
       if (localApp.name == serverApp.name && localApp.defaultApp == serverApp.defaultApp) {
-        console.log(localApp.name + ' is on the list')
         var foundOnServer = true;
 
         // check to see if the local app is hidden
@@ -445,19 +424,14 @@ function mergeAppLists(serverAppsList, localAppsList) {
 
     if (!foundOnServer) {
       // the local app was not found on the server, so add it to the accepted list with defaultApp as false
-      console.log(localApp.name + ' was not found on the server apps list, so it will be added');
       localApp.defaultApp = false;
       acceptedLocalApps.push(localApp);
     }
 
   }
-  console.log("server apps: ")
-  console.log(serverAppsList)
-  console.log("accepted local apps: ")
-  console.log(acceptedLocalApps)
+
   // combine the two lists
   var mergedApps = serverAppsList.concat(acceptedLocalApps);
-  console.log(mergedApps)
 
   // remove duplicates
   let seen = new Map();
@@ -475,7 +449,7 @@ function placeUsersInDrawer() {
   /* adds users to the user drawer */
 
   var guestDict = {
-    "name": "Guest",
+    "name": "fec.guest",
     "imgUrl": "https://i.imgur.com/m5oAfKK.jpeg"
   };
 
@@ -486,19 +460,20 @@ function placeUsersInDrawer() {
   }
 
   var users = getLocalStorage('users');
-  console.log(users)
   if (users) {
     users.unshift(guestDict);
-    console.log(users)
   } else {
     var users = [guestDict];
   }
 
-  console.log(users)
 
   for (var i = 0; i < users.length; i++) {
     var user = users[i];
-    var displayName = user.name.replace(/\./g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    if (user.name == "fec.guest") {
+      var displayName = "Guest";
+    } else {
+      var displayName = user.name.replace(/\./g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    }
     var mainDiv = document.createElement('div');
     mainDiv.classList.add('userIcon');
     mainDiv.classList.add('button');
@@ -528,8 +503,8 @@ function stringToHash(string) {
 async function addNewUser() {
   /* adds a new user to the local storage as well as firefox */
 
-  var preventInputElem = document.getElementById('preventInput');
-  preventInputElem.classList.remove('hidden');
+  var loadingOverlayElem = document.getElementById('loadingOverlay');
+  loadingOverlayElem.classList.remove('hidden');
 
   var usernameElem = document.querySelector("#newUserUsername");
   var passwordElem = document.querySelector("#newUserPassword");
@@ -544,28 +519,31 @@ async function addNewUser() {
 
   if (isAlreadyInList) {
     showNotification('Error: that user is already added');
-    preventInputElem.classList.add('hidden');
+    loadingOverlayElem.classList.add('hidden');
     return;
   }
 
   // make a request to the google apps script
   var url = appsScriptBaseUrl + "?exec=getUserProfileImage&username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(passwordHash);
-  console.log(url)
+  //console.log(url)
   var response = await fetch(url);
   var data = await response.json();
-  console.log(data)
+  //console.log(data)
   var imageUrl = data.profileImage;
   if (!imageUrl) {
     var errorMessage = data.error;
     showNotification("Error: " + errorMessage);
-    preventInputElem.classList.add('hidden');
+    loadingOverlayElem.classList.add('hidden');
     return;
   }
+
+  // make the launcher request
+  document.location.href = "launcher://createProfile/" + username;
 
   showNotification('Successfully added new user: ' + username);
   usernameElem.value = '';
   passwordElem.value = '';
-  preventInputElem.classList.add('hidden');
+  loadingOverlayElem.classList.add('hidden');
 
   var newUserDict = {
     "name": username,
@@ -585,7 +563,6 @@ function deleteUser() {
   var selectedUserElem = document.querySelector("#userToDelete");
   var selectedUser = selectedUserElem.value;
 
-  console.log(selectedUser);
   var users = getLocalStorage('users') || [];
 
   var index = users.findIndex(user => user.name === selectedUser);
@@ -699,5 +676,52 @@ function addBackgroundImages() {
   }
 }
 
+function syncUserSettings() {
+  /* attempts to call the launcher and request that all profiles be synced */
+
+  var loadingOverlay = document.getElementById('loadingOverlay');
+  loadingOverlay.classList.remove('hidden');
+
+  // make the launcher request
+  document.location.href = "launcher://syncAllProfiles";
+
+  setTimeout(function() {
+
+    loadingOverlay.classList.add('hidden');
+    showNotification('A request was made to sync all profile settings.');
+
+  }, 3000);
+}
+
+function showDesktop() {
+  /* shows the desktop by calling launcher and closing all firefox instances */
+
+  document.location.href = "launcher://closeFirefox";
+
+}
+
+function installGuestProfile() {
+  /* calls launcher and attempts to make the guest profile if the user doesn't have any data in local storage */
+
+  var apps = getLocalStorage('apps');
+  if (!apps || apps.length == 0) {
+    document.location.href = "launcher://createProfile/fec.guest";
+  }
+
+}
+
+function showTempOverlay(message) {
+  /* shows the loadingOverlay for a short amount of time then displays an error message */
+
+  var loadingOverlay = document.getElementById('loadingOverlay');
+  loadingOverlay.classList.remove('hidden');
+
+  setTimeout(function() {
+    loadingOverlay.classList.add('hidden');
+    closeUserDrawer();
+    showNotification(message);
+  }, 10000);
+
+}
 
 main();
