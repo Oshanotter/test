@@ -5,6 +5,7 @@
   --bg-image: '';
   /* Default color */
   --apps-per-row: 4;
+  --app-font-size: 1em;
 }
 
 * {
@@ -109,27 +110,41 @@ button:hover, .button:hover {
 
 .app {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  background-color: #444;
-  border-radius: 2vw;
-  overflow: hidden;
   position: relative;
   transition: transform 0.3s ease;
   cursor: pointer;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 1vh 2vw rgba(0, 0, 0, 0.4);
+
+  >img {
+    width: 100%;
+    object-fit: cover;
+    aspect-ratio: 16 / 9;
+    border-radius: 2vw;
+    box-shadow: 0 1vh 2vw rgba(0, 0, 0, 0.4);
+  }
+
+  >div {
+    margin-top: calc(var(--app-font-size) / 6);
+    height: var(--app-font-size);
+
+    >div {
+      display: none;
+      font-size: var(--app-font-size);
+    }
+  }
 }
 
 .app:hover {
   transform: scale(1.1);
-}
 
-.app img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  >div {
+    >div {
+      display: block;
+    }
+  }
 }
 
 #footer {

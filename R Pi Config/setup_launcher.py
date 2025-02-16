@@ -1,5 +1,6 @@
 import os
 import subprocess
+import shutil
 import zipfile
 import urllib.request
 import configparser
@@ -11,9 +12,12 @@ APPLICATIONS_DIR = os.path.join(HOME_DIR, ".local/share/applications")
 DESKTOP_FILE_PATH = os.path.join(APPLICATIONS_DIR, "launcher.desktop")
 MIMEAPPS_FILE_PATH = os.path.join(APPLICATIONS_DIR, "mimeapps.list")
 HANDLER_SCRIPT_PATH = os.path.join(HOME_DIR, "launcher.py")
-AUTOSTART_PATH = "/home/pi/.config/lxsession/LXDE-pi/autostart"
-AUTOSTART_FIREFOX_COMMAND = '@firefox -P "backup.profile" --no-remote --new-instance --kiosk "https://oshanotter.github.io/test"\n'
+FEC_HOME_PAGE = "https://oshanotter.github.io/test"
+SOURCE_AUTOSTART_PATH = "/etc/xdg/lxsession/LXDE-pi/autostart"
+DEST_AUTOSTART_PATH = ".config/lxsession/LXDE-pi/autostart"
+AUTOSTART_FIREFOX_COMMAND = "@firefox -P backup.profile --kiosk " + FEC_HOME_PAGE + "\n"
 BACKUP_PROFILE_URL = "https://github.com/Oshanotter/test/raw/refs/heads/main/R%20Pi%20Config/backup.profile.zip"
+FEC_ICON = "https://i.imgur.com/RTyFUCz.png"
 
 def create_launcher_script():
     """
@@ -124,7 +128,6 @@ def sync_firefox_settings(source_profile="backup.profile"):
             src_file = os.path.join(source_path, file)
             dest_file = os.path.join(profile_path, file)
             if os.path.exists(src_file):
-                print(src_file)
                 shutil.copy2(src_file, dest_file)
 
         # Copy entire folders
@@ -138,8 +141,9 @@ def sync_firefox_settings(source_profile="backup.profile"):
 
 def main():
     if len(sys.argv) < 2:
-        print("No URL provided.")
-        sys.exit(1)
+        print("Launching the Forst Entertainment Center...")
+        subprocess.run(['firefox', '-P', 'backup.profile', '--kiosk', '""" + FEC_HOME_PAGE + """'])
+        sys.exit(0)
 
     # Extract the launcher URL
     url = sys.argv[1]
@@ -227,16 +231,27 @@ if __name__ == "__main__":
         f.write(launcher_script_content)
     os.chmod(HANDLER_SCRIPT_PATH, 0o755)
 
+
 def create_desktop_file():
     """
     Create the .desktop file to register the 'launcher://' URL scheme.
     """
+    ICON_PATH = os.path.join(APPLICATIONS_DIR, "FEC_icon.png")
+
+    # Download the FEC icon for the .desktop file
+    try:
+        urllib.request.urlretrieve(FEC_ICON, ICON_PATH)
+    except Exception as e:
+        print(f"Failed to download icon: {e}")
+
     desktop_file_content = f"""[Desktop Entry]
-Name=Launcher Handler
+Name=Forst Entertainment Cneter
 Exec={HANDLER_SCRIPT_PATH} %u
 Type=Application
 MimeType=x-scheme-handler/launcher;
+Icon={ICON_PATH}
 """
+
     os.makedirs(APPLICATIONS_DIR, exist_ok=True)
     with open(DESKTOP_FILE_PATH, "w") as f:
         f.write(desktop_file_content)
@@ -267,10 +282,11 @@ def setup_launcher():
     create_mimeapps_list()
     print("Registering the custom URL scheme...")
     register_url_scheme()
-    print("Setup complete! Use launcher://<app_name> to open apps.")
+    print("\nSetup complete! Use launcher://<app_name> to open apps.")
     print("For example, use launcher://firefox/userName/https://youtube.com to launch Firefox in kiosk mode.")
     print("To create a new Firefox profile, use launcher://createProfile/NewProfileName")
     print("To sync all Firefox profiles, use launcher://syncAllProfiles")
+    print() # Newline
 
 
 
@@ -284,44 +300,37 @@ def setup_launcher():
 
 
 def enable_autostart():
-    """Adds Firefox kiosk mode to the autostart file, preventing duplicate entries."""
-    os.makedirs(os.path.dirname(AUTOSTART_PATH), exist_ok=True)
+    """Copies the default autostart file and adds Firefox kiosk mode."""
+    os.makedirs(os.path.dirname(DEST_AUTOSTART_PATH), exist_ok=True)
 
-    if os.path.exists(AUTOSTART_PATH):
-        with open(AUTOSTART_PATH, "r") as file:
-            content = file.readlines()
+    shutil.copy(SOURCE_AUTOSTART_PATH, DEST_AUTOSTART_PATH)
 
-        if AUTOSTART_FIREFOX_COMMAND in content:
-            print("Autostart entry already exists. No changes made.")
-            return
+    with open(DEST_AUTOSTART_PATH, "r") as file:
+        content = file.readlines()
 
-    with open(AUTOSTART_PATH, "a") as file:
+    if AUTOSTART_FIREFOX_COMMAND in content:
+        print("FEC autostart entry already exists. No changes made.\n")
+        return
+
+    with open(DEST_AUTOSTART_PATH, "a") as file:
         file.write(AUTOSTART_FIREFOX_COMMAND)
 
-    print("Firefox autostart enabled! Reboot your Raspberry Pi to apply changes.")
-
+    print("FEC autostart enabled! Reboot to apply changes.\n")
 
 def disable_autostart():
-    """Removes Firefox kiosk mode from the autostart file."""
-    if os.path.exists(AUTOSTART_PATH):
-        with open(AUTOSTART_PATH, "r") as file:
-            lines = file.readlines()
-
-        with open(AUTOSTART_PATH, "w") as file:
-            for line in lines:
-                if line.strip() != AUTOSTART_FIREFOX_COMMAND.strip():
-                    file.write(line)
-
-        print("Firefox autostart disabled. Reboot to apply changes.")
+    """Removes the autostart file entirely."""
+    if os.path.exists(DEST_AUTOSTART_PATH):
+        os.remove(DEST_AUTOSTART_PATH)
+        print("FEC autostart file deleted. Reboot to apply changes.\n")
     else:
-        print("Autostart file not found. Nothing to remove.")
+        print("FEC autostart file not found. No changes made.\n")
 
 def install_backup_profile():
     """Installs the backup.profile to Firefox from GitHub"""
     # Define URLs and paths
-    download_path = Path.home() / "backup.profile.zip"
-    extract_path = Path.home() / "backup.profile"
-    firefox_profiles_path = Path.home() / ".mozilla/firefox"
+    download_path = os.path.expanduser("~/backup.profile.zip")
+    extract_path = os.path.expanduser("~/backup.profile")
+    firefox_profiles_path = os.path.expanduser("~/.mozilla/firefox")
     profiles_ini_path = firefox_profiles_path / "profiles.ini"
     new_profile_name = "backup.profile"
 
@@ -381,7 +390,6 @@ def install_backup_profile():
     print("Firefox profile installed successfully.")
 
 
-
 def ask_question(question, accepted_answers):
     """
     Asks the user a question and validates the response.
@@ -425,6 +433,7 @@ def main():
     elif install_profile_answer == 'Exit':
         print("Exiting program.")
         return
+
 
     # Setup the launcher script that handles launcher:// links
     setup_launcher()

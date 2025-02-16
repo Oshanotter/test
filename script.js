@@ -110,7 +110,9 @@ function adjustPreferences() {
 
   var appsPerRow = getLocalStorage('preferences.appsPerRow');
   if (appsPerRow) {
-    document.documentElement.style.setProperty('--apps-per-row', appsPerRow);
+    var inputTag = document.getElementById('appsPerRow');
+    inputTag.value = appsPerRow;
+    changeAppsPerRow(0);
   }
 
   var accentColor = getLocalStorage('preferences.accentColor');
@@ -184,6 +186,10 @@ function changeAppsPerRow(num) {
 
   appsPerRowInput.value = newAppsPerRow;
   document.documentElement.style.setProperty('--apps-per-row', newAppsPerRow);
+
+  // change the font size as well
+  var fontSizeList = ['2em', '1.75em', '1.5em', '1.25em', '1em', '0.8em', '0.7em', '0.6em'];
+  document.documentElement.style.setProperty('--app-font-size', fontSizeList[newAppsPerRow - 1]);
 
   setLocalStorage('preferences.appsPerRow', newAppsPerRow);
 }
@@ -272,8 +278,15 @@ function addApp(name, launchUrl, imageUrl, askForUser) {
   imgElem.src = imageUrl;
   imgElem.alt = name + " Logo";
 
+  // create the title div
+  var titleDiv = document.createElement('div');
+  titleDiv.innerText = name;
+  var titleDivContainer = document.createElement('div');
+  titleDivContainer.appendChild(titleDiv);
+
   // add the elements to the container
   mainDiv.appendChild(imgElem);
+  mainDiv.appendChild(titleDivContainer);
   appsContainer.appendChild(mainDiv);
 }
 
