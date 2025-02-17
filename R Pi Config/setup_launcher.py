@@ -17,7 +17,7 @@ SOURCE_AUTOSTART_PATH = "/etc/xdg/lxsession/LXDE-pi/autostart"
 DEST_AUTOSTART_PATH = ".config/lxsession/LXDE-pi/autostart"
 AUTOSTART_FIREFOX_COMMAND = "@firefox -P backup.profile --kiosk " + FEC_HOME_PAGE + "\n"
 BACKUP_PROFILE_URL = "https://github.com/Oshanotter/test/raw/refs/heads/main/R%20Pi%20Config/backup.profile.zip"
-FEC_ICON = "https://i.imgur.com/RTyFUCz.png"
+FEC_ICON = "https://github.com/Oshanotter/test/raw/refs/heads/main/media/icons/fec_logo_rounded.png"
 
 def create_launcher_script():
     """

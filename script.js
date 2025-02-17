@@ -1,19 +1,6 @@
 // declare some global variables
 var appsScriptBaseUrl = 'https://script.google.com/macros/s/AKfycbyFDxOpK9tZyuQWtzqPV7zXe979LLQSk288L4p5kIizBDGcLKRPX9YMfbNveG2tvyZ9bw/exec';
-var bgDict = {
-  0: "https://i.imgur.com/V6FHjNl.jpeg",
-  1: "https://i.imgur.com/e4bz6Rw.jpeg",
-  2: "https://i.imgur.com/EaxfZw6.jpeg",
-  3: "https://i.imgur.com/4mcscpP.jpeg",
-  4: "https://i.imgur.com/qwRHfFO.jpeg",
-  5: "https://i.imgur.com/Hqohrb4.jpeg",
-  6: "https://i.imgur.com/acNxKVC.jpeg",
-  7: "https://i.imgur.com/6pWQdRK.jpeg",
-  8: "https://i.imgur.com/pUvs45B.jpeg",
-  9: "https://i.imgur.com/kl1HthJ.jpeg",
-  10: "https://i.imgur.com/uV1742U.jpeg",
-  11: "https://i.imgur.com/sMh3Bzn.jpeg"
-}
+
 
 function main() {
   /* the main function */
@@ -73,7 +60,7 @@ function changeTheme(theme) {
   if (theme.includes('picture-')) {
     // use the specified picture
     var num = theme.match(/\d+/)[0];
-    var url = bgDict[num];
+    var url = "media/backgrounds/bg_" + num + ".jpg";
 
     //body.style.backgroundImage = "url('" + url + "')";
     document.documentElement.style.setProperty('--bg-image', "url('" + url + "')");
@@ -683,8 +670,8 @@ function addBackgroundImages() {
 
   var imagesContainer = document.querySelector("#imagesContainer");
   var imageElements = imagesContainer.children;
-  for (var i = 0; i < imageElements.length; i++) {
-    var url = bgDict[i];
+  for (var i = 1; i < imageElements.length; i++) {
+    var url = "media/backgrounds/bg_" + i + ".jpg";
     imageElements[i].src = url;
   }
 }
