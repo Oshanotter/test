@@ -1,12 +1,6 @@
 # Raspberry Pi Setup Instructions
 
-This guide will walk you through the steps to switch to X11, install `xdotool`, and download and run the `setup_launcher.py` script on a Raspberry Pi.
-
-Need pynput: sudo apt install python3-pynput
-
-Need cec-utils: sudo apt install cec-utils
-
-Need tmux: sudo apt install tmux
+This guide will walk you through the steps to switch to X11 and download and run the `setup_fec.py` script on a Raspberry Pi.
 
 ## Prerequisites
 
@@ -29,49 +23,22 @@ To switch to X11 on a Raspberry Pi:
    sudo raspi-config
    ```
 3. Navigate to `Advanced Options`.
-4. Select `X11` from the `Wayland` option.
-5. Reboot your Raspberry Pi to apply the changes:
-   ```bash
-   sudo reboot
-   ```
+4. Navigate to the `Wayland` option.
+5. Select the `X11` option.
+6. Navigate to and select the `<Finish>` option.
+7. You may reboot when it asks you, or you can wait for later, after executing the `setup_fec.py` file.
 
-### 2. Install `xdotool`
 
-`xdotool` is a command-line utility that simulates keyboard input and mouse activity.
+### 2. Download and Run `setup_fec.py`
 
-1. Open a terminal.
-2. Update your package list:
+1. Download the `setup_fec.py` file and place it on your desktop.
+[Download setup_fec.py](helper_scripts/setup_fec.py)
+2. Open the terminal and run the following command:
    ```bash
-   sudo apt update
+   python3 Desktop/setup_fec.py
    ```
-3. Install `xdotool`:
-   ```bash
-   sudo apt install -y xdotool
-   ```
-4. Verify the installation by running:
-   ```bash
-   xdotool -v
-   ```
-
-### 3. Download and Run `setup_launcher.py`
-
-1. Navigate to a directory where you want to store the script:
-   ```bash
-   cd ~/Downloads
-   ```
-2. Download the `setup_launcher.py` script from this repository:
-   ```bash
-   wget https://github.com/your-repo-name/your-repo-name/raw/main/setup_launcher.py
-   ```
-   Replace `your-repo-name` with your actual repository name.
-3. Make the script executable:
-   ```bash
-   chmod +x setup_launcher.py
-   ```
-4. Run the script:
-   ```bash
-   python3 setup_launcher.py
-   ```
+3. The script will install several files and ask you several questions. If you are unsure about what to answer for these questions, just answer `Yes` to all of them.
+4. You may move the `setup_fec.py` file to the trash after this is complete, if you wish.
 
 ---
 
@@ -80,18 +47,21 @@ To switch to X11 on a Raspberry Pi:
 - **If the display server doesn’t switch to X11:**
   Ensure you selected `X11` in the `raspi-config` tool and rebooted the device.
 
-- **If `xdotool` commands fail:**
+- **If Firefox fails to launch in kiosk mode:**
   Ensure you’re running the X11 display server by verifying your session with:
   ```bash
   echo $XDG_SESSION_TYPE
   ```
   This should return `x11`.
 
----
-
-## Contributing
-
-Contributions are welcome! Feel free to submit issues or pull requests to improve this guide or the script.
+- **If the `setup_fec.py` file fails to install the required tools:**
+  pynput, cec-utils, and tmux are tools required to make the FEC function properly.
+  If the `setup_fec.py` file did not install them correctly, manually install them with the following command:
+  ```bash
+  sudo apt install python3-pynput
+  sudo apt install cec-utils
+  sudo apt install tmux
+  ```
 
 ---
 

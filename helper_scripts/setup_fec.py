@@ -217,7 +217,7 @@ def install_required_tools():
         print(f"----------Installing {tool}...")
         subprocess.run(command, check=True)
 
-    print("\n All required tools are installed and updated.\n")
+    print("\nAll required tools are installed and updated.\n")
 
 
 def ask_question(question, accepted_answers):
@@ -240,15 +240,21 @@ def ask_question(question, accepted_answers):
 def main():
     """Asks the user whether they want to enable or disable Firefox autostart."""
 
-    install_tools_answer = ask_question("Additional tools need to be installed to use the Forst Entertainment Center. \nDo you wish to install them?", ["Yes", "No")
+    install_tools_answer = ask_question("Additional tools need to be installed to use the Forst Entertainment Center. \nDo you wish to install them? (Yes/No/Exit)\n", ["Yes", "No", "Exit"])
     if install_tools_answer == "Yes":
         install_required_tools()
+    elif install_tools_answer == 'No':
+        print("----------")
+        print("These tools need to be installed for the FEC to function properly.")
+        print("Skipping the installation or not upgrading may result in the FEC not working.")
+        print("If the tools are already installed, skipping this step should be fine, though they won't be updated.")
+        print("----------")
     else:
-        print("These tools need to be installed for the FEC to function.\nNowExiting...")
+        print("Now Exiting...")
         return
 
     autostart_answer = ask_question(
-        "Do you want to have FEC autostart upon boot? (Yes/No/Exit):\n", ['Yes', 'No', 'Exit'])
+        "Do you want to have the FEC autostart upon boot? (Yes/No/Exit):\n", ['Yes', 'No', 'Exit'])
 
     if autostart_answer == 'Yes':
         enable_autostart()
