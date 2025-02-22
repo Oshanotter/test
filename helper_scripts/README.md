@@ -32,7 +32,7 @@ To switch to X11 on a Raspberry Pi:
 ### 2. Download and Run `setup_fec.py`
 
 1. Download the `setup_fec.py` file and place it on your desktop.
-[Download setup_fec.py](helper_scripts/setup_fec.py)
+[setup_fec.py](setup_fec.py)
 2. Open the terminal and run the following command:
    ```bash
    python3 Desktop/setup_fec.py
@@ -62,9 +62,3 @@ To switch to X11 on a Raspberry Pi:
   sudo apt install cec-utils
   sudo apt install tmux
   ```
-
----
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
