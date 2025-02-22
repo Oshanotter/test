@@ -2,6 +2,12 @@
 
 This guide will walk you through the steps to switch to X11, install `xdotool`, and download and run the `setup_launcher.py` script on a Raspberry Pi.
 
+Need pynput: sudo apt install python3-pynput
+
+Need cec-utils: sudo apt install cec-utils
+
+Need tmux: sudo apt install tmux
+
 ## Prerequisites
 
 Ensure you have:
