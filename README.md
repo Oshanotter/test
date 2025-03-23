@@ -7,7 +7,7 @@ A MacOS app built with Python that allows you to automatically download and tag 
 </br>
 
 > [!NOTE]  
-> This currently has only been tested using a M1 MacBook Air, but it should work on other arm based MacOS machines as well.
+> This currently has only been tested using a M1 MacBook Air, but it should work on other arm based MacOS machines as well. Small modification may be made for this Python code to run on other machines as well.
 
 > [!IMPORTANT]  
 > Your computer may say that the app cannot be run because it is not from a trusted developer. In order to bypass this, you will need to go into `System Settings > Privacy & Security > StreamFetchTagger`, and click `Open Anyway`.
@@ -52,7 +52,27 @@ To run the app, just open the folder and double click on the app like any other 
 
 ### Method 3
 
-This method is for advanced users and requires Python to be installed, as well as all of the imported packages and modules at the beginning of the `StreamFetchTagger.py` file. After Python and all other modules/packages have been installed, download this repository and run the `StreamFetchTagger.py` file with `python3 StreamFetchTagger.py`.
+This method is for advanced users and requires Python to be installed, as well as all of the imported packages and modules at the beginning of the `StreamFetchTagger.py` file. After Python and all other modules/packages have been installed, download this repository and run the `StreamFetchTagger.py` file with `python3 StreamFetchTagger.py`.  
+To compile this code into an app yourself, you will need PyInstaller installed on your computer, then run this command:  
+```sh
+pyinstaller --onefile --windowed --name "StreamFetchTagger" \
+  --add-binary "binaries/ffmpeg:./binaries" \
+  --add-binary "binaries/ffprobe:./binaries" \
+  --add-binary "binaries/AtomicParsley:./binaries" \
+  --add-data "resources/placeholder.png:./resources" \
+  --icon="resources/icon.icns" \
+  StreamFetchTagger.py
+```
+or run this command to compile it in one directory:  
+```sh
+pyinstaller --onedir --windowed --name "StreamFetchTagger" \
+  --add-binary "binaries/ffmpeg:./binaries" \
+  --add-binary "binaries/ffprobe:./binaries" \
+  --add-binary "binaries/AtomicParsley:./binaries" \
+  --add-data "resources/placeholder.png:./resources" \
+  --icon="resources/icon.icns" \
+  StreamFetchTagger.py
+```
 
 ## Usage
 
