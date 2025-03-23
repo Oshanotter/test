@@ -1,6 +1,6 @@
 # StreamFetchTagger
 
-<img align="left" height="65vw" src="mflix/icons/logo.png">
+<img align="left" height="65vw" src="resources/StreamFetchTagger_icon_cropped.png">
 
 A MacOS app built with Python that allows you to automatically download and tag media. StreamFetchTagger is built with Python and utilizes yt-dlp, ffmpeg, ffprobe, AtomicParsley, as well as several Python modules and packages.
 
@@ -29,11 +29,23 @@ A MacOS app built with Python that allows you to automatically download and tag 
 ## Installation
 
 There are three different ways that you can install this project:  
-[Method 1.](#method-1) Download the .app file (simple. runs slower than other methods)
-2. Download the .app file and supporting directories (simple. runs normal speed)
-3. Download all files in this repository and run with Python (more difficult. runs normal speed)  
+1. [Method 1:](#method-1) Download the .app file (simple. runs slower than other methods)
+2. [Method 2:](#method-2) Download the .app file and supporting directories (simple. runs normal speed)
+3. [Method 3:](#method-3) Download all files in this repository and run with Python (more difficult. runs normal speed)  
 
 ### Method 1
+
+This method is simple to setup, but it runs a little slower than the other methods.  
+First head over to the [Releases Page](../../releases/latest) and download the SFT_onefile.zip file.  
+Then you can simply extract it and place the app wherever you want on your machine to run it. 
+
+### Method 2
+
+
+
+### Method 3
+
+
 
 ## Usage
 
