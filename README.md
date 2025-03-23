@@ -19,6 +19,7 @@ A MacOS app built with Python that allows you to automatically download and tag 
 - [Images](#images)
 - [Limitations](#limitations)
 - [License](#license)
+- [Disclaimer](#disclaimer)
 
 ## Features
 
@@ -33,6 +34,7 @@ There are three different ways that you can install this project:
 1. [Method 1:](#method-1) Download the .app file (simple. runs slower than other methods)
 2. [Method 2:](#method-2) Download the .app file and supporting directories (simple. runs normal speed)
 3. [Method 3:](#method-3) Download all files in this repository and run with Python (more difficult. runs normal speed)  
+
 Deciding which method for you is important. I would recommend option 2 for most people as it is still simple and it starts up at a regular speed. Option 1 is the second best choice as it is the simplest, but it starts up slower than the other options. Option 3 is not recommended for most users because it is more for advanced users who know how to code.
 
 ### Method 1
@@ -96,3 +98,9 @@ MP4Box input.m4v \
 
 This project is licensed under the MIT License - meaning that you are free to use, distribute, and edit this project however you see fit!  
 See the [LICENSE](./LICENSE) file for more details.
+
+## Disclaimer
+
+I do not condone or encourage the unauthorized downloading of copyrighted materials. Any such activity is the sole responsibility of the user.  
+
+I do not claim ownership of or authorship for yt-dlp, ffmpeg, ffprobe, AtomicParsley, or any other Python modules and packages used in this project. I extend my gratitude to the developers of these projects for providing the tools that made this project possible.  
