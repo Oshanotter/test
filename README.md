@@ -25,7 +25,7 @@ A MacOS app built with Python that allows you to automatically download and tag 
 - Downloads media from anywhere that yt-dlp can download from
 - Automatically tags the downloaded media with metadata from TMDB
 - Automatically downloads subtitles from opensubtitles.com for TMDB tagged media
-- Accepts command line arguments and a custom url scheme
+- Accepts command line arguments and parameters via the `StreamFetchTagger://` url scheme
 
 ## Installation
 
@@ -33,6 +33,7 @@ There are three different ways that you can install this project:
 1. [Method 1:](#method-1) Download the .app file (simple. runs slower than other methods)
 2. [Method 2:](#method-2) Download the .app file and supporting directories (simple. runs normal speed)
 3. [Method 3:](#method-3) Download all files in this repository and run with Python (more difficult. runs normal speed)  
+Deciding which method for you is important. I would recommend option 2 for most people as it is still simple and it starts up at a regular speed. Option 1 is the second best choice as it is the simplest, but it starts up slower than the other options. Option 3 is not recommended for most users because it is more for advanced users who know how to code.
 
 ### Method 1
 
@@ -64,16 +65,17 @@ For example:
 Movie: `StreamFetchTagger://params?tmdb=1726&url=https://www.youtube.com/watch?v=dQw4w9WgXcQ`  
 TV Show: `StreamFetchTagger://params?tmdb=1877&s=1&e=3&url=https://www.youtube.com/watch?v=dQw4w9WgXcQ`  
 URL Only: `StreamFetchTagger://params?url=https://www.youtube.com/watch?v=dQw4w9WgXcQ`  
+Only Launch App: `StreamFetchTagger://`  
 
 ## Images
 
 <p align="left">
-  <img src="https://i.imgur.com/Sokt6Nf.png" width="400vw" />
-  <strong>Profile Images appear on the emails</strong>
+  <img src="https://i.imgur.com/AsHr3m7.png" width="400vw" />
+  <strong>Downloading a movie</strong>
   <br>
   <br>
-  <img src="https://i.imgur.com/fQLg4md.png" width="400vw" />
-  <strong>A desktop notification pops up in the top right corner</strong>
+  <img src="https://i.imgur.com/f84gFOl.png" width="400vw" />
+  <strong>Downloading a tv show while choosing the thumbnail</strong>
 </p>
 
 ## Limitations
