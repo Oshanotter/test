@@ -2333,7 +2333,7 @@ function saveLists(saveImmediately = false) {
     data: masterList
   };
 
-  fetch(appsScriptBaseUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(watchListData) })
+  fetch(appsScriptBaseUrl, { method: "POST", body: JSON.stringify(watchListData) })
     .then((response) => {
       return response.json();
     })
