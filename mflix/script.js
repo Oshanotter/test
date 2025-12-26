@@ -2863,8 +2863,14 @@ function saveHistory() {
   // send the masterDict to the server
   var masterDictString = JSON.stringify(masterDict);
   var url = appsScriptBaseUrl + "?exec=updateHistory&username=" + encodeURIComponent(getLocalStorage('username')) + "&password=" + encodeURIComponent(getLocalStorage('password')) + "&newHistory=" + encodeURIComponent(masterDictString);
+  var historyData = {
+    exec: "updateHistory",
+    username: getLocalStorage('username'),
+    password: getLocalStorage('password'),
+    data: masterDict
+  };
 
-  fetch(url)
+  fetch(appsScriptBaseUrl, { method: "POST", body: JSON.stringify(historyData) })
     .then((response) => {
       return response.json();
     })
