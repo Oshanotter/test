@@ -1923,16 +1923,25 @@ function displaySearchDropdown(dict) {
   magnifyingGlass.style.zIndex = 2;
 
   const results = dict['results'];
+  const seenTitles = new Set(); // make sure only unique titles appear
 
   results.forEach(result => {
     if (result['media_type'] == 'person') {
       return; // skip the person
     }
 
+    const title = result.title || result.name; // Movies use 'title', TV shows use 'name'
+
+    if (seenTitles.has(title)) {
+      return; // skip duplicate title
+    } else {
+      seenTitles.add(title); // add the title to the unique titles set
+    }
+
+    // create the element in the dropdown
     const item = document.createElement('div');
     item.classList.add('searchDropdownItem');
     item.classList.add('button');
-    const title = result.title || result.name; // Movies use 'title', TV shows use 'name'
     item.textContent = title;
     item.addEventListener('click', () => {
       document.getElementById('searchInput').value = title;
@@ -2325,15 +2334,12 @@ function saveLists(saveImmediately = false) {
   }
 
   // contact the google apps script to update the lists
-  var url = appsScriptBaseUrl + "?exec=updateLists&username=" + encodeURIComponent(getLocalStorage('username')) + "&password=" + encodeURIComponent(getLocalStorage('password'));
   var watchListData = {
     exec: "updateLists",
     username: getLocalStorage('username'),
     password: getLocalStorage('password'),
     data: masterList
   };
-
-  console.log(watchListData);
 
   fetch(appsScriptBaseUrl, { method: "POST", body: JSON.stringify(watchListData) })
     .then((response) => {
@@ -2861,8 +2867,6 @@ function saveHistory() {
   }
 
   // send the masterDict to the server
-  var masterDictString = JSON.stringify(masterDict);
-  var url = appsScriptBaseUrl + "?exec=updateHistory&username=" + encodeURIComponent(getLocalStorage('username')) + "&password=" + encodeURIComponent(getLocalStorage('password')) + "&newHistory=" + encodeURIComponent(masterDictString);
   var historyData = {
     exec: "updateHistory",
     username: getLocalStorage('username'),
