@@ -2326,8 +2326,14 @@ function saveLists(saveImmediately = false) {
 
   // contact the google apps script to update the lists
   var url = appsScriptBaseUrl + "?exec=updateLists&username=" + encodeURIComponent(getLocalStorage('username')) + "&password=" + encodeURIComponent(getLocalStorage('password'));
+  var watchListData = {
+    exec: "updateLists",
+    username: getLocalStorage('username'),
+    password: getLocalStorage('password'),
+    data: masterList
+  };
 
-  fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(masterList) })
+  fetch(appsScriptBaseUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(watchListData) })
     .then((response) => {
       return response.json();
     })
