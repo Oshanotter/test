@@ -30,6 +30,11 @@ def on_press(key):
             send_cec_command("voldown", "voldown")
         elif key == keyboard.Key.media_volume_mute:
             send_cec_command("mute", "mute")
+        # uncomment when the remote is aquired
+        #elif key.char == '7': # also change the key to the proper remote button
+            #subprocess.run(["xdotool", "key", "Alt+F4"])
+            ## also detect when the current window is the FEC Home Page
+            #subprocess.run(["echo", "closing_current_window"])
     except AttributeError:
         pass  # Ignore other keys
 
