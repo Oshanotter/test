@@ -274,7 +274,7 @@ BELOW ARE ELEMENTS RELATING TO THE MAIN PAGES AND THE CONTAINERS
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 2;
-    line-clamp: 2;
+    /*line-clamp: 2;*/
     margin-bottom: 0.5em;
   }
 }
@@ -415,7 +415,7 @@ BELOW ARE ELEMENTS RELATING TO THE INFO PAGE
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 2;
-    line-clamp: 2;
+    /*line-clamp: 2;*/
   }
 }
 
@@ -607,7 +607,7 @@ BELOW ARE ELEMENTS RELATING TO THE BUTTON CONTAINER
           overflow: hidden;
           text-overflow: ellipsis;
           -webkit-line-clamp: 1;
-          line-clamp: 1;
+          /*line-clamp: 1;*/
         }
 
         .button {
@@ -929,7 +929,7 @@ BELOW ARE ELEMENTS RELATING TO THE SEARCH FUNCTIONALITY
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 1;
-    line-clamp: 1;
+    /*line-clamp: 1;*/
   }
 }
 
