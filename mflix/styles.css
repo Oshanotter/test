@@ -627,7 +627,6 @@ BELOW ARE ELEMENTS RELATING TO THE BUTTON CONTAINER
 
         img {
           filter: invert(75%) sepia(32%) saturate(6103%) hue-rotate(329deg) brightness(104%) contrast(101%);
-          filter: var(--orangeFilter);
         }
       }
 
