@@ -14,6 +14,8 @@ function main() {
   appendLoadingPosters('moviesPage');
   appendLoadingPosters('tvShowsPage', 20);
   appendLoadingPosters('tvShowsPage');
+  appendLoadingPosters('genresPage', 20);
+  appendLoadingPosters('genresPage');
 
   var movieHistory = document.getElementById('loadingMoviesHistory');
   appendLoadingPosters(movieHistory, 10);
@@ -161,7 +163,7 @@ function alertMessage(message) {
 
   var imgContainer = document.createElement('div');
   imgContainer.classList.add('button');
-  imgContainer.onclick = function() {
+  imgContainer.onclick = function () {
     div.remove();
   }
   imgContainer.appendChild(img);
@@ -228,7 +230,12 @@ function loadPageFromUrlHash() {
 
     } else if (id.includes('page-')) {
       var page = id.substring(5); // remove the first 5 characters, which are 'page-'
-      displayPage(page);
+      if (page.includes('genresPage')) {
+        var params = page.split("-");
+        showGenresPage(decodeURIComponent(params[1]), params[2], params[3], 1);
+      } else {
+        displayPage(page);
+      }
 
     } else if (id.includes('watch-')) {
       var parts = id.split('-');
@@ -502,7 +509,7 @@ function displayPage(pageID) {
   }
 
   // find the right page and make it visible, but hide the others
-  var pageList = ['searchPage', 'homePage', 'moviesPage', 'tvShowsPage', 'myListsPage', 'settingsPage'];
+  var pageList = ['searchPage', 'homePage', 'moviesPage', 'tvShowsPage', 'myListsPage', 'genresPage', 'settingsPage'];
   for (var i = 0; i < pageList.length; i++) {
     var id = pageList[i];
     var page = document.getElementById(id);
@@ -522,7 +529,8 @@ function loadPageContent(category) {
       return; // don't load the content again
     }
 
-    var url = 'https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey + '&language=en-US&sort_by=popularity.desc&include_adult=false';
+    //var url = 'https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey + '&language=en-US&sort_by=popularity.desc&include_adult=false';
+    var url = 'https://api.themoviedb.org/3/trending/all/day?api_key=' + apiKey + '&language=en-US';
     fetch(url)
       .then(response => response.json())
       .then(data => {
@@ -530,7 +538,15 @@ function loadPageContent(category) {
         container.innerHTML = ''; // Clear previous content
 
         data.results.forEach(item => {
-          var poster = makePosterDiv(item.id, item.title, "", item.poster_path, "movie");
+          if (item.original_language != "en") {
+            return;
+          }
+          if (item.media_type == "movie") {
+            var qualityTag = "Movie";
+          } else {
+            var qualityTag = "TV";
+          }
+          var poster = makePosterDiv(item.id, item.title || item.name, qualityTag, item.poster_path, item.media_type);
           container.appendChild(poster);
         });
 
@@ -539,6 +555,21 @@ function loadPageContent(category) {
 
         // show that the content is already loaded
         container.dataset.loaded = "true";
+
+        // load some movie and tv show genres
+        var homePageGenresContainer = document.getElementById('homePageGenresContainer');
+        var buttonsContainer = document.createElement('div');
+        buttonsContainer.id = "homePageGenreButtonContainer";
+        buttonsContainer.innerHTML = '<div class="button active" onclick="toggleHomepageGenres(' + "'movie'" + ')">Movies By Genre</div><div class="button" onclick="toggleHomepageGenres(' + "'tv'" + ')">TV Shows By Genre</div>';
+        homePageGenresContainer.appendChild(buttonsContainer);
+
+        // create seperate containers for movies and tv shows genres
+        var movieGenresContainer = document.createElement('div');
+        var tvShowGenresContainer = document.createElement('div');
+        movieGenresContainer.classList.add('genresContiner');
+        tvShowGenresContainer.classList.add('genresContiner', 'hidden');
+        homePageGenresContainer.appendChild(movieGenresContainer);
+        homePageGenresContainer.appendChild(tvShowGenresContainer);
 
         var genreDict = {
           10751: "Family Movies",
@@ -561,7 +592,32 @@ function loadPageContent(category) {
           var pageNum = getRandomNumber(2, 50);
           var url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=' + pageNum + '&region=US&release_date.lte=' + currentDate + '&sort_by=popularity.desc&with_genres=' + genreId + '&with_origin_country=US&with_original_language=en&api_key=' + apiKey;
           var mediaType = 'movie';
-          createHorizontalList(title, url, mediaType, container, '');
+          createHorizontalList(title, url, mediaType, movieGenresContainer, '', genreId, pageNum);
+        }
+
+        // do the same thing for tv shows
+        var genreDict = {
+          10751: "Family TV Shows",
+          10759: "Action & Adventure TV Shows",
+          16: "Animation TV Shows",
+          9648: "Mystery TV Shows",
+          10765: "Sci-Fi & Fantasy TV Shows",
+          10764: "Reality TV Shows",
+          80: "Crime TV Shows",
+          18: "Drama TV Shows",
+          35: "Comedy TV Shows"
+        };
+
+        var currentDate = new Date().toISOString().split('T')[0]; // get current date in YYYY-MM-DD format
+
+        var keys = Object.keys(genreDict);
+        for (var i = 0; i < keys.length; i++) {
+          var genreId = keys[i];
+          var title = genreDict[genreId];
+          var pageNum = getRandomNumber(2, 50);
+          var url = 'https://api.themoviedb.org/3/discover/tv?include_adult=false&include_video=false&language=en-US&page=' + pageNum + '&region=US&release_date.lte=' + currentDate + '&sort_by=popularity.desc&with_genres=' + genreId + '&with_origin_country=US&with_original_language=en&api_key=' + apiKey;
+          var mediaType = 'tv';
+          createHorizontalList(title, url, mediaType, tvShowGenresContainer, '', genreId, pageNum);
         }
 
       })
@@ -588,7 +644,7 @@ function loadPageContent(category) {
     // check if the device is in landscape mode
     if (window.matchMedia("(orientation: landscape)").matches) {
       // if the user is on desktop, focus on the search bar right away
-      setTimeout(function() {
+      setTimeout(function () {
         var searchbar = document.getElementById('searchInput');
         if (searchbar.value != "") {
           highlightSearchbar();
@@ -598,6 +654,29 @@ function loadPageContent(category) {
       }, 0);
     }
   }
+}
+
+function toggleHomepageGenres(mediaType) {
+  // toggles the visibility of the horizontal lists for either movie or tv shows genres
+
+  if (mediaType == 'movie') {
+    var activeButton = document.querySelector("#homePageGenreButtonContainer > div.button:nth-child(2)");
+    var inactiveButton = document.querySelector("#homePageGenreButtonContainer > div.button:nth-child(1)");
+    var activeContainer = document.querySelectorAll(".genresContiner")[1];
+    var inactiveContainer = document.querySelectorAll(".genresContiner")[0];
+  } else if (mediaType == 'tv') {
+    var activeButton = document.querySelector("#homePageGenreButtonContainer > div.button:nth-child(1)");
+    var inactiveButton = document.querySelector("#homePageGenreButtonContainer > div.button:nth-child(2)");
+    var activeContainer = document.querySelectorAll(".genresContiner")[0];
+    var inactiveContainer = document.querySelectorAll(".genresContiner")[1];
+  }
+
+  // switch which media type is active for the genres
+  activeButton.classList.remove('active');
+  inactiveButton.classList.add('active');
+  activeContainer.classList.add('hidden');
+  inactiveContainer.classList.remove('hidden');
+
 }
 
 
@@ -615,62 +694,129 @@ function getLatestMedia(pageNum = 1, category) {
     element.dataset.loading = 'true';
   }
 
+  var latestMediaSeverDown = true; // permanent fix for vidsrc media server not working
+  if (latestMediaSeverDown == true) {
 
-  if (category == 'moviesPage') {
-    var url = 'https://vidsrc.me/movies/latest/page-' + pageNum + '.json';
-    var mediaType = 'movie';
-  } else if (category == 'tvShowsPage') {
-    var url = 'https://vidsrc.me/tvshows/latest/page-' + pageNum + '.json';
-    var mediaType = 'tv';
-  }
+    // get some of the recent media from tmdb
 
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      idList = [];
-      for (var i = 0; i < data.result.length; i++) {
-        idList[i] = data.result[i].tmdb_id;
-      }
+    if (category == 'moviesPage') {
+      var url = 'https://api.themoviedb.org/3/discover/movie?page=' + pageNum + '&with_original_language=en&api_key=' + apiKey;
+      var mediaType = 'movie';
+    } else if (category == 'tvShowsPage') {
+      var url = 'https://api.themoviedb.org/3/discover/tv?page=' + pageNum + '&with_original_language=en&api_key=' + apiKey;
+      var mediaType = 'tv';
+    } else if (category == 'genresPage') {
+      var mediaType = element.dataset.mediaType;
+      var genreId = element.dataset.genreId;
+      var currentDate = new Date().toISOString().split('T')[0]; // get current date in YYYY-MM-DD format
+      var url = 'https://api.themoviedb.org/3/discover/' + mediaType + '?include_adult=false&include_video=false&language=en-US&page=' + pageNum + '&region=US&release_date.lte=' + currentDate + '&sort_by=popularity.desc&with_genres=' + genreId + '&with_origin_country=US&with_original_language=en&api_key=' + apiKey;
 
-      // Creating an array of fetch promises for each movie ID
-      const movieDetailsPromises = idList.map(id =>
-        fetch('https://api.themoviedb.org/3/' + mediaType + '/' + id + '?api_key=' + apiKey)
-        .then(response => response.json())
-      );
+    }
 
-      // Handling the resolved promises
-      Promise.all(movieDetailsPromises)
-        .then(movies => {
-          // first remove the loading posters
-          removeLoadingPosters(category);
-          var container = document.getElementById(category).querySelector('.container');
-          //container.innerHTML = ''; // Clear previous content
-          // Iterating over each movie to extract and log the cover URL
-          for (let i = 0; i < movies.length; i++) {
-            let movie = movies[i];
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
 
-            var title = movie.title || movie.name || data.result[i].title;
-            var quality = data.result[i].quality;
-            var imgURL = movie.poster_path;
+        // remove the loading posters first
+        removeLoadingPosters(category);
+        var container = document.getElementById(category).querySelector('.container');
 
-            var poster = makePosterDiv(idList[i], title, quality, imgURL, mediaType);
+        // iterate through each result
+        for (let i = 0; i < data.results.length; i++) {
+          let movie = data.results[i];
 
-            container.appendChild(poster);
-            container.dataset.lastpagenum = pageNum;
-          }
-          // set the loading status back to false
-          element.dataset.loading = 'false';
+          var title = movie.title || movie.name || "undefined title";
+          var quality = "";
+          var imgURL = movie.poster_path;
+
+          var poster = makePosterDiv(movie.id, title, quality, imgURL, mediaType);
+
+          container.appendChild(poster);
+          container.dataset.lastpagenum = pageNum;
+        }
+        // set the loading status back to false
+        element.dataset.loading = 'false';
+
+        // if there are no more media posters to be added, don't add the loading posters
+        if (data.page == data.total_pages) {
+          container.dataset.reachedfinalpage = 'true';
+        } else {
 
           // add more loading posters
           appendLoadingPosters(category);
-        })
-        .catch(error => console.error('Error fetching movie details:', error));
 
-    })
-    .catch(error => {
-      console.error(error);
-      alertMessage('Failed to get newly added media, server is down');
-    });
+        }
+
+      })
+      .catch(error => {
+        console.error(error);
+        alertMessage('Failed to get media from TMDB');
+      });
+
+
+
+  } else {
+
+    // use the vidsrc media server
+
+    if (category == 'moviesPage') {
+      var url = 'https://vidsrc.me/movies/latest/page-' + pageNum + '.json';
+      var mediaType = 'movie';
+    } else if (category == 'tvShowsPage') {
+      var url = 'https://vidsrc.me/tvshows/latest/page-' + pageNum + '.json';
+      var mediaType = 'tv';
+    }
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        idList = [];
+        for (var i = 0; i < data.result.length; i++) {
+          idList[i] = data.result[i].tmdb_id;
+        }
+
+        // Creating an array of fetch promises for each movie ID
+        const movieDetailsPromises = idList.map(id =>
+          fetch('https://api.themoviedb.org/3/' + mediaType + '/' + id + '?api_key=' + apiKey)
+            .then(response => response.json())
+        );
+
+        // Handling the resolved promises
+        Promise.all(movieDetailsPromises)
+          .then(movies => {
+            // first remove the loading posters
+            removeLoadingPosters(category);
+            var container = document.getElementById(category).querySelector('.container');
+            //container.innerHTML = ''; // Clear previous content
+            // Iterating over each movie to extract and log the cover URL
+            for (let i = 0; i < movies.length; i++) {
+              let movie = movies[i];
+
+              var title = movie.title || movie.name || data.result[i].title;
+              var quality = data.result[i].quality;
+              var imgURL = movie.poster_path;
+
+              var poster = makePosterDiv(idList[i], title, quality, imgURL, mediaType);
+
+              container.appendChild(poster);
+              container.dataset.lastpagenum = pageNum;
+            }
+            // set the loading status back to false
+            element.dataset.loading = 'false';
+
+            // add more loading posters
+            appendLoadingPosters(category);
+          })
+          .catch(error => console.error('Error fetching movie details:', error));
+
+      })
+      .catch(error => {
+        console.error(error);
+        alertMessage('Failed to get newly added media, server is down');
+      });
+
+  }
+
 }
 
 function loadMoreMedia() {
@@ -679,6 +825,11 @@ function loadMoreMedia() {
   var pageID = document.querySelector('#menubar > .active').id;
   var page = document.getElementById(pageID + 'Page').querySelector('.container');
   var lastPageNum = page.dataset.lastpagenum;
+  var reachedFinalPage = page.dataset.reachedfinalpage;
+  if (reachedFinalPage == 'true') {
+    //console.log('no more media to load')
+    return;
+  }
 
   getLatestMedia(lastPageNum + 1, pageID);
 }
@@ -705,7 +856,7 @@ function makePosterDiv(id, title = "undefined title", quality = "", imgURL, medi
   }
 
 
-  mainElm.onclick = function() {
+  mainElm.onclick = function () {
     // display the info page
     displayInfoPage(id, mediaType, title, 1, 1); // the two ones are for selecting the default season and episode
   };
@@ -839,13 +990,13 @@ function adjustPosterSpacing() {
     removeLoadingPosters(container);
     if (posters.length > 0) {
       // the posters should be loading
-      setTimeout(function() {
+      setTimeout(function () {
         appendLoadingPosters(container);
       }, 1);
 
     } else {
       // the posters shoud be invisible
-      setTimeout(function() {
+      setTimeout(function () {
         appendInvisiblePosters(container);
       }, 100);
 
@@ -854,7 +1005,7 @@ function adjustPosterSpacing() {
   }
 }
 
-async function createHorizontalList(title, url, mediaType, container, label) {
+async function createHorizontalList(title, url, mediaType, container, label, genreId, pageNum) {
   // creates a list in the container that is specified
 
   // generate a new list
@@ -877,7 +1028,7 @@ async function createHorizontalList(title, url, mediaType, container, label) {
     let item = media[i];
 
     var id = item.id;
-    var title = item.title || item.name;
+    var mediaTitle = item.title || item.name;
     if (label != undefined) {
       var qualityDiv = label;
     } else if (mediaType == 'tv') {
@@ -888,11 +1039,30 @@ async function createHorizontalList(title, url, mediaType, container, label) {
     var imgURL = item.poster_path;
 
     // make the poster with the info, plus add an overlay that will move the media in the list
-    let poster = makePosterDiv(id, title, qualityDiv, imgURL, mediaType);
+    let poster = makePosterDiv(id, mediaTitle, qualityDiv, imgURL, mediaType);
 
     scrollContainer.appendChild(poster);
   }
 
+  // add a poster to the end that will display more movies from that genre
+  var mainElm = document.createElement('div');
+  mainElm.classList.add('posterContainer');
+  mainElm.classList.add('viewMorePoster');
+  mainElm.classList.add('button');
+
+  var qaulityElm = document.createElement('div');
+  var titleElm = document.createElement('div');
+  var span = document.createElement('span');
+  span.innerText = "View More\n\n➔";
+
+  mainElm.appendChild(span);
+  mainElm.appendChild(qaulityElm);
+  mainElm.appendChild(titleElm);
+  mainElm.onclick = function () {
+    // load more media of this type
+    showGenresPage(title, mediaType, genreId, pageNum + 1);
+  };
+  scrollContainer.appendChild(mainElm);
 
   // append the list to the container
   container.appendChild(newList);
@@ -902,6 +1072,32 @@ async function createHorizontalList(title, url, mediaType, container, label) {
 
 }
 
+function showGenresPage(genreName, mediaType, genreId, pageNum) {
+  // displays a page for a specific genre under either the movies or tv shows tab
+
+  var genresPage = document.getElementById('genresPage');
+  var element = genresPage.querySelector('.container');
+  element.innerHTML = "";
+  appendLoadingPosters('genresPage', 20);
+  appendLoadingPosters('genresPage');
+  genresPage.scrollTo(0, 0);
+
+  displayPage('genresPage');
+
+  // update the page hash
+  window.location.hash = "page-genresPage-" + genreName + "-" + mediaType + "-" + genreId;
+
+  // make sure to update the media type
+  var genresPage = document.getElementById('genresPage');
+  var genreTitleTag = genresPage.querySelector('h2');
+  genreTitleTag.innerText = genreName;
+
+
+  element.dataset.mediaType = mediaType;
+  element.dataset.genreId = genreId;
+
+  getLatestMedia(pageNum, 'genresPage');
+}
 
 
 // functions that display or get info for the infoPage
@@ -979,7 +1175,7 @@ async function displayInfoPage(mediaId, mediaType, optionalTitle, optionalSeason
           trailerBtn2.classList.remove('hidden');
 
           // make the buttons behave properly
-          trailerBtn1.onclick = function() {
+          trailerBtn1.onclick = function () {
             startTrailer(trailerID);
           }
           trailerBtn1.setAttribute("data-id", trailerID);
@@ -996,7 +1192,7 @@ async function displayInfoPage(mediaId, mediaType, optionalTitle, optionalSeason
             }
 
             // autostart the trailer after 5 seconds
-            trailerPlayerTimeout = setTimeout(function() {
+            trailerPlayerTimeout = setTimeout(function () {
               startTrailer(); // don't use a video id, so that the player doesn't have to reload
             }, 5000);
 
@@ -1017,7 +1213,7 @@ async function displayInfoPage(mediaId, mediaType, optionalTitle, optionalSeason
         document.getElementById('resumeButton').classList.remove('hidden');
       } else if (mediaType == 'tv') {
         document.getElementById('episodesButton').classList.remove('hidden');
-        populateEpisodesDropdown(media.seasons, media.last_episode_to_air);
+        populateEpisodesDropdown(media.seasons, media.last_episode_to_air, media.next_episode_to_air);
         // select the correct season and episode
         selectLastEpisode(mediaId);
       }
@@ -1036,7 +1232,8 @@ function displayReleaseDate(inputDate) {
   if (inputDate == null || inputDate == undefined || inputDate == "") {
     var releaseText = "Not Yet Released";
   } else {
-    var releaseDate = new Date(inputDate);
+    const [year, month, day] = inputDate.split("-");
+    var releaseDate = new Date(year, month - 1, day);
     var options = {
       year: 'numeric',
       month: 'short',
@@ -1084,9 +1281,18 @@ function displayCertification(movieId, mediaType) {
         // Find the US certification
         const usRelease = releaseData.results.find(country => country.iso_3166_1 === 'US');
         if (usRelease) {
-          var usCertification = usRelease.rating || usRelease.release_dates[0].certification;
-          if (usCertification == "") {
-            var usCertification = "NR";
+          if (mediaType == 'movie') {
+            // Find the theatrical wide release (type !== 1 && type !== 2) with a non-empty certification
+            const theatricalRelease = usRelease.release_dates.find(
+              release => release.type !== 1 && release.type !== 2 && release.certification && release.certification !== ""
+            );
+            if (theatricalRelease && theatricalRelease.certification) {
+              var usCertification = theatricalRelease.certification;
+            } else {
+              var usCertification = "NR";
+            }
+          } else if (mediaType == 'tv') {
+            var usCertification = usRelease.rating;
           }
           certificationElem.innerText = usCertification;
         } else {
@@ -1260,7 +1466,7 @@ function onTrailerStateChange(event) {
     var playerElement = document.getElementById('ytTrailerPlayer');
     playerElement.style.display = 'none';
     trailerBtn.innerText = "Start Trailer";
-    trailerBtn.onclick = function() {
+    trailerBtn.onclick = function () {
       var id = trailerPlayer.getVideoData().video_id;
       startTrailer(id);
     }
@@ -1268,12 +1474,12 @@ function onTrailerStateChange(event) {
   } else if (event.data == YT.PlayerState.PAUSED) {
     // the trailer has been paused
     trailerBtn.innerText = "Resume Trailer";
-    trailerBtn.onclick = function() {
+    trailerBtn.onclick = function () {
       var playerElement = document.getElementById('ytTrailerPlayer');
       playerElement.style.display = 'block';
       trailerPlayer.playVideo();
       trailerBtn.innerText = "Stop Trailer";
-      trailerBtn.onclick = function() {
+      trailerBtn.onclick = function () {
         trailerPlayer.pauseVideo();
       }
     }
@@ -1283,14 +1489,14 @@ function onTrailerStateChange(event) {
     var playerElement = document.getElementById('ytTrailerPlayer');
     playerElement.style.display = 'block';
     trailerBtn.innerText = "Stop Trailer";
-    trailerBtn.onclick = function() {
+    trailerBtn.onclick = function () {
       trailerPlayer.pauseVideo();
     }
 
   } else if (event.data == -1) {
     // the trailer hasn't started yet
     trailerBtn.innerText = "Start Trailer";
-    trailerBtn.onclick = function() {
+    trailerBtn.onclick = function () {
       var id = trailerPlayer.getVideoData().video_id;
       startTrailer(id);
     }
@@ -1385,7 +1591,7 @@ async function preLoadMedia(tmdbID, mediaType, seasonNum, episodeNum) {
 
 
   // add the onclick function to play the movie
-  playBtn.onclick = async function() {
+  playBtn.onclick = async function () {
 
     if (sourceURL == null) {
       var serverNum = getDefaultServer();
@@ -1583,7 +1789,7 @@ function stopMovie() {
   // reset the trailer player button
   var playTrailerBtn = document.getElementById('stopTrailer');
   var trailerID = playTrailerBtn.getAttribute("data-id");
-  playTrailerBtn.onclick = function() {
+  playTrailerBtn.onclick = function () {
     startTrailer(trailerID);
   }
 }
@@ -1605,7 +1811,7 @@ function toggleServerSelection() {
   }
 
   // make an event listener for when the user clicks off of the dropdown
-  var clickFunction = function(e) {
+  var clickFunction = function (e) {
 
     // if the user clicks on the 'Try a different server' button, toggle the serverSelection
     if (e.srcElement != children[0]) {
@@ -1623,7 +1829,7 @@ function toggleServerSelection() {
     container.style.backgroundColor = 'var(--mflixGrey)';
     container.style.border = '1px solid var(--mflixWhite)';
     // add the event listener after a delay
-    setTimeout(function() {
+    setTimeout(function () {
       document.addEventListener('click', clickFunction);
     }, 0);
   } else {
@@ -1640,21 +1846,21 @@ function selectServer(index, mediaType, id, season, episode) {
   selectedServer = index;
 
   var list = [{
-      movie: "https://vidsrc.me/embed/movie?tmdb=<id>",
-      tv: "https://vidsrc.me/embed/tv?tmdb=<id>&season=<s>&episode=<e>"
-    },
-    {
-      movie: "https://vidsrc.to/embed/movie/<id>",
-      tv: "https://vidsrc.to/embed/tv/<id>/<s>/<e>"
-    },
-    {
-      movie: "https://vidsrc.cc/v2/embed/movie/<id>",
-      tv: "https://vidsrc.cc/v2/embed/tv/<id>/<s>/<e>"
-    },
-    {
-      movie: "https://vidsrc.icu/embed/movie/<id>",
-      tv: "https://vidsrc.icu/embed/tv/<id>/<s>/<e>"
-    }
+    movie: "https://vidsrc.me/embed/movie?tmdb=<id>",
+    tv: "https://vidsrc.me/embed/tv?tmdb=<id>&season=<s>&episode=<e>"
+  },
+  {
+    movie: "https://vidsrc.to/embed/movie/<id>",
+    tv: "https://vidsrc.to/embed/tv/<id>/<s>/<e>"
+  },
+  {
+    movie: "https://vidsrc.cc/v2/embed/movie/<id>?autoplay=true",
+    tv: "https://vidsrc.cc/v2/embed/tv/<id>/<s>/<e>?autoplay=true"
+  },
+  {
+    movie: "https://vidsrc.icu/embed/movie/<id>",
+    tv: "https://vidsrc.icu/embed/tv/<id>/<s>/<e>"
+  }
   ];
 
   var container = document.getElementById('serverSelection');
@@ -1914,23 +2120,32 @@ function displaySearchDropdown(dict) {
   magnifyingGlass.style.zIndex = 2;
 
   const results = dict['results'];
+  const seenTitles = new Set(); // make sure only unique titles appear
 
   results.forEach(result => {
     if (result['media_type'] == 'person') {
       return; // skip the person
     }
 
+    const title = result.title || result.name; // Movies use 'title', TV shows use 'name'
+
+    if (seenTitles.has(title)) {
+      return; // skip duplicate title
+    } else {
+      seenTitles.add(title); // add the title to the unique titles set
+    }
+
+    // create the element in the dropdown
     const item = document.createElement('div');
     item.classList.add('searchDropdownItem');
     item.classList.add('button');
-    const title = result.title || result.name; // Movies use 'title', TV shows use 'name'
     item.textContent = title;
     item.addEventListener('click', () => {
       document.getElementById('searchInput').value = title;
       hideSearchDropdown();
       searchMoviesAndTvShows(title).then(dict => {
-          displaySearchResults(dict);
-        })
+        displaySearchResults(dict);
+      })
         .catch(error => {
           console.error("Error fetching movies and TV shows:", error);
         });
@@ -2104,19 +2319,19 @@ function appendExistingList(name, mediaList) {
   newList.innerHTML = '<h4><div><div>' + name + '</div><input type="text" placeholder="New List Name" value="' + name + '"><div class="button"><img src="icons/general/delete.svg" alt="delete"></div></div><div><div class="button"><img src="icons/general/arrow_up.svg" alt="up"></div><div class="button"><img src="icons/general/arrow_down.svg" alt="down"></div></div></h4><div class="horizontalScroll"><div>Add Movies or TV Shows to this list...</div></div>';
 
   // add an onclick event to the delete button
-  newList.querySelector('div:nth-of-type(1) > div:nth-of-type(2)').onclick = function() {
+  newList.querySelector('div:nth-of-type(1) > div:nth-of-type(2)').onclick = function () {
     //newList.remove();
     animateRemoval(newList, 'v');
   };
 
   // add an onclick event to move the list up amongst its siblings
-  newList.querySelector('div:nth-of-type(2) > div:nth-of-type(1)').onclick = function() {
+  newList.querySelector('div:nth-of-type(2) > div:nth-of-type(1)').onclick = function () {
     //moveElement(newList, 1);
     animateMoveElement(newList, 1, 'v');
   }
 
   // add an onclick event to move the list down amongst its siblings
-  newList.querySelector('div:nth-of-type(2) > div:nth-of-type(2)').onclick = function() {
+  newList.querySelector('div:nth-of-type(2) > div:nth-of-type(2)').onclick = function () {
     //moveElement(newList, -1);
     animateMoveElement(newList, -1, 'v');
   }
@@ -2124,7 +2339,7 @@ function appendExistingList(name, mediaList) {
   // Creating an array of fetch promises for each movie ID
   const movieDetailsPromises = mediaList.map(dict =>
     fetch('https://api.themoviedb.org/3/' + Object.values(dict)[0] + '/' + Object.keys(dict)[0] + '?api_key=' + apiKey)
-    .then(response => response.json())
+      .then(response => response.json())
     // Object.values(dict)[0] is the media type for the given item
     // Object.keys(dict)[0] is the id fot the given item
   );
@@ -2154,7 +2369,7 @@ function appendExistingList(name, mediaList) {
         let buttonsOverlay = document.createElement('div');
         buttonsOverlay.classList.add('posterListButtons');
         buttonsOverlay.innerHTML = '<div class="button"><img src="icons/general/close.svg" alt="close"></div><div class="button"><img src="icons/general/arrow_back.svg" alt="left"></div><div class="button"><img src="icons/general/arrow_forward.svg" alt="right"></div>';
-        buttonsOverlay.querySelector('div:nth-of-type(1)').onclick = function() {
+        buttonsOverlay.querySelector('div:nth-of-type(1)').onclick = function () {
           if (poster.parentNode.children.length == 1) {
             poster.parentNode.innerHTML = '<div>Add Movies or TV Shows to this list...</div>';
           } else {
@@ -2163,17 +2378,17 @@ function appendExistingList(name, mediaList) {
           }
           event.stopPropagation();
         }
-        buttonsOverlay.querySelector('div:nth-of-type(2)').onclick = function() {
+        buttonsOverlay.querySelector('div:nth-of-type(2)').onclick = function () {
           //moveElement(poster, 1);
           animateMoveElement(poster, 1, 'h');
           event.stopPropagation();
         }
-        buttonsOverlay.querySelector('div:nth-of-type(3)').onclick = function() {
+        buttonsOverlay.querySelector('div:nth-of-type(3)').onclick = function () {
           //moveElement(poster, -1);
           animateMoveElement(poster, -1, 'h');
           event.stopPropagation();
         }
-        buttonsOverlay.onclick = function() {
+        buttonsOverlay.onclick = function () {
           event.stopPropagation();
         }
         poster.appendChild(buttonsOverlay);
@@ -2227,7 +2442,7 @@ function createNewList() {
 
   // observe for when the myListsPage is hidden, then save the unsaved lists
   var targetElement = document.querySelectorAll('#myListsPage > .container')[0];
-  observeForHidden(targetElement, function() {
+  observeForHidden(targetElement, function () {
     var unsavedList = targetElement.querySelectorAll('.editList');
     if (unsavedList.length > 0) {
       saveLists();
@@ -2256,7 +2471,7 @@ function editLists() {
 
   // observe for when the myListsPage is hidden, then save the unsaved lists
   var targetElement = document.querySelectorAll('#myListsPage > .container')[0];
-  observeForHidden(targetElement, function() {
+  observeForHidden(targetElement, function () {
     var unsavedList = targetElement.querySelectorAll('.editList');
     if (unsavedList.length > 0) {
       saveLists();
@@ -2316,10 +2531,14 @@ function saveLists(saveImmediately = false) {
   }
 
   // contact the google apps script to update the lists
-  var masterListString = JSON.stringify(masterList);
-  var url = appsScriptBaseUrl + "?exec=updateLists&username=" + encodeURIComponent(getLocalStorage('username')) + "&password=" + encodeURIComponent(getLocalStorage('password')) + "&newList=" + encodeURIComponent(masterListString);
+  var watchListData = {
+    exec: "updateLists",
+    username: getLocalStorage('username'),
+    password: getLocalStorage('password'),
+    data: masterList
+  };
 
-  fetch(url)
+  fetch(appsScriptBaseUrl, { method: "POST", body: JSON.stringify(watchListData) })
     .then((response) => {
       return response.json();
     })
@@ -2373,7 +2592,7 @@ function dropdownAddToListMenu() {
     populateAddToListDropdown();
   }
 
-  var resetCreateBtn = function() {
+  var resetCreateBtn = function () {
     // hide the create button and clear the input
     var mainElm = container.children[container.children.length - 2];
     var input = mainElm.querySelector('input');
@@ -2382,7 +2601,7 @@ function dropdownAddToListMenu() {
     input.blur();
   }
 
-  var scrollFunction = function() {
+  var scrollFunction = function () {
     // Check if the scroll position is at the top
     if (container.scrollTop === 0) {
       // If at the top, prevent further scrolling up
@@ -2394,7 +2613,7 @@ function dropdownAddToListMenu() {
   };
 
   // add a click event listener for mobile users so that the menu will disappear
-  var clickFunction = function(e) {
+  var clickFunction = function (e) {
     // don't do anything if the user clicks inside of the dropdown menu
     if (dropdownMenu.contains(e.srcElement)) {
       return;
@@ -2409,7 +2628,7 @@ function dropdownAddToListMenu() {
     resetCreateBtn();
   }
 
-  var mouseLeaveFunction = function() {
+  var mouseLeaveFunction = function () {
     // hide the dropdown
     dropdownMenu.classList.add('hidden');
     dropdownMenu.removeEventListener('mouseleave', mouseLeaveFunction);
@@ -2421,7 +2640,7 @@ function dropdownAddToListMenu() {
   }
 
   // add the click event listener with a set timeout function, otherwise it will regester the current click as well
-  setTimeout(function() {
+  setTimeout(function () {
     document.body.addEventListener('click', clickFunction);
     dropdownMenu.addEventListener('mouseleave', mouseLeaveFunction);
     container.addEventListener('scroll', scrollFunction);
@@ -2504,14 +2723,14 @@ function populateAddToListDropdown(lists) {
     );
     if (exists) {
       img.src = "icons/general/playlist_remove.svg";
-      main.onclick = function() {
+      main.onclick = function () {
         removeFromList(id, mediaType, i);
       }
       main.classList.add('onList');
 
     } else {
       img.src = "icons/general/playlist_add.svg";
-      main.onclick = function() {
+      main.onclick = function () {
         addToList(id, mediaType, i);
       }
 
@@ -2561,7 +2780,7 @@ function addToList(id, mediaType, listIndex) {
         container.appendChild(poster);
 
         // repopulate the dropdown after a timeout, so the dropdown listener doesn't get confused
-        setTimeout(function() {
+        setTimeout(function () {
           populateAddToListDropdown();
         }, 0);
 
@@ -2591,7 +2810,7 @@ function removeFromList(id, mediaType, listIndex) {
   }
 
   // repopulate the dropdown after a timeout, so the dropdown listener doesn't get confused
-  setTimeout(function() {
+  setTimeout(function () {
     populateAddToListDropdown();
   }, 0);
 
@@ -2640,7 +2859,7 @@ function removeCreateButtonOnDropdown(decision) {
   input.blur();
   populateAddToListDropdown();
 
-  setTimeout(function() {
+  setTimeout(function () {
     // scroll to the bottom of the container minus a pixel after a millisecond
     container.scrollTop = container.scrollHeight - container.clientHeight - 1;
   }, 1);
@@ -2757,7 +2976,7 @@ async function addToHistory(id, mediaType, position, save = false) {
     let buttonsOverlay = document.createElement('div');
     buttonsOverlay.classList.add('posterListButtons');
     buttonsOverlay.innerHTML = '<div class="button"><img src="icons/general/close.svg" alt="close"></div>';
-    buttonsOverlay.querySelector('div:nth-of-type(1)').onclick = function() {
+    buttonsOverlay.querySelector('div:nth-of-type(1)').onclick = function () {
       if (poster.parentNode.children.length == 1) {
         poster.parentNode.innerHTML = '<div>Watch media to see it in your history...</div>';
       } else {
@@ -2766,7 +2985,7 @@ async function addToHistory(id, mediaType, position, save = false) {
       }
       event.stopPropagation();
     }
-    buttonsOverlay.onclick = function() {
+    buttonsOverlay.onclick = function () {
       event.stopPropagation();
     }
     poster.appendChild(buttonsOverlay);
@@ -2845,10 +3064,14 @@ function saveHistory() {
   }
 
   // send the masterDict to the server
-  var masterDictString = JSON.stringify(masterDict);
-  var url = appsScriptBaseUrl + "?exec=updateHistory&username=" + encodeURIComponent(getLocalStorage('username')) + "&password=" + encodeURIComponent(getLocalStorage('password')) + "&newHistory=" + encodeURIComponent(masterDictString);
+  var historyData = {
+    exec: "updateHistory",
+    username: getLocalStorage('username'),
+    password: getLocalStorage('password'),
+    data: masterDict
+  };
 
-  fetch(url)
+  fetch(appsScriptBaseUrl, { method: "POST", body: JSON.stringify(historyData) })
     .then((response) => {
       return response.json();
     })
@@ -2892,7 +3115,7 @@ function editHistory() {
 
   // observe for when the myListsPage is hidden, then save the unsaved lists
   var targetElement = document.querySelectorAll('#myListsPage > .container')[1];
-  observeForHidden(targetElement, function() {
+  observeForHidden(targetElement, function () {
     var unsavedList = targetElement.querySelectorAll('.editHistory');
     if (unsavedList.length > 0) {
       saveHistory();
@@ -2959,7 +3182,7 @@ function dropdownEpisodeSelector() {
   selectLastEpisode(infoPage.dataset.id);
 
 
-  var scrollFunction = function(event) {
+  var scrollFunction = function (event) {
     var element = event.currentTarget;
     // Check if the scroll position is at the top
     if (element.scrollTop === 0) {
@@ -2972,7 +3195,7 @@ function dropdownEpisodeSelector() {
   };
 
   // add a click event listener for mobile users so that the menu will disappear
-  var clickFunction = function(e) {
+  var clickFunction = function (e) {
     // don't do anything if the user clicks inside of the dropdown menu
     if (dropdownMenu.contains(e.srcElement)) {
       return;
@@ -2985,7 +3208,7 @@ function dropdownEpisodeSelector() {
     episodesContainer.removeEventListener('scroll', scrollFunction);
   }
 
-  var mouseLeaveFunction = function() {
+  var mouseLeaveFunction = function () {
     // hide the dropdown
     dropdownMenu.classList.add('hidden');
     dropdownMenu.removeEventListener('mouseleave', mouseLeaveFunction);
@@ -2995,7 +3218,7 @@ function dropdownEpisodeSelector() {
   }
 
   // add the click event listener with a set timeout function, otherwise it will regester the current click as well
-  setTimeout(function() {
+  setTimeout(function () {
     document.body.addEventListener('click', clickFunction);
     dropdownMenu.addEventListener('mouseleave', mouseLeaveFunction);
     seasonsContainer.addEventListener('scroll', scrollFunction);
@@ -3013,7 +3236,7 @@ function dropdownEpisodeSelector() {
   }
 }
 
-function populateEpisodesDropdown(list, lastEpisodeDict) {
+function populateEpisodesDropdown(list, lastEpisodeDict, nextEpisodeDict) {
   // populates the dropdown menu for the episodes selector on the infoPage
 
   var seasonsContainer = document.querySelector("#episodesDropdown > div > div:nth-child(2) > div:nth-child(1)");
@@ -3026,6 +3249,7 @@ function populateEpisodesDropdown(list, lastEpisodeDict) {
     let dict = list[i];
 
     let seasonNumber = dict.season_number;
+    var seasonNum = dict.season_number;
     let lastAiredSeason = lastEpisodeDict.season_number;
     if (seasonNumber == 0 || seasonNumber > lastAiredSeason) {
       continue; // skip the season if it is a special or if it hasn't aired yet
@@ -3049,7 +3273,7 @@ function populateEpisodesDropdown(list, lastEpisodeDict) {
       element.dataset.numEpisodes = numEpisodes;
     }
 
-    element.onclick = function() {
+    element.onclick = function () {
 
       episodesContainer.innerHTML = '';
 
@@ -3077,7 +3301,7 @@ function populateEpisodesDropdown(list, lastEpisodeDict) {
           subElement.classList.add('active');
         }
 
-        subElement.onclick = function() {
+        subElement.onclick = function () {
           // if the active episode exists in the episodes container, remove it's active class
           if (episodesContainer.querySelector('.active')) {
             episodesContainer.querySelector('.active').classList.remove('active');
@@ -3086,7 +3310,7 @@ function populateEpisodesDropdown(list, lastEpisodeDict) {
 
           // remove the currently selected episode fom the season button
           let children = Array.from(seasonsContainer.children);
-          children.forEach(function(item) {
+          children.forEach(function (item) {
             item.dataset.ep = 0;
           });
           element.dataset.ep = j; // set the new selected episode
@@ -3100,10 +3324,38 @@ function populateEpisodesDropdown(list, lastEpisodeDict) {
         episodesContainer.scrollTop = 1;
       }
 
+      if (nextEpisodeDict && seasonNumber == nextEpisodeDict.season_number) {
+        // if the next episode to air is in this season, create a new episode element with the air date
+        const [year, month, day] = nextEpisodeDict.air_date.split("-");
+        var nextEpElem = document.createElement('div');
+        nextEpElem.innerText = "E" + nextEpisodeDict.episode_number + " Airing " + new Date(year, month - 1, day).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        });
+        nextEpElem.classList.add('nextEpAirDate');
+        episodesContainer.appendChild(nextEpElem);
+        episodesContainer.scrollTop = 1;
+      }
     }
 
     seasonsContainer.appendChild(element);
+
   }
+
+
+  if (nextEpisodeDict && seasonNum != nextEpisodeDict.season_number) {
+    // if the next episode to air is in the next season, create a new season element with the air date
+    var nextSeasonElem = document.createElement('div');
+    nextSeasonElem.innerText = "S" + nextEpisodeDict.season_number + " Airing " + new Date(nextEpisodeDict.air_date).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric"
+    });
+    nextSeasonElem.classList.add('nextEpAirDate');
+    seasonsContainer.appendChild(nextSeasonElem);
+  }
+
 }
 
 function selectLastEpisode(id) {
@@ -3163,7 +3415,7 @@ function deselectEpisode() {
 
   // remove the currently selected episode fom the season button
   var children = Array.from(seasonsContainer.children);
-  children.forEach(function(item) {
+  children.forEach(function (item) {
     item.dataset.ep = 0;
   });
 }
@@ -3174,9 +3426,16 @@ function deselectEpisode() {
 function getSetting(setting) {
   // gets the specified setting from the local storage
 
+  // make sure saveWatchHistory is off for guest mode
+  if (getLocalStorage('username').includes("guest")) {
+    watchHistoryBool = false;
+  } else {
+    watchHistoryBool = true;
+  }
+
   var defaultValues = {
     autoStartTrailer: true,
-    saveWatchHistory: true,
+    saveWatchHistory: watchHistoryBool,
     showDeselectEpisode: false,
     zoom: 100,
     defaultServer: 3
@@ -3215,11 +3474,11 @@ function executeSettings() {
   var btn1 = container.querySelector('input:nth-of-type(1)');
   var btn2 = container.querySelector('input:nth-of-type(2)');
   if (getSetting('autoStartTrailer')) {
-    btn2.removeAttribute('checked');
-    btn1.setAttribute('checked', true);
+    btn2.checked = false;
+    btn1.checked = true;
   } else {
-    btn1.removeAttribute('checked');
-    btn2.setAttribute('checked', true);
+    btn1.checked = false;
+    btn2.checked = true;
   }
 
   // adjust saveWatchHistory buttons
@@ -3227,11 +3486,11 @@ function executeSettings() {
   var btn1 = container.querySelector('input:nth-of-type(1)');
   var btn2 = container.querySelector('input:nth-of-type(2)');
   if (getSetting('saveWatchHistory')) {
-    btn2.removeAttribute('checked');
-    btn1.setAttribute('checked', true);
+    btn2.checked = false;
+    btn1.checked = true;
   } else {
-    btn1.removeAttribute('checked');
-    btn2.setAttribute('checked', true);
+    btn1.checked = false;
+    btn2.checked = true;
   }
 
   // adjust showDeselectEpisode buttons
@@ -3239,11 +3498,11 @@ function executeSettings() {
   var btn1 = container.querySelector('input:nth-of-type(1)');
   var btn2 = container.querySelector('input:nth-of-type(2)');
   if (getSetting('showDeselectEpisode')) {
-    btn2.removeAttribute('checked');
-    btn1.setAttribute('checked', true);
+    btn2.checked = false;
+    btn1.checked = true;
   } else {
-    btn1.removeAttribute('checked');
-    btn2.setAttribute('checked', true);
+    btn1.checked = false;
+    btn2.checked = true;
   }
 
   // adjust defaultServer buttons
@@ -3257,10 +3516,16 @@ function executeSettings() {
   for (var i = 0; i < serverList.length; i++) {
     var btn = serverList[i];
     if (i == selection) {
-      btn.setAttribute('checked', true);
+      btn.checked = true;
     } else {
-      btn.removeAttribute('checked');
+      btn.checked = false;
     }
+  }
+
+  // make sure that the guest user's saveWatchHistory setting revery back to normal
+  if (getLocalStorage('username').includes('guest') && getSetting('saveWatchHistory') == true) {
+    alertMessage("Users in guest mode cannot change the watch history setting");
+    setSetting('saveWatchHistory', false);
   }
 
 }
@@ -3306,14 +3571,14 @@ function setZoom(zoomLevel) {
 function addScrollListeners() {
   // add listeners to the movies and tv shows elements so that when the user scrolls to the bottom, more media loads
 
-  var pages = ['moviesPage', 'tvShowsPage'];
+  var pages = ['moviesPage', 'tvShowsPage', 'genresPage'];
   for (var i = 0; i < pages.length; i++) {
-    (function() {
+    (function () {
       var pageId = pages[i];
       var element = document.getElementById(pageId);
 
       // Add a scroll event listener to the element
-      element.addEventListener('scroll', function() {
+      element.addEventListener('scroll', function () {
         // Calculate the scroll position
         var scrollPosition = element.scrollTop + element.clientHeight;
         var scrollHeight = element.scrollHeight - 1;
@@ -3336,7 +3601,7 @@ function addScrollListeners() {
 function addWindowResizeListeners() {
   // adds a listener for when the orientation changes or the window resizes
 
-  window.addEventListener('resize', function() {
+  window.addEventListener('resize', function () {
 
     // adjust the max height of the overview flex element
     var infoPage = document.getElementById('infoPage');
@@ -3353,12 +3618,12 @@ function addSearchListeners() {
   // this function adds a variety of different event listeners relating to the search page
 
   // add an event listener to search for media only when there are more than two characters typed
-  document.getElementById('searchInput').addEventListener('input', function(event) {
+  document.getElementById('searchInput').addEventListener('input', function (event) {
     const query = event.target.value;
     if (query.length > 2) {
       searchMoviesAndTvShows(query).then(dict => {
-          displaySearchDropdown(dict);
-        })
+        displaySearchDropdown(dict);
+      })
         .catch(error => {
           console.error("Error fetching movies and TV shows:", error);
         });
@@ -3368,14 +3633,14 @@ function addSearchListeners() {
   });
 
   // add event listener for when the user presses enter in the search bar
-  document.getElementById("searchInput").addEventListener("keydown", function(event) {
+  document.getElementById("searchInput").addEventListener("keydown", function (event) {
     if (event.key === "Enter") { // Check if the Enter key is pressed
       var title = document.getElementById('searchInput').value;
       searchMoviesAndTvShows(title).then(dict => {
-          displaySearchResults(dict);
-          hideSearchDropdown();
-          document.getElementById('searchInput').blur();
-        })
+        displaySearchResults(dict);
+        hideSearchDropdown();
+        document.getElementById('searchInput').blur();
+      })
         .catch(error => {
           console.error("Error fetching movies and TV shows:", error);
         });
@@ -3383,7 +3648,7 @@ function addSearchListeners() {
   });
 
   // add an event listener to the whole document to see when the user clicks outside of the search input
-  document.addEventListener('click', function(event) {
+  document.addEventListener('click', function (event) {
     if (!document.getElementById('searchInput').contains(event.target)) {
       hideSearchDropdown();
     }
@@ -3395,12 +3660,12 @@ function addHeaderListeners() {
 
   // add an event listener to the user profile element to display the dropdown when clicked
   var userProfileDiv = document.querySelector('#header > div');
-  userProfileDiv.addEventListener('click', function() {
+  userProfileDiv.addEventListener('click', function () {
     var dropdown = document.getElementById('userDropdownOptions');
     dropdown.classList.remove('hidden');
   });
 
-  userProfileDiv.addEventListener('mouseleave', function() {
+  userProfileDiv.addEventListener('mouseleave', function () {
     var dropdown = document.getElementById('userDropdownOptions');
     dropdown.classList.add('hidden');
   });
@@ -3410,7 +3675,7 @@ function addZoomListeners() {
   // listen for when the input for the zoom changes
 
   var zoomInput = document.getElementById('zoomInput');
-  zoomInput.addEventListener('change', function() {
+  zoomInput.addEventListener('change', function () {
     var zoomValue = Number(zoomInput.value);
     setZoom(zoomValue);
   });
@@ -3421,7 +3686,7 @@ function addLoginPageListeners() {
   // adds listeners for the login page
 
   // add an event listener for the username
-  document.getElementById("username").addEventListener("keydown", function(event) {
+  document.getElementById("username").addEventListener("keydown", function (event) {
     if (event.key === "Enter") { // Check if the Enter key is pressed
       // focus on the password
       document.getElementById("password").focus();
@@ -3429,7 +3694,7 @@ function addLoginPageListeners() {
   });
 
   // add an event listener for the password
-  document.getElementById("password").addEventListener("keydown", function(event) {
+  document.getElementById("password").addEventListener("keydown", function (event) {
     if (event.key === "Enter") { // Check if the Enter key is pressed
       // login and blur
       document.getElementById("password").blur();
@@ -3449,9 +3714,9 @@ function loadSearchSuggestions() {
   var tvURL = "https://api.themoviedb.org/3/discover/tv?region=US&with_origin_country=US&language=en-US&page=" + pageNum + "&api_key=" + apiKey;
 
   Promise.all([
-      fetch(movieURL).then((response) => response.json()),
-      fetch(tvURL).then((response) => response.json())
-    ])
+    fetch(movieURL).then((response) => response.json()),
+    fetch(tvURL).then((response) => response.json())
+  ])
     .then(([movies, tvShows]) => {
 
       if (container.innerText != '') {
@@ -3477,12 +3742,12 @@ function loadSearchSuggestions() {
         suggestion.classList.add('button');
         let title = shuffledList[i].title || shuffledList[i].name;
         suggestion.innerText = title;
-        suggestion.onclick = function() {
+        suggestion.onclick = function () {
           document.getElementById('searchInput').value = title;
           searchMoviesAndTvShows(title).then(dict => {
-              displaySearchResults(dict);
-              hideSearchDropdown();
-            })
+            displaySearchResults(dict);
+            hideSearchDropdown();
+          })
             .catch(error => {
               console.error("Error fetching movies and TV shows:", error);
             });
