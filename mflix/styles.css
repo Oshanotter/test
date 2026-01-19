@@ -13,7 +13,8 @@ BELOW ARE SOME VARIABLES THAT WILL HELP DEFINE VALUES FOR OTHER ELEMENTS
   --whiteFilter: invert(98%) sepia(1%) saturate(215%) hue-rotate(84deg) brightness(115%) contrast(84%);
   /* this filter produces var(--mflixOrange) as long as the original image is #000000 */
   --orangeFilter: invert(75%) sepia(32%) saturate(6103%) hue-rotate(329deg) brightness(104%) contrast(101%);
-  --webkitOrangeFilter: brightness(0) saturate(100%) invert(70%) sepia(14%) saturate(7394%) hue-rotate(328deg) brightness(103%) contrast(102%);
+  /* this filter should only be temporary until webkit fixes its bugs with the filter attribute */
+  --webkitOrangeFilter: brightness(0) saturate(100%) invert(82%) sepia(38%) saturate(1400%) hue-rotate(328deg) brightness(85%) contrast(80%);
   /* the colors for the error elements */
   --errorRedBG: #ff9a91;
   --errorRedTXT: #ff1500;
@@ -150,6 +151,7 @@ BELOW ARE SOME ELEMENTS RELATING TO THE HEADER
       height: 70%;
       margin-left: 0.5em;
       filter: var(--orangeFilter);
+      -webkit-filter: var(--webkitOrangeFilter);
     }
   }
 
@@ -1201,6 +1203,7 @@ BELOW ARE ELEMENTS RELATING TO THE MY LISTS PAGE
 
         img {
           filter: var(--orangeFilter);
+          -webkit-filter: var(--webkitOrangeFilter);
           margin-left: 1em;
           height: 100%;
         }
