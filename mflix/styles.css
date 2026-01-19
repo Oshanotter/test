@@ -12,7 +12,8 @@ BELOW ARE SOME VARIABLES THAT WILL HELP DEFINE VALUES FOR OTHER ELEMENTS
   /* this filter produces var(--mflixWhite) as long as the original image is #000000 */
   --whiteFilter: invert(98%) sepia(1%) saturate(215%) hue-rotate(84deg) brightness(115%) contrast(84%);
   /* this filter produces var(--mflixOrange) as long as the original image is #000000 */
-  --orangeFilter: brightness(0) saturate(100%) invert(76%) sepia(42%) saturate(4613%) hue-rotate(327deg) brightness(101%) contrast(101%);
+  --orangeFilter: invert(75%) sepia(32%) saturate(6103%) hue-rotate(329deg) brightness(104%) contrast(101%);
+  --webkitOrangeFilter: brightness(0) saturate(100%) invert(70%) sepia(14%) saturate(7394%) hue-rotate(328deg) brightness(103%) contrast(102%);
   /* the colors for the error elements */
   --errorRedBG: #ff9a91;
   --errorRedTXT: #ff1500;
@@ -627,6 +628,7 @@ BELOW ARE ELEMENTS RELATING TO THE BUTTON CONTAINER
 
         img {
           filter: var(--orangeFilter);
+          -webkit-filter: var(--webkitOrangeFilter);
         }
       }
 
