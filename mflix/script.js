@@ -1850,16 +1850,16 @@ function selectServer(index, mediaType, id, season, episode) {
     tv: "https://vidsrc.me/embed/tv?tmdb=<id>&season=<s>&episode=<e>"
   },
   {
-    movie: "https://vidsrc.to/embed/movie/<id>",
-    tv: "https://vidsrc.to/embed/tv/<id>/<s>/<e>"
+    movie: "https://vidfast.pro/movie/<id>?autoPlay=true",
+    tv: "https://vidfast.pro/tv/<id>/<s>/<e>?autoPlay=true"
   },
   {
     movie: "https://vidsrc.cc/v2/embed/movie/<id>?autoplay=true",
     tv: "https://vidsrc.cc/v2/embed/tv/<id>/<s>/<e>?autoplay=true"
   },
   {
-    movie: "https://vidsrc.icu/embed/movie/<id>",
-    tv: "https://vidsrc.icu/embed/tv/<id>/<s>/<e>"
+    movie: "https://embos.net/movie/?mid=<id>",
+    tv: "https://embos.net/tv/?mid=<id>&s=<s>&e=<e>"
   }
   ];
 

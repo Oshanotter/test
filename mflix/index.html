@@ -70,8 +70,7 @@
         <h2>My Lists</h2>
         <div>
             <div class="button active" onclick="showList('watchLists')"><img src="icons/general/list.svg" alt="list">Watch Lists</div>
-            <div class="button" onclick="showList('history')"><img src="icons/general/history.svg" alt="history">History
-            </div>
+            <div class="button" onclick="showList('history')"><img src="icons/general/history.svg" alt="history">History</div>
         </div>
         <div class="container">
             <div class="listContainer">
@@ -80,11 +79,9 @@
             </div>
         </div>
         <div id="listEditContainer" class="hidden">
-            <div class="button" onclick="createNewList()"><img src="icons/general/add.svg" alt="create">Create List
-            </div>
+            <div class="button" onclick="createNewList()"><img src="icons/general/add.svg" alt="create">Create List</div>
             <div class="button" onclick="editLists()"><img src="icons/general/edit.svg" alt="edit">Edit Lists</div>
-            <div class="button hidden" onclick="saveLists()"><img src="icons/general/save.svg" alt="save">Save Lists
-            </div>
+            <div class="button hidden" onclick="saveLists()"><img src="icons/general/save.svg" alt="save">Save Lists</div>
         </div>
         <div class="container hidden">
             <div class="listContainer">
@@ -106,8 +103,7 @@
         </div>
         <div id="historyEditContainer" class="hidden">
             <div class="button" onclick="editHistory()"><img src="icons/general/edit.svg" alt="edit">Edit History</div>
-            <div class="button hidden" onclick="saveHistory()"><img src="icons/general/save.svg" alt="save">Save History
-            </div>
+            <div class="button hidden" onclick="saveHistory()"><img src="icons/general/save.svg" alt="save">Save History</div>
         </div>
         <div class="spacer"></div>
     </div>
@@ -166,7 +162,7 @@
                 </div>
                 <div class="btnContainer">
                     <input type="radio" name="defaultServer" value="2" class="button" onclick="setSetting('defaultServer', 2)">
-                    <label>2 - to</label>
+                    <label>2 - pro</label>
                 </div>
                 <div class="btnContainer">
                     <input type="radio" name="defaultServer" value="3" class="button" onclick="setSetting('defaultServer', 3)">
@@ -174,7 +170,7 @@
                 </div>
                 <div class="btnContainer">
                     <input type="radio" name="defaultServer" value="4" class="button" onclick="setSetting('defaultServer', 4)">
-                    <label>4 - icu</label>
+                    <label>4 - embos</label>
                 </div>
             </div>
         </div>
@@ -222,8 +218,7 @@
                 </table>
             </div>
             <div id="descriptionContainer" class="flex">
-                <div id="descriptionContent">Description of the movie or series. This should be a few sentences long.
-                    Some descriptions are longer than others though.</div>
+                <div id="descriptionContent">Description of the movie or series. This should be a few sentences long. Some descriptions are longer than others though.</div>
             </div>
             <div id="buttonContainer" class="noFlex">
                 <div id="playButton" class="button" onclick=""><img src="icons/general/play_arrow.svg">
@@ -238,8 +233,7 @@
                             <div></div>
                             <div></div>
                         </div>
-                        <div id="showDeselectEpisode" class="button hidden" onclick="deselectEpisode()">Deselect Episode
-                        </div>
+                        <div id="showDeselectEpisode" class="button hidden" onclick="deselectEpisode()">Deselect Episode</div>
                     </div>
                 </div>
                 <div id="addToListButton" class="button" onclick="dropdownAddToListMenu()"><img src="icons/general/playlist_add.svg">Add To List</div>
@@ -283,9 +277,9 @@
         <div id="serverSelection">
             <div class="button" onclick="toggleServerSelection()">Try a different server</div>
             <div class="button hidden active" onclick="selectServer(1)">Server 1 — me</div>
-            <div class="button hidden" onclick="selectServer(2)">Server 2 — to</div>
+            <div class="button hidden" onclick="selectServer(2)">Server 2 — pro</div>
             <div class="button hidden" onclick="selectServer(3)">Server 3 — cc</div>
-            <div class="button hidden" onclick="selectServer(4)">Server 4 — icu</div>
+            <div class="button hidden" onclick="selectServer(4)">Server 4 — embos</div>
         </div>
 
         <div id="previousEpisodeBtn" class="button" onclick="watchPreviousEpisode()">Previous Episode</div>

@@ -12,9 +12,9 @@ BELOW ARE SOME VARIABLES THAT WILL HELP DEFINE VALUES FOR OTHER ELEMENTS
   /* this filter produces var(--mflixWhite) as long as the original image is #000000 */
   --whiteFilter: invert(98%) sepia(1%) saturate(215%) hue-rotate(84deg) brightness(115%) contrast(84%);
   /* this filter produces var(--mflixOrange) as long as the original image is #000000 */
-  --orangeFilter: invert(75%) sepia(32%) saturate(6103%) hue-rotate(329deg) brightness(104%) contrast(101%);
-  /* this filter should only be temporary until webkit fixes its bugs with the filter attribute */
-  --webkitOrangeFilter: brightness(0) saturate(100%) invert(82%) sepia(38%) saturate(1400%) hue-rotate(328deg) brightness(85%) contrast(80%);
+  --orangeFilter: filter: brightness(0) saturate(100%) invert(64%) sepia(32%) saturate(1876%) hue-rotate(327deg) brightness(101%) contrast(104%);
+  /* this filter should only be temporary until the webkit bugs for the filter attribute are fixed */
+  --webkitOrangeFilter: filter: brightness(0) saturate(100%) invert(83%) sepia(35%) saturate(7458%) hue-rotate(329deg) brightness(103%) contrast(101%);
   /* the colors for the error elements */
   --errorRedBG: #ff9a91;
   --errorRedTXT: #ff1500;
