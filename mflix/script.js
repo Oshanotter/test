@@ -416,7 +416,8 @@ function login(username, passwordHash) {
 
   // disable the inputs
   document.getElementById("username").setAttribute('disabled', true);
-  document.getElementById("password").setAttribute('disabled', true)
+  document.getElementById("password").setAttribute('disabled', true);
+  document.querySelector("#loginPage > div.button").classList.add('disabled');
 
   // get the loginPage and error message div
   var loginPage = document.getElementById('loginPage');
@@ -435,6 +436,10 @@ function login(username, passwordHash) {
     if (!username || !password) {
       //displayPopup('username and password required');
       errorMsgDiv.innerText = "Username and Password Required";
+      document.getElementById("username").removeAttribute('disabled');
+      document.getElementById("password").removeAttribute('disabled');
+      // re-enable the login button
+      document.querySelector("#loginPage > div.button").classList.remove('disabled');
       return;
     }
     var passwordHash = stringToHash(password);
@@ -460,6 +465,8 @@ function login(username, passwordHash) {
         loadingGif.classList.add('hidden');
         document.getElementById("username").removeAttribute('disabled');
         document.getElementById("password").removeAttribute('disabled');
+        // re-enable the login button
+        document.querySelector("#loginPage > div.button").classList.remove('disabled');
         return;
       }
       setLocalStorage("username", username);
@@ -3713,7 +3720,7 @@ function addLoginPageListeners() {
 
   // add an event listener for the username
   document.getElementById("username").addEventListener("keydown", function (event) {
-    if (event.key === "Enter") { // Check if the Enter key is pressed
+    if (event.key === "Enter" || event.key === "ArrowDown") { // Check if the Enter key is pressed
       // focus on the password
       document.getElementById("password").focus();
     }
@@ -3725,6 +3732,10 @@ function addLoginPageListeners() {
       // login and blur
       document.getElementById("password").blur();
       login();
+
+    } else if (event.key === "ArrowUp") {
+      // focus on the username
+      document.getElementById("username").focus();
     }
   });
 
