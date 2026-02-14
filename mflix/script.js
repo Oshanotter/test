@@ -1521,9 +1521,16 @@ function onTrailerError(event) {
 function startTrailer(trailerID) {
   // start the trailer with the given id or use the existing video in the player
 
+  if (!trailerPlayer) {
+    return;
+  }
+
   clearTimeout(trailerPlayerTimeout); // clear the timeout so that the trailer doesn't start over
   var playerElement = document.getElementById('ytTrailerPlayer');
   playerElement.style.display = 'block';
+
+  console.log(trailerID)
+  console.log(trailerPlayer)
 
   if (trailerID) {
     // if the trailer id exists, load the player with the new video, otherwise play the existing video
@@ -3246,17 +3253,24 @@ function populateEpisodesDropdown(list, lastEpisodeDict, nextEpisodeDict) {
   var episodesContainer = document.querySelector("#episodesDropdown > div > div:nth-child(2) > div:nth-child(2)");
   episodesContainer.innerHTML = '';
 
+  var seasonNum = 0; // initalize seasonNum to 0 to make the next episode air date element appear
+
   // loop to create each season that is avalible
   for (var i = 0; i < list.length; i++) {
     let dict = list[i];
 
     let seasonNumber = dict.season_number;
-    var seasonNum = dict.season_number;
-    let lastAiredSeason = lastEpisodeDict.season_number;
+    let lastAiredSeason
+    if (lastEpisodeDict) {
+      lastAiredSeason = lastEpisodeDict.season_number;
+    } else {
+      lastAiredSeason = 0;
+    }
     if (seasonNumber == 0 || seasonNumber > lastAiredSeason) {
       continue; // skip the season if it is a special or if it hasn't aired yet
     }
 
+    var seasonNum = dict.season_number; // update the value of seasonNum to refelct the newest episode's season
     let numEpisodes = dict.episode_count;
 
     // create the button for each season
@@ -3345,11 +3359,11 @@ function populateEpisodesDropdown(list, lastEpisodeDict, nextEpisodeDict) {
 
   }
 
-
-  if (nextEpisodeDict && seasonNum != nextEpisodeDict.season_number) {
+  if (nextEpisodeDict && seasonNum < nextEpisodeDict.season_number) {
     // if the next episode to air is in the next season, create a new season element with the air date
+    const [year, month, day] = nextEpisodeDict.air_date.split("-");
     var nextSeasonElem = document.createElement('div');
-    nextSeasonElem.innerText = "S" + nextEpisodeDict.season_number + " Airing " + new Date(nextEpisodeDict.air_date).toLocaleDateString("en-US", {
+    nextSeasonElem.innerText = "S" + nextEpisodeDict.season_number + " Airing " + new Date(year, month - 1, day).toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
       year: "numeric"
