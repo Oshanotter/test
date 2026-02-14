@@ -150,8 +150,6 @@ BELOW ARE SOME ELEMENTS RELATING TO THE HEADER
       /* the user image */
       height: 70%;
       margin-left: 0.5em;
-      -webkit-filter: var(--webkitOrangeFilter);
-      filter: var(--orangeFilter);
     }
   }
 
@@ -629,8 +627,7 @@ BELOW ARE ELEMENTS RELATING TO THE BUTTON CONTAINER
         color: var(--mflixOrange);
 
         img {
-          -webkit-filter: var(--webkitOrangeFilter);
-          filter: var(--orangeFilter);
+          filter: none !important;
         }
       }
 
@@ -1197,13 +1194,9 @@ BELOW ARE ELEMENTS RELATING TO THE MY LISTS PAGE
 
       div:nth-of-type(2) {
         /* the second div with the trash can */
-        /* this filter needs to be here for a glitch that turns icon red */
-        filter: brightness(1);
         display: none;
 
         img {
-          -webkit-filter: var(--webkitOrangeFilter);
-          filter: var(--orangeFilter);
           margin-left: 1em;
           height: 100%;
         }
