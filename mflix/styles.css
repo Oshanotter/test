@@ -12,9 +12,8 @@ BELOW ARE SOME VARIABLES THAT WILL HELP DEFINE VALUES FOR OTHER ELEMENTS
   /* this filter produces var(--mflixWhite) as long as the original image is #000000 */
   --whiteFilter: invert(98%) sepia(1%) saturate(215%) hue-rotate(84deg) brightness(115%) contrast(84%);
   /* this filter produces var(--mflixOrange) as long as the original image is #000000 */
+  /* unfortunately no longer works across browsers the orange color is very inconsistent */
   --orangeFilter: invert(75%) sepia(32%) saturate(6103%) hue-rotate(329deg) brightness(104%) contrast(101%);
-  /* this filter should only be temporary until the webkit bugs for the filter attribute are fixed */
-  --webkitOrangeFilter: brightness(0) saturate(100%) invert(82%) sepia(38%) saturate(1400%) hue-rotate(328deg) brightness(85%) contrast(80%);
   /* the colors for the error elements */
   --errorRedBG: #ff9a91;
   --errorRedTXT: #ff1500;
@@ -150,6 +149,7 @@ BELOW ARE SOME ELEMENTS RELATING TO THE HEADER
       /* the user image */
       height: 70%;
       margin-left: 0.5em;
+      /* filter: var(--orangeFilter); */
     }
   }
 
@@ -627,6 +627,7 @@ BELOW ARE ELEMENTS RELATING TO THE BUTTON CONTAINER
         color: var(--mflixOrange);
 
         img {
+          /* filter: var(--orangeFilter); */
           filter: none !important;
         }
       }
@@ -1194,9 +1195,12 @@ BELOW ARE ELEMENTS RELATING TO THE MY LISTS PAGE
 
       div:nth-of-type(2) {
         /* the second div with the trash can */
+        /* this filter needs to be here for a glitch that turns icon red */
+        filter: brightness(1);
         display: none;
 
         img {
+          /* filter: var(--orangeFilter); */
           margin-left: 1em;
           height: 100%;
         }

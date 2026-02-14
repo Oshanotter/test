@@ -463,6 +463,8 @@ function login(username, passwordHash) {
       setLocalStorage("password", passwordHash);
       setLocalStorage("Mflix.apiKey", key);
       authenticate();
+      // adjust the page to reflect the current settings
+      executeSettings();
     });
 }
 
@@ -1850,8 +1852,8 @@ function selectServer(index, mediaType, id, season, episode) {
     tv: "https://vidsrc.me/embed/tv?tmdb=<id>&season=<s>&episode=<e>"
   },
   {
-    movie: "https://vidfast.pro/movie/<id>?autoPlay=true",
-    tv: "https://vidfast.pro/tv/<id>/<s>/<e>?autoPlay=true"
+    movie: "https://vidfast.pro/movie/<id>?autoPlay=true&title=false",
+    tv: "https://vidfast.pro/tv/<id>/<s>/<e>?autoPlay=true&title=false"
   },
   {
     movie: "https://vidsrc.cc/v2/embed/movie/<id>?autoplay=true",
@@ -1893,7 +1895,7 @@ function selectServer(index, mediaType, id, season, episode) {
 
   // if the season and episode numbers are undefined, use the server without specifing them
   if (!seasonNum || !episodeNum) {
-    var url = url.split('<id>')[0] + id;
+    var url = url.replace('<id>', id)
   } else {
     var url = url.replace('<id>', id).replace('<s>', seasonNum).replace('<e>', episodeNum);
   }
