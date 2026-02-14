@@ -7,6 +7,9 @@ var selectedServer = null;
 
 // main function
 function main() {
+  // load the YouTube API first
+  loadYouTubeAPI();
+
   // add loading posters to each page before the actual media loads
   appendLoadingPosters('homePage', 20);
   appendLoadingPosters('homePage');
@@ -1437,6 +1440,13 @@ function resetInfoPage() {
 
 
 // functions that use the YouTube player
+function loadYouTubeAPI() {
+  // load the script to make the YouTube API work
+  const tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.head.appendChild(tag);
+}
+
 function onYouTubeIframeAPIReady() {
   // this function creates an <iframe> for the youtube player after the API code downloads
 
