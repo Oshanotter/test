@@ -945,8 +945,8 @@ BELOW ARE THE ELEMENTS RELATING TO THE LOGIN PAGE
   background-color: var(--mflixBlue);
   color: var(--mflixWhite);
   width: 100%;
-  height: 100%;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;
   top: 0;
   margin: 0;
   padding: 0;
