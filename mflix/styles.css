@@ -958,7 +958,7 @@ BELOW ARE THE ELEMENTS RELATING TO THE LOGIN PAGE
 
   img:nth-of-type(1) {
     /* the logo */
-    width: 80%;
+    width: 80vw;
     max-width: 300px;
     height: auto;
   }
