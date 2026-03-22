@@ -125,9 +125,10 @@ function getReady(countdown) {
     startGame();
   } else {
     var newNum = countdown - 1;
-    startText.innerText = "Get Ready\n" + newNum;
+    //startText.innerText = "Get Ready\n" + newNum;
+    startText.textContent = "Get Ready\n" + newNum;
     // play the count sound
-    //playCountSound();
+    playCountSound();
     setTimeout(function () {
       getReady(newNum);
     }, 1000);
