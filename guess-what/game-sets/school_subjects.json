@@ -1,0 +1,7 @@
+{
+  "title": "School Subjects",
+  "description": "Too cool for school! Guess these school subjects ranging from elementary to high school subjects.",
+  "games": {
+    "Play": ["Mathematics", "English", "Science", "Social Studies", "History", "Geography", "Art", "Music", "Physical Education", "Computer Science", "Spanish", "French", "German", "Chinese", "Japanese", "Latin", "Drama", "Home Economics", "Health", "Civics", "Economics", "Psychology", "Sociology", "Philosophy", "Anthropology", "Astronomy", "Biology", "Chemistry", "Physics", "Environmental Science", "Geology", "Botany", "Zoology", "Anatomy", "Physiology", "Nutrition", "Algebra", "Geometry", "Trigonometry", "Calculus", "Statistics", "Probability", "Literature", "Poetry", "Writing", "Reading", "Grammar", "Spelling", "Typing", "Coding", "Drawing", "Painting", "Sculpting", "Photography", "Graphic Design", "Dance", "Yoga", "Martial Arts", "Archery", "Woodworking", "Choir", "Band"]
+  }
+}

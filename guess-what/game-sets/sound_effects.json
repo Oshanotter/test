@@ -1,0 +1,7 @@
+{
+  "title": "Sound Effects",
+  "description": "Knock! Knock! Guess these objects by making the sound they would make!",
+  "games": {
+    "Play": ["Thunder & Lightning", "Maracas", "Whistle", "Submarine Sonar", "Trumpet", "Monkey", "Dolphin", "Bee", "Cymbals", "Ambulance Siren", "Drums", "Trombone", "Guitar", "Police Siren", "Popcorn", "Mouse", "Rubber Band", "Vacuum Cleaner", "Jackhammer", "Kazoo", "Shotgun", "Rain", "Camera Shutter", "Fart", "Duck", "Clock", "Stomach Growling", "Punching", "Dog", "Gong", "Morse Code", "Android Ringtone", "Xylophone", "Harp", "Lawn Mower", "Bear", "Bowling Pins", "Violin", "Piano", "Cat", "Rooster", "Pig", "Helicopter", "Car Horn", "Basketball", "Spray Paint", "Snake", "Bagpipes", "Glass Breaking", "Light Switch", "Newspaper", "Goose", "Teapot", "Tractor", "Faucet Dripping", "Rattlesnake", "Heartbeat", "Zipper", "Clown Horn", "Nails on a Chalkboard", "Hammer", "Keys Jingling", "Chainsaw", "Fire Truck Siren", "Train", "Owl", "Spring Bouncing", "iPhone Ringtone", "Elephant", "Donkey", "Lion", "Alarm Clock", "Drill", "Frog", "Laser Gun", "Fire Alarm", "Sneeze", "Sheep", "Doorbell", "Chicken", "Turkey", "Cricket", "Crow", "Toilet Flushing", "Burp", "Typewriter", "Slurping", "Squeaky Door", "Motorcycle", "Wolf", "Telephone", "Fireworks", "Ocean Waves", "Wind", "Sea Lion", "Parrot"]
+  }
+}

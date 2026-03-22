@@ -1,0 +1,7 @@
+{
+  "title": "Shopping Spree",
+  "description": "Shop till you drop! Guess these items that you can find in supermarkets!",
+  "games": {
+    "Play": ["Fruit", "Underwear", "Toys", "Shoes", "Handbags", "Books", "Perfume", "Electronics", "Groceries", "Jewelry", "Furniture", "Kitchen Appliances", "Stationery", "Clothing", "Sunglasses", "Makeup", "Skincare Products", "Watches", "Sports Equipment", "Musical Instruments", "Pet Supplies", "Bedding", "Luggage", "Home Decor", "Garden Tools", "Cleaning Supplies", "Candles", "Office Supplies", "Party Supplies", "Hair Accessories", "Bathroom Essentials", "Kids’ Clothing", "Baby Products", "Craft Supplies", "Camping Gear", "Fitness Equipment", "Snacks", "Beverages", "Baking Supplies", "Video Games", "Movie DVDs", "Art Supplies", "Outdoor Furniture", "Tools", "Car Accessories", "Wine", "Swimwear", "Hats", "Rugs", "Coffee", "Tea", "Socks", "Belts", "Wallets", "Picture Frames", "Lamps", "Curtains", "Towels", "Razors", "Shaving Cream", "Shampoo", "Conditioner", "Toothpaste", "Toothbrush", "Deodorant", "Vitamins", "Medicine", "First Aid Kit", "Blankets", "Pillows", "Plates", "Cups", "Cutlery", "Pots and Pans", "Bicycles", "Skateboards", "Rollerblades", "Fishing Gear", "Hiking Boots", "Flashlights", "Tents", "Backpacks", "Notebooks", "Pens", "Pencils", "Glue", "Scissors", "Paper Clips", "Sticky Notes", "Calendars", "Diaries", "Planners", "Gift Cards", "Wrapping Paper", "Bow Ties", "Scarves", "Gloves", "Slippers", "Ice Cream", "Chocolates"]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "title": "Barnyard Animals",
+  "description": "Work’s never done on the farm! Guess these animals that you can find in a farm!",
+  "games": {
+    "Play": ["Cows", "Pigs", "Chickens", "Horses", "Sheep", "Goats", "Ducks", "Geese", "Turkeys", "Rabbits", "Donkeys", "Llamas", "Alpacas", "Peacocks", "Roosters", "Swans", "Cats", "Dogs", "Mice", "Rats", "Barn Owls", "Sparrows", "Starlings", "Robins"]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "title": "Tabletop & Card Games",
+  "description": "Wanna play a game? Guess these popular tabletop and card games made for all ages!",
+  "games": {
+    "Play": ["Chess", "Checkers", "Monopoly", "Scrabble", "Clue", "Battleship", "Trivial Pursuit", "Backgammon", "Candy Land", "Rummikub", "Mouse Trap", "Dungeons & Dragons", "The Game of Life", "Othello", "Pictionary", "Catan", "Risk", "Stratego", "Mancala", "Connect 4", "Blokus", "Cranium", "Guess Who?", "Trouble", "Aggravation", "Sequence", "Twister", "Operation", "Go", "Scattergories", "Sorry!", "Ticket to Ride", "Apples to Apples", "Pandemic", "Axis & Allies", "Uno", "Yahtzee", "Jenga", "Dominoes", "Codenames", "Bubble Talk", "Don't Break the Ice", "Hedbandz", "Hungry Hungry Hippos", "Magic: The Gathering", "Cards Against Humanity", "Taboo", "Azul", "Kerplunk", "Root", "Scythe", "Old Maid", "King of Tokyo", "One Night Ultimate Werewolf", "Bingo", "Skip-Bo", "Memory", "Farkle", "Phase 10", "Poker", "Blackjack", "Solitaire", "Hearts", "Spades", "Rummy", "Crazy Eights", "Go Fish", "War", "Canasta", "Euchre", "Bridge", "Chutes and Ladders", "Slapjack", "Spoons", "Garbage", "Dominion", "Yu-Gi-Oh! Trading Card Game", "Pokémon Trading Card Game"]
+  }
+}

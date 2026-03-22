@@ -1,0 +1,10 @@
+{
+  "title": "Instruments",
+  "description": "Play us a song, Piano Man! Guess these instruments from the four major groups!",
+  "games": {
+    "String": ["Guitar", "Violin", "Cello", "Double Bass", "Viola", "Banjo", "Mandolin", "Ukulele", "Harp", "Electric Guitar", "Bass Guitar", "Sitar", "Balalaika", "Lute", "Oud", "Zither", "Nyckelharpa", "Dulcimer", "Rebec", "Hurdy-Gurdy", "Mandola", "Electric Violin", "Electric Cello", "Electric Upright Bass", "Resonator Guitar", "Tambura", "Fiddle", "Baritone Guitar", "Sarod", "Lyre", "Electric Sitar", "Guqin"],
+    "Brass": ["Trumpet", "Trombone", "French Horn", "Tuba", "Cornet", "Flugelhorn", "Euphonium", "Sousaphone", "Tenor Horn", "Baritone Horn", "Bugle", "Wagner Tuba", "Rotary Valve Trumpet", "Slide Alto Horn", "Pocket Cornet", "Contrabass Bugle", "Valve Trombone", "Post Horn", "Helicon Tuba", "Contralto Trombone"],
+    "Woodwind": ["Flute", "Clarinet", "Saxophone", "Oboe", "Bassoon", "Piccolo", "Recorder", "English Horn", "Bass Clarinet", "Basset Horn", "Xaphoon", "Slide Whistle", "Fluteophone", "Chalumeau", "Lyricon", "Ocarina", "Duduk", "Harmonica", "Bagpipes", "Gemshorn", "Pan Flute", "Fife", "Tin Whistle", "Bamboo Flute"],
+    "Percussion": ["Drum Set", "Snare Drum", "Bass Drum", "Cymbals", "Tambourine", "Triangle", "Maracas", "Bongos", "Glockenspiel", "Xylophone", "Vibraphone", "Marimba", "Cowbell", "Steelpan", "Handpan (Hang Drum)", "Tambora", "Tabla", "Washboard", "Flexatone", "Tam-Tam (Gong)", "Kalimba (Thumb Piano)", "Talking Drum", "Whip", "Ratchet", "Sleigh Bells", "Finger Cymbals"]
+  }
+}

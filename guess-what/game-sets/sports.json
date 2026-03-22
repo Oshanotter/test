@@ -1,0 +1,7 @@
+{
+  "title": "Sports",
+  "description": "Going, going, gone! Guess the sport from the hints given by the other players.",
+  "games": {
+    "Play": ["Soccer", "Basketball", "Baseball", "Tennis", "Football", "Hockey", "Golf", "Cricket", "Rugby", "Volleyball", "Badminton", "Table Tennis", "Swimming", "Track and Field", "Gymnastics", "Wrestling", "Martial Arts", "Boxing", "Archery", "Fencing", "Horseback Riding (Equestrian)", "Rowing", "Sailing", "Surfing", "Skateboarding", "Snowboarding", "Skiing", "Bobsledding", "Biathlon", "Curling", "Rock Climbing", "Canoeing", "Water Polo", "Polo", "Lacrosse", "Ultimate Frisbee", "Beach Volleyball", "BMX", "Mountain Biking", "Triathlon", "Decathlon", "Roller Skating", "Speed Skating", "Figure Skating", "Judo", "Kiteboarding", "Wakeboarding", "Taekwondo", "Sumo Wrestling", "Crossfit", "Parkour", "Hurdling", "Horse Racing", "Dog Sledding", "Darts", "Billiards", "Bowling", "Trampoline", "Powerlifting", "Karate", "Kayaking"]
+  }
+}

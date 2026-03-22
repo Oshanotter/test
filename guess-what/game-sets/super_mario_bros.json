@@ -1,0 +1,7 @@
+{
+  "title": "Super Mario Bros.",
+  "description": "Wahoo! Guess these iconic Mario games and characters!",
+  "games": {
+    "Play": ["Mario", "Luigi", "Princess Peach", "Bowser", "Toad", "Yoshi", "Donkey Kong", "Wario", "Waluigi", "Bowser Jr.", "Goomba", "Koopa Troopa", "Boo", "Piranha Plant", "Bob-omb", "Cheep Cheep", "Lakitu", "Bullet Bill", "Hammer Bro", "Magikoopa", "Chain Chomp", "Thwomp", "Buzzy Beetle", "Dry Bones", "Shy Guy", "Monty Mole", "Blooper", "Pokey", "Wiggler", "Spiny", "Super Mushroom", "Fire Flower", "Super Star", "Ice Flower", "Mega Mushroom", "Mini Mushroom", "Cape Feather", "Super Leaf", "Tanooki Suit", "Frog Suit", "Propeller Mushroom", "Cat Bell", "Super Acorn", "Double Cherry", "Boomerang Flower", "Coin", "1-Up Mushroom", "Green Shell", "Red Shell", "Blue Shell", "POW Block", "Starman", "Hammer", "Warp Whistle", "Key", "Fireball", "Heart", "Springboard", "P-Wing", "Clock", "Wall Jump", "Ground Pound", "Triple Jump", "Spin Jump", "Long Jump", "Slide Attack", "Flutter Jump (Yoshi)", "High Jump", "Power Stomp", "Spin Attack", "Mushroom Kingdom", "Bowser’s Castle", "Peach’s Castle", "Yoshi’s Island", "Delfino Plaza", "Luigi’s Mansion", "Rainbow Road", "Koopa Troopa Beach", "Wario Stadium", "Donut Plains", "Boo’s Haunted House", "Sarasaland", "New Donk City", "Bob-omb Battlefield", "Star Road", "Mario Kart", "Koopa Clown Car", "Warp Pipe", "Lakitu’s Cloud", "Tanooki Kart", "B-Dasher", "Pipe Frame Kart", "Question Block", "Flagpole", "Super Crown"]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "title": "Draw It",
+  "description": "How good are your drawing skills? Guess what the others are drawing with their fingers in the air!",
+  "games": {
+    "Play": ["Heart", "Star", "Circle", "Square", "Triangle", "House", "Tree", "Car", "Cat", "Dog", "Sun", "Moon", "Cloud", "Flower", "Apple", "Fish", "Bird", "Butterfly", "Ball", "Arrow", "Smile", "Umbrella", "Key", "Chair", "Phone", "Shoe", "Hat", "Glasses", "Starfish", "Rainbow", "Rocket", "Mushroom", "Jellyfish", "Snowman", "Ghost", "Spider", "Cupcake", "Candy Cane", "Firework"]
+  }
+}

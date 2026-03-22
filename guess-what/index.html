@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, minimum-scale=1, initial-scale=1, minimal-ui, viewport-fit=cover">
+  <meta name="theme-color" content="#06C7C3">
+  <title>Guess What?!</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap">
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css">
+
+  <link rel="icon" href="icons/masked.png" />
+  <link rel="apple-touch-icon" href="icons/full.png">
+  <link rel="mask-icon" href="icons/masked.png" color="#000000">
+</head>
+<body>
+
+  <div class="grid-container" id="allGames">
+    <div class="gameCard blueGradient" id="food" onclick="getDictionary('food.json')"><div onclick="toggleHeart('food'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/food.svg" alt="icon"><div><p>Food</p></div></div>
+    <div class="gameCard greenGradient" id="act_it_out" onclick="getDictionary('act_it_out.json')"><div onclick="toggleHeart('act_it_out'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/theater_masks.svg" alt="icon"><div><p>Act It Out</p></div></div>
+    <div class="gameCard redGradient" id="famous_landmarks" onclick="getDictionary('famous_landmarks.json')"><div onclick="toggleHeart('famous_landmarks'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/landmark.svg" alt="icon"><div><p>Famous Landmarks</p></div></div>
+    <div class="gameCard purpleGradient" id="animals" onclick="getDictionary('animals.json')"><div onclick="toggleHeart('animals'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/paw_print.svg" alt="icon"><div><p>Animals</p></div></div>
+    <div class="gameCard orangeGradient" id="us_states_and_capitals" onclick="getDictionary('us_states_and_capitals.json')"><div onclick="toggleHeart('us_states_and_capitals'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/earth.svg" alt="icon"><div><p>U.S. States & Capitals</p></div></div>
+    <div class="gameCard yellowGradient" id="occupations" onclick="getDictionary('occupations.json')"><div onclick="toggleHeart('occupations'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/profession.svg" alt="icon"><div><p>Occupations</p></div></div>
+    <div class="gameCard pinkGradient" id="brands_and_products" onclick="getDictionary('brands_and_products.json')"><div onclick="toggleHeart('brands_and_products'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/copyright.svg" alt="icon"><div><p>Brands & Products</p></div></div>
+    <div class="gameCard blueGradient" id="video_game_characters" onclick="getDictionary('video_game_characters.json')"><div onclick="toggleHeart('video_game_characters'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/videogame_controller.svg" alt="icon"><div><p>Video Game Characters</p></div></div>
+    <div class="gameCard greenGradient" id="plants" onclick="getDictionary('plants.json')"><div onclick="toggleHeart('plants'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/flower.svg" alt="icon"><div><p>Plants</p></div></div>
+    <div class="gameCard redGradient" id="manga" onclick="getDictionary('manga.json')"><div onclick="toggleHeart('manga'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/comic.svg" alt="icon"><div><p>Manga</p></div></div>
+    <div class="gameCard purpleGradient" id="car_manufacturers" onclick="getDictionary('car_manufacturers.json')"><div onclick="toggleHeart('car_manufacturers'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/car.svg" alt="icon"><div><p>Car Manufacturers</p></div></div>
+    <div class="gameCard orangeGradient" id="sports" onclick="getDictionary('sports.json')"><div onclick="toggleHeart('sports'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/soccer_ball.svg" alt="icon"><div><p>Sports</p></div></div>
+    <div class="gameCard yellowGradient" id="anatomy" onclick="getDictionary('anatomy.json')"><div onclick="toggleHeart('anatomy'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/stethoscope.svg" alt="icon"><div><p>Anatomy</p></div></div>
+    <div class="gameCard pinkGradient" id="beverages" onclick="getDictionary('beverages.json')"><div onclick="toggleHeart('beverages'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/drink.svg" alt="icon"><div><p>Beverages</p></div></div>
+    <div class="gameCard blueGradient" id="school_subjects" onclick="getDictionary('school_subjects.json')"><div onclick="toggleHeart('school_subjects'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/graduation_cap.svg" alt="icon"><div><p>School Subjects</p></div></div>
+    <div class="gameCard greenGradient" id="blockbuster_films" onclick="getDictionary('blockbuster_films.json')"><div onclick="toggleHeart('blockbuster_films'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/clapboard.svg" alt="icon"><div><p>Blockbuster Films</p></div></div>
+    <div class="gameCard redGradient" id="us_presidents" onclick="getDictionary('us_presidents.json')"><div onclick="toggleHeart('us_presidents'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/star.svg" alt="icon"><div><p>U.S. Presidents</p></div></div>
+    <div class="gameCard purpleGradient" id="periodic_table" onclick="getDictionary('periodic_table.json')"><div onclick="toggleHeart('periodic_table'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/science.svg" alt="icon"><div><p>Periodic Table</p></div></div>
+    <div class="gameCard orangeGradient" id="greatest_hits" onclick="getDictionary('greatest_hits.json')"><div onclick="toggleHeart('greatest_hits'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/music_note.svg" alt="icon"><div><p>Greatest Hits</p></div></div>
+    <div class="gameCard yellowGradient" id="world_currencies" onclick="getDictionary('world_currencies.json')"><div onclick="toggleHeart('world_currencies'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/currency.svg" alt="icon"><div><p>World Currencies</p></div></div>
+    <div class="gameCard pinkGradient" id="fairy_tales" onclick="getDictionary('fairy_tales.json')"><div onclick="toggleHeart('fairy_tales'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/magic_wand.svg" alt="icon"><div><p>Fairy Tales</p></div></div>
+    <div class="gameCard blueGradient" id="hit_tv_shows" onclick="getDictionary('hit_tv_shows.json')"><div onclick="toggleHeart('hit_tv_shows'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/tv.svg" alt="icon"><div><p>Hit TV Shows</p></div></div>
+    <div class="gameCard greenGradient" id="tabletop_and_card_games" onclick="getDictionary('tabletop_and_card_games.json')"><div onclick="toggleHeart('tabletop_and_card_games'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/dice.svg" alt="icon"><div><p>Tabletop & Card Games</p></div></div>
+    <div class="gameCard redGradient" id="christmas" onclick="getDictionary('christmas.json')"><div onclick="toggleHeart('christmas'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/robot.svg" alt="icon"><div><p>Christmas</p></div></div>
+    <div class="gameCard purpleGradient" id="literary_classics" onclick="getDictionary('literary_classics.json')"><div onclick="toggleHeart('literary_classics'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/book.svg" alt="icon"><div><p>Literary Classics</p></div></div>
+    <div class="gameCard orangeGradient" id="halloween" onclick="getDictionary('halloween.json')"><div onclick="toggleHeart('halloween'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/skull.svg" alt="icon"><div><p>Halloween</p></div></div>
+    <div class="gameCard yellowGradient" id="oscar_winners" onclick="getDictionary('oscar_winners.json')"><div onclick="toggleHeart('oscar_winners'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/trophy.svg" alt="icon"><div><p>Oscar Winners</p></div></div>
+    <div class="gameCard pinkGradient" id="hashtags" onclick="getDictionary('hashtags.json')"><div onclick="toggleHeart('hashtags'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/internet.svg" alt="icon"><div><p>Hashtags</p></div></div>
+    <div class="gameCard blueGradient" id="nasa" onclick="getDictionary('nasa.json')"><div onclick="toggleHeart('nasa'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/rocket.svg" alt="icon"><div><p>NASA</p></div></div>
+    <div class="gameCard greenGradient" id="superheroes" onclick="getDictionary('superheroes.json')"><div onclick="toggleHeart('superheroes'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/mask.svg" alt="icon"><div><p>Superheroes</p></div></div>
+    <div class="gameCard redGradient" id="supervillains" onclick="getDictionary('supervillains.json')"><div onclick="toggleHeart('supervillains'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/skull.svg" alt="icon"><div><p>Supervillains</p></div></div>
+    <div class="gameCard purpleGradient" id="common_phrases" onclick="getDictionary('common_phrases.json')"><div onclick="toggleHeart('common_phrases'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/theater_masks.svg" alt="icon"><div><p>Common Phrases</p></div></div>
+    <div class="gameCard orangeGradient" id="sound_effects" onclick="getDictionary('sound_effects.json')"><div onclick="toggleHeart('sound_effects'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/music_note.svg" alt="icon"><div><p>Sound Effects</p></div></div>
+    <div class="gameCard yellowGradient" id="constellations" onclick="getDictionary('constellations.json')"><div onclick="toggleHeart('constellations'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/star.svg" alt="icon"><div><p>Constellations</p></div></div>
+    <div class="gameCard pinkGradient" id="toys" onclick="getDictionary('toys.json')"><div onclick="toggleHeart('toys'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/robot.svg" alt="icon"><div><p>Toys</p></div></div>
+    <div class="gameCard blueGradient" id="pokemon" onclick="getDictionary('pokemon.json')"><div onclick="toggleHeart('pokemon'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/videogame_controller.svg" alt="icon"><div><p>Pokémon</p></div></div>
+    <div class="gameCard greenGradient" id="accents_and_impressions" onclick="getDictionary('accents_and_impressions.json')"><div onclick="toggleHeart('accents_and_impressions'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/theater_masks.svg" alt="icon"><div><p>Accents & Impressions</p></div></div>
+    <div class="gameCard redGradient" id="marvel" onclick="getDictionary('marvel.json')"><div onclick="toggleHeart('marvel'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/comic.svg" alt="icon"><div><p>Marvel</p></div></div>
+    <div class="gameCard purpleGradient" id="sports_teams" onclick="getDictionary('sports_teams.json')"><div onclick="toggleHeart('sports_teams'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/soccer_ball.svg" alt="icon"><div><p>Sports Teams</p></div></div>
+    <div class="gameCard orangeGradient" id="game_shows" onclick="getDictionary('game_shows.json')"><div onclick="toggleHeart('game_shows'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/tv.svg" alt="icon"><div><p>Game Shows</p></div></div>
+    <div class="gameCard yellowGradient" id="olympics" onclick="getDictionary('olympics.json')"><div onclick="toggleHeart('olympics'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/trophy.svg" alt="icon"><div><p>Olympics</p></div></div>
+    <div class="gameCard pinkGradient" id="dance_moves" onclick="getDictionary('dance_moves.json')"><div onclick="toggleHeart('dance_moves'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/music_note.svg" alt="icon"><div><p>Dance Moves</p></div></div>
+    <div class="gameCard blueGradient" id="disney_characters" onclick="getDictionary('disney_characters.json')"><div onclick="toggleHeart('disney_characters'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/magic_wand.svg" alt="icon"><div><p>Disney Characters</p></div></div>
+    <div class="gameCard greenGradient" id="world_countries_and_capitals" onclick="getDictionary('world_countries_and_capitals.json')"><div onclick="toggleHeart('world_countries_and_capitals'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/earth.svg" alt="icon"><div><p>World Countries & Capitals</p></div></div>
+    <div class="gameCard redGradient" id="youtubers" onclick="getDictionary('youtubers.json')"><div onclick="toggleHeart('youtubers'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/internet.svg" alt="icon"><div><p>YouTubers</p></div></div>
+    <div class="gameCard purpleGradient" id="broadway_musicals" onclick="getDictionary('broadway_musicals.json')"><div onclick="toggleHeart('broadway_musicals'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/theater_masks.svg" alt="icon"><div><p>Broadway Musicals</p></div></div>
+    <div class="gameCard orangeGradient" id="tech_through_the_ages" onclick="getDictionary('tech_through_the_ages.json')"><div onclick="toggleHeart('tech_through_the_ages'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/robot.svg" alt="icon"><div><p>Tech Through The Ages</p></div></div>
+    <div class="gameCard yellowGradient" id="instruments" onclick="getDictionary('instruments.json')"><div onclick="toggleHeart('instruments'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/music_note.svg" alt="icon"><div><p>Instruments</p></div></div>
+    <div class="gameCard pinkGradient" id="anime" onclick="getDictionary('anime.json')"><div onclick="toggleHeart('anime'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/tv.svg" alt="icon"><div><p>Anime</p></div></div>
+    <div class="gameCard blueGradient" id="pixar" onclick="getDictionary('pixar.json')"><div onclick="toggleHeart('pixar'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/clapboard.svg" alt="icon"><div><p>Pixar</p></div></div>
+    <div class="gameCard greenGradient" id="social_media" onclick="getDictionary('social_media.json')"><div onclick="toggleHeart('social_media'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/internet.svg" alt="icon"><div><p>Social Media</p></div></div>
+    <div class="gameCard redGradient" id="harry_potter" onclick="getDictionary('harry_potter.json')"><div onclick="toggleHeart('harry_potter'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/magic_wand.svg" alt="icon"><div><p>Harry Potter</p></div></div>
+    <div class="gameCard purpleGradient" id="bible_stories" onclick="getDictionary('bible_stories.json')"><div onclick="toggleHeart('bible_stories'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/book.svg" alt="icon"><div><p>Bible Stories</p></div></div>
+    <div class="gameCard orangeGradient" id="star_wars" onclick="getDictionary('star_wars.json')"><div onclick="toggleHeart('star_wars'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/rocket.svg" alt="icon"><div><p>Star Wars</p></div></div>
+    <div class="gameCard yellowGradient" id="hollywood_stars" onclick="getDictionary('hollywood_stars.json')"><div onclick="toggleHeart('hollywood_stars'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/star.svg" alt="icon"><div><p>Hollywood Stars</p></div></div>
+    <div class="gameCard pinkGradient" id="theme_songs" onclick="getDictionary('theme_songs.json')"><div onclick="toggleHeart('theme_songs'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/music_note.svg" alt="icon"><div><p>Theme Songs</p></div></div>
+    <div class="gameCard blueGradient" id="ryan_reynolds_movies" onclick="getDictionary('ryan_reynolds_movies.json')"><div onclick="toggleHeart('ryan_reynolds_movies'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/clapboard.svg" alt="icon"><div><p>Ryan Reynolds Movies</p></div></div>
+    <div class="gameCard greenGradient" id="pop_culture" onclick="getDictionary('pop_culture.json')"><div onclick="toggleHeart('pop_culture'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/comic.svg" alt="icon"><div><p>Pop Culture</p></div></div>
+    <div class="gameCard redGradient" id="nintendo" onclick="getDictionary('nintendo.json')"><div onclick="toggleHeart('nintendo'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/videogame_controller.svg" alt="icon"><div><p>Nintendo</p></div></div>
+    <div class="gameCard purpleGradient" id="twilight" onclick="getDictionary('twilight.json')"><div onclick="toggleHeart('twilight'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/book.svg" alt="icon"><div><p>Twilight</p></div></div>
+    <div class="gameCard orangeGradient" id="music_through_the_decades" onclick="getDictionary('music_through_the_decades.json')"><div onclick="toggleHeart('music_through_the_decades'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/music_note.svg" alt="icon"><div><p>Music Through The Decades</p></div></div>
+    <div class="gameCard yellowGradient" id="dwayne_johnson_movies" onclick="getDictionary('dwayne_johnson_movies.json')"><div onclick="toggleHeart('dwayne_johnson_movies'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/clapboard.svg" alt="icon"><div><p>Dwayne Johnson Movies</p></div></div>
+    <div class="gameCard pinkGradient" id="cosplay" onclick="getDictionary('cosplay.json')"><div onclick="toggleHeart('cosplay'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/robot.svg" alt="icon"><div><p>Cosplay</p></div></div>
+    <div class="gameCard blueGradient" id="horror_movie_characters" onclick="getDictionary('horror_movie_characters.json')"><div onclick="toggleHeart('horror_movie_characters'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/skull.svg" alt="icon"><div><p>Horror Movie Characters</p></div></div>
+    <div class="gameCard greenGradient" id="tools" onclick="getDictionary('tools.json')"><div onclick="toggleHeart('tools'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/profession.svg" alt="icon"><div><p>Tools</p></div></div>
+    <div class="gameCard redGradient" id="k-pop_music" onclick="getDictionary('k-pop_music.json')"><div onclick="toggleHeart('k-pop_music'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/music_note.svg" alt="icon"><div><p>K-Pop Music</p></div></div>
+    <div class="gameCard purpleGradient" id="scarlett_johansson_movies" onclick="getDictionary('scarlett_johansson_movies.json')"><div onclick="toggleHeart('scarlett_johansson_movies'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/clapboard.svg" alt="icon"><div><p>Scarlett Johansson Movies</p></div></div>
+    <div class="gameCard orangeGradient" id="nickelodeon" onclick="getDictionary('nickelodeon.json')"><div onclick="toggleHeart('nickelodeon'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/tv.svg" alt="icon"><div><p>Nickelodeon</p></div></div>
+    <div class="gameCard yellowGradient" id="dnd" onclick="getDictionary('dnd.json')"><div onclick="toggleHeart('dnd'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/dice.svg" alt="icon"><div><p>DND</p></div></div>
+    <div class="gameCard pinkGradient" id="scientific_terms" onclick="getDictionary('scientific_terms.json')"><div onclick="toggleHeart('scientific_terms'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/science.svg" alt="icon"><div><p>Scientific Terms</p></div></div>
+    <div class="gameCard blueGradient" id="michael_jackson_songs" onclick="getDictionary('michael_jackson_songs.json')"><div onclick="toggleHeart('michael_jackson_songs'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/music_note.svg" alt="icon"><div><p>Michael Jackson Songs</p></div></div>
+    <div class="gameCard greenGradient" id="robin_williams_movies" onclick="getDictionary('robin_williams_movies.json')"><div onclick="toggleHeart('robin_williams_movies'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/clapboard.svg" alt="icon"><div><p>Robin Williams Movies</p></div></div>
+    <div class="gameCard redGradient" id="super_mario_bros" onclick="getDictionary('super_mario_bros.json')"><div onclick="toggleHeart('super_mario_bros'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/videogame_controller.svg" alt="icon"><div><p>Super Mario Bros.</p></div></div>
+    <div class="gameCard purpleGradient" id="star_trek" onclick="getDictionary('star_trek.json')"><div onclick="toggleHeart('star_trek'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/rocket.svg" alt="icon"><div><p>Star Trek</p></div></div>
+    <div class="gameCard orangeGradient" id="nursery_rhymes" onclick="getDictionary('nursery_rhymes.json')"><div onclick="toggleHeart('nursery_rhymes'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/book.svg" alt="icon"><div><p>Nursery Rhymes</p></div></div>
+    <div class="gameCard yellowGradient" id="easter" onclick="getDictionary('easter.json')"><div onclick="toggleHeart('easter'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/flower.svg" alt="icon"><div><p>Easter</p></div></div>
+    <div class="gameCard pinkGradient" id="jennifer_aniston_movies" onclick="getDictionary('jennifer_aniston_movies.json')"><div onclick="toggleHeart('jennifer_aniston_movies'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/clapboard.svg" alt="icon"><div><p>Jennifer Aniston Movies</p></div></div>
+    <div class="gameCard blueGradient" id="country_music" onclick="getDictionary('country_music.json')"><div onclick="toggleHeart('country_music'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/music_note.svg" alt="icon"><div><p>Country Music</p></div></div>
+    <div class="gameCard greenGradient" id="politically_correct" onclick="getDictionary('politically_correct.json')"><div onclick="toggleHeart('politically_correct'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/internet.svg" alt="icon"><div><p>Politically Correct</p></div></div>
+    <div class="gameCard redGradient" id="super_smash_bros" onclick="getDictionary('super_smash_bros.json')"><div onclick="toggleHeart('super_smash_bros'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/videogame_controller.svg" alt="icon"><div><p>Super Smash Bros.</p></div></div>
+    <div class="gameCard purpleGradient" id="pirates_of_the_caribbean" onclick="getDictionary('pirates_of_the_caribbean.json')"><div onclick="toggleHeart('pirates_of_the_caribbean'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/skull.svg" alt="icon"><div><p>Pirates of the Caribbean</p></div></div>
+    <div class="gameCard orangeGradient" id="childrens_movies" onclick="getDictionary('childrens_movies.json')"><div onclick="toggleHeart('childrens_movies'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/clapboard.svg" alt="icon"><div><p>Children’s Movies</p></div></div>
+    <div class="gameCard yellowGradient" id="rhymes_with" onclick="getDictionary('rhymes_with.json')"><div onclick="toggleHeart('rhymes_with'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/theater_masks.svg" alt="icon"><div><p>Rhymes With</p></div></div>
+    <div class="gameCard pinkGradient" id="restaurants" onclick="getDictionary('restaurants.json')"><div onclick="toggleHeart('restaurants'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/food.svg" alt="icon"><div><p>Restaurants</p></div></div>
+    <div class="gameCard blueGradient" id="nascar" onclick="getDictionary('nascar.json')"><div onclick="toggleHeart('nascar'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/car.svg" alt="icon"><div><p>NASCAR</p></div></div>
+    <div class="gameCard greenGradient" id="music_groups" onclick="getDictionary('music_groups.json')"><div onclick="toggleHeart('music_groups'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/music_note.svg" alt="icon"><div><p>Music Groups</p></div></div>
+    <div class="gameCard redGradient" id="sci-fi_movies" onclick="getDictionary('sci-fi_movies.json')"><div onclick="toggleHeart('sci-fi_movies'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/clapboard.svg" alt="icon"><div><p>Sci-Fi Movies</p></div></div>
+    <div class="gameCard purpleGradient" id="barnyard_animals" onclick="getDictionary('barnyard_animals.json')"><div onclick="toggleHeart('barnyard_animals'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/paw_print.svg" alt="icon"><div><p>Barnyard Animals</p></div></div>
+    <div class="gameCard orangeGradient" id="college_degrees" onclick="getDictionary('college_degrees.json')"><div onclick="toggleHeart('college_degrees'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/graduation_cap.svg" alt="icon"><div><p>College Degrees</p></div></div>
+    <div class="gameCard yellowGradient" id="shopping_spree" onclick="getDictionary('shopping_spree.json')"><div onclick="toggleHeart('shopping_spree'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/currency.svg" alt="icon"><div><p>Shopping Spree</p></div></div>
+    <div class="gameCard pinkGradient" id="love_songs" onclick="getDictionary('love_songs.json')"><div onclick="toggleHeart('love_songs'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/music_note.svg" alt="icon"><div><p>Love Songs</p></div></div>
+    <div class="gameCard blueGradient" id="medical_procedures" onclick="getDictionary('medical_procedures.json')"><div onclick="toggleHeart('medical_procedures'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/stethoscope.svg" alt="icon"><div><p>Medical Procedures</p></div></div>
+    <div class="gameCard greenGradient" id="will_ferrel_movies" onclick="getDictionary('will_ferrel_movies.json')"><div onclick="toggleHeart('will_ferrel_movies'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/clapboard.svg" alt="icon"><div><p>Will Ferrel Movies</p></div></div>
+    <div class="gameCard redGradient" id="facial_expressions" onclick="getDictionary('facial_expressions.json')"><div onclick="toggleHeart('facial_expressions'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/theater_masks.svg" alt="icon"><div><p>Facial Expressions</p></div></div>
+    <div class="gameCard purpleGradient" id="starbucks_drinks" onclick="getDictionary('starbucks_drinks.json')"><div onclick="toggleHeart('starbucks_drinks'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/drink.svg" alt="icon"><div><p>Starbucks Drinks</p></div></div>
+    <div class="gameCard orangeGradient" id="royal_figures" onclick="getDictionary('royal_figures.json')"><div onclick="toggleHeart('royal_figures'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/landmark.svg" alt="icon"><div><p>Royal Figures</p></div></div>
+    <div class="gameCard yellowGradient" id="draw_it" onclick="getDictionary('draw_it.json')"><div onclick="toggleHeart('draw_it'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/copyright.svg" alt="icon"><div><p>Draw It</p></div></div>
+    <div class="gameCard pinkGradient" id="julia_roberts_movies" onclick="getDictionary('julia_roberts_movies.json')"><div onclick="toggleHeart('julia_roberts_movies'); event.stopPropagation();"><img src="icons/general/heart-outline.svg" alt="heart"></div><img src="icons/game-sets/clapboard.svg" alt="icon"><div><p>Julia Roberts Movies</p></div></div>
+
+    <!-- This is the Default order of the colors
+    <div class="gameCard blueGradient"></div>
+    <div class="gameCard greenGradient"></div>
+    <div class="gameCard redGradient"></div>
+    <div class="gameCard purpleGradient"></div>
+    <div class="gameCard orangeGradient"></div>
+    <div class="gameCard yellowGradient"></div>
+    <div class="gameCard pinkGradient"></div>
+  -->
+
+  <div class="gameCard buffer"></div>
+  <div class="gameCard stretch" style="height: 0px;"></div>
+
+</div>
+
+<div class="grid-container hidden" id="favorites"></div>
+<div class="grid-container hidden" id="create">
+  <div class="gameCard yellowGradient" id="createCard" onclick="createSet()"><img src="icons/general/create.svg" alt="icon" class="invertable-image"><div>Create New Set</div></div>
+  <div class="gameCard pinkGradient" id="importCard" onclick="importSet()"><img src="icons/general/import.svg" alt="icon" class="invertable-image"><div>Import New Set</div></div>
+  <div class="gameCard buffer"></div>
+  <div class="gameCard stretch" style="height: 0px;"></div>
+</div>
+
+<div class="settings-page hidden" id="settings">
+
+  <div style="width: 90%; margin: auto;">
+    <div class="orangeGradient settingsBubble" style="margin: auto; display: flex; flex-direction: column; font-size: 125%; border-radius: 999px; text-align: center;">
+      <div>Default Game Timer</div><div style="display: flex; flex-direction: row; justify-content: center;">
+        <div class="timerOption selectedTimer" style="cursor: pointer; padding: 2% 8%; border-radius: 999px;" onclick="setDefaultTimer(60)">60s</div>
+        <div class="timerOption" style="cursor: pointer; padding: 2% 8%; border-radius: 999px;" onclick="setDefaultTimer(90)">90s</div>
+        <div class="timerOption" style="cursor: pointer; padding: 2% 8%; border-radius: 999px;" onclick="setDefaultTimer(120)">120s</div>
+      </div>
+    </div>
+  </div>
+  <div style="width: 90%; margin: auto;">
+    <div class="purpleGradient settingsBubble" style="margin: auto; display: flex; flex-direction: column; font-size: 125%; border-radius: 999px; text-align: center;">
+      <div>Color Scheme</div><div style="display: flex; flex-direction: row; justify-content: center;">
+        <div class="themeOption" style="cursor: pointer; padding: 2% 8%; border-radius: 999px;" onclick="setPreferedTheme('light')">Light</div>
+        <div class="themeOption" style="cursor: pointer; padding: 2% 8%; border-radius: 999px;" onclick="setPreferedTheme('dark')">Dark</div>
+        <div class="themeOption selectedTheme" style="cursor: pointer; padding: 2% 8%; border-radius: 999px;" onclick="setPreferedTheme('auto')">Auto</div>
+      </div>
+    </div>
+  </div>
+  <div style="width: 90%; margin: auto;">
+    <div class="greenGradient settingsBubble" style="margin: auto; display: flex; flex-direction: column; font-size: 125%; border-radius: 999px; text-align: center;">
+      <div>Sound Effects</div><div style="display: flex; flex-direction: row; justify-content: center;">
+        <div class="soundEffectOption selectedSoundEffect" style="cursor: pointer; padding: 2% 8%; border-radius: 999px;" onclick="toggleSoundEffects('true')">On</div>
+        <div class="soundEffectOption" style="cursor: pointer; padding: 2% 8%; border-radius: 999px;" onclick="toggleSoundEffects('false')">Off</div>
+      </div>
+    </div>
+  </div>
+  <div style="width: 90%; margin: auto; display: flex; justifyContent: space-evenly;">
+    <div style="margin: auto; padding: 3%; font-size: 125%; border-radius: 999px; text-align: center; display: inline-block; background-color: #06C7C3;" onclick="displayPopup('<h3>Privacy Policy</h3>We do not collect any information from users. Period.<br><br>Regarding TinyUrl: TinyUrl is used to share user created games. As such, their <a href=\'https://tinyurl.com/app/privacy-policy#\' target=\'_blank\'>privacy policy</a> also applies.<br><br>Regarding GitHub Pages: This Web App is hosted on GitHub Pages. As such, their <a href=\'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement\' target=\'_blank\'>privacy policy</a> also applies.', 'Close')">
+      Privacy Policy
+    </div>
+    <div style="margin: auto; padding: 3% 6%; font-size: 125%; border-radius: 999px; text-align: center; display: inline-block; background-color: #06C7C3;" onclick="displayPopup('<h3>Disclaimers</h3>All references to copyrighted or trademarked material are used solely for entertainment purposes within the context of <i>Guess what?!</i><br><br>We do not claim ownership of any intellectual property mentioned. All rights belong to their respective owners. This usage falls under the doctrine of fair use.', 'Close')">
+      Disclaimers
+    </div>
+  </div>
+
+</div>
+
+<div class="menu-bar">
+  <div class="menu-bar-items active" onclick="hideOtherElements('allGames')"><img src="icons/general/allGames.png" alt="allGames" class="invertable-image"><div class="menu-bar-text">All Games</div></div>
+  <div class="menu-bar-items" onclick="displayFavorites()"><img src="icons/general/favorites.png" alt="favorites" class="invertable-image"><div class="menu-bar-text">Favorites</div></div>
+  <div class="menu-bar-items" onclick="hideOtherElements('create')"><img src="icons/general/create.png" alt="create" class="invertable-image"><div class="menu-bar-text">Create</div></div>
+  <div class="menu-bar-items" onclick="displaySettingsPage()"><img src="icons/general/settings.png" alt="settings" class="invertable-image"><div class="menu-bar-text">Settings</div></div>
+</div>
+
+
+
+<div id="create-page" class="light-or-dark hidden" style="font-size: 150%; width: 100%; height: 100%; top: 0; position: fixed; box-sizing: border-box; padding-left: env(safe-area-inset-left, 0px);">
+  <div class="half" style="margin-left: 1%; margin-right: 1%;">
+    <br>
+    <div style="display: flex; flex-direction: column;">
+      <label for="gameTitle">Title of New Set:</label>
+      <input type="text" id="gameTitle" name="gameTitle" style="font-size: 100%;">
+    </div>
+    <br>
+    <div style="display: flex; flex-direction: column;">
+      <label for="description">Description:</label>
+      <input type="text" id="description" name="description" style="font-size: 100%;">
+    </div>
+    <br>
+    <div>
+      <label>Choose Color of Set:</label>
+      <div style="display: flex; justify-content: space-between; width: 90%; margin: auto; align-items: center;">
+        <div class="blueGradient color-circle selectedColor" onclick="selectColor('blueGradient')"></div>
+        <div class="greenGradient color-circle" onclick="selectColor('greenGradient')"></div>
+        <div class="redGradient color-circle" onclick="selectColor('redGradient')"></div>
+        <div class="purpleGradient color-circle" onclick="selectColor('purpleGradient')"></div>
+        <div class="orangeGradient color-circle" onclick="selectColor('orangeGradient')"></div>
+        <div class="yellowGradient color-circle" onclick="selectColor('yellowGradient')"></div>
+        <div class="pinkGradient color-circle" onclick="selectColor('pinkGradient')"></div>
+      </div>
+    </div>
+  </div>
+  <div class="half" style="margin-left: 1%; margin-right: 1%; display: flex; flex-flow: column; flex-grow: 1;">
+    <br>
+    <div style="display: flex; flex-direction: column; flex-grow: 1; display: flex; flex-direction: column;">
+      <label for="enterCards">Enter Cards Here:<p style="margin: 0; font-size: 60%;">(each item should be on its own line)</p></label>
+      <textarea id="enterCards" name="enterCards" rows="6" style="font-size: 100%; flex-grow: 1; display: flex; flex-direction: column;"></textarea>
+    </div>
+    <br>
+    <div style="display: flex; justify-content: space-between; margin-bottom: 5%;">
+      <div class="redGradient" style="padding: 3% 5% 3% 5%; border-radius: 999px;" onclick="discardSet()">Cancel</div>
+      <div class="blueGradient" style="padding: 3% 8% 3% 8%; border-radius: 999px;" onclick="createGame()">Create Game</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add sound effects-->
+<audio id="correctSound">
+  <source src="audio/correct.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="passSound">
+    <source src="audio/pass.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="countSound">
+      <source src="audio/count.mp3" type="audio/mpeg">
+      </audio>
+
+
+      <script>
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js');
+      }
+
+    </script>
+    <script src="script.js" defer></script>
+
+
+  </body>
+  </html>

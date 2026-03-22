@@ -1,0 +1,411 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Rubik", sans-serif;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  touch-action: none;
+}
+
+.dark-mode {
+  background-color: black;
+  color: white;
+
+  .invertable-image {
+    filter: invert(100%);
+    -webkit-filter: invert(100%);
+  }
+
+  input, textarea {
+    background-color: #404040;
+    color: white;
+  }
+
+  .light-or-dark {
+    background-color: black;
+  }
+
+  /* use this instead of wirting "invertable-image" for every image in the html file */
+  .gameCard {
+    img:not(.noInvert) {
+      filter: invert(100%);
+      -webkit-filter: invert(100%);
+    }
+  }
+}
+
+.light-mode {
+  background-color: white;
+  color: black;
+
+  input, textarea {
+    background-color: #D8D8D8;
+  }
+
+  .light-or-dark {
+    background-color: white;
+  }
+}
+
+#overlay, #overlay div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.timeOptions, .timeOptions div {
+  color: black !important;
+}
+
+.selectedTimer {
+  background: linear-gradient(to bottom right, #efff65, #ffbc00);
+}
+
+span {
+  overflow: hidden auto;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.description {
+  text-align: center;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 125%;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2vw;
+  overflow: scroll;
+  margin: 1%;
+  grid-auto-rows: min-content;
+  padding-top: 1%;
+  box-sizing: border-box;
+}
+
+.settings-page {
+  padding-top: 1%;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
+}
+
+.gameCard {
+  width: 100%;
+  border-radius: 10px;
+  margin: 0%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  div:first-child {
+    position: absolute;
+    top: 3%;
+    right: 5%;
+    font-size: 150%;
+
+    img {
+      display: inline;
+      width: 1em;
+    }
+  }
+
+  img {
+    width: 70%;
+    margin: 5%;
+  }
+
+  div:last-child {
+    font-size: 125%;
+    margin-bottom: 5%;
+    display: flex;
+    overflow: hidden;
+    text-align: center;
+    font-weight: bold;
+    align-items: center;
+    height: 2.3em;
+
+    p {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 100%;
+    }
+  }
+}
+
+.blueGradient {
+  background: linear-gradient(to bottom right, #47b7ee, #7e1fe0);
+}
+
+.redGradient {
+  background: linear-gradient(to bottom right, #ff76c0, #ff1818);
+}
+
+.greenGradient {
+  background: linear-gradient(to bottom right, #86ff27, #03af15);
+}
+
+.purpleGradient {
+  background: linear-gradient(to bottom right, #d3a3fc, #6d00d0);
+}
+
+.orangeGradient {
+  background: linear-gradient(to bottom right, #FFD700, #FF6347);
+}
+
+.yellowGradient {
+  background: linear-gradient(to bottom right, #efff65, #ffbc00);
+}
+
+.pinkGradient {
+  background: linear-gradient(to bottom right, #ff8be3, #ff1493);
+}
+
+.menu-bar {
+  position: fixed;
+  left: 0;
+  background-color: #06C7C3;
+  display: flex;
+  justify-content: space-evenly;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.menu-bar-items {
+  display: flex;
+  align-items: center;
+}
+
+.menu-bar-text {
+  margin-left: auto;
+  font-weight: bold;
+  font-size: 125%;
+}
+
+.active {
+  background-color: #1a7574;
+}
+
+.color-circle {
+  width: 12%;
+  height: 100%;
+  border-radius: 999px;
+  border: solid 1px;
+  aspect-ratio: 1/1;
+}
+
+.selectedColor {
+  border: solid 5px;
+}
+
+input, textarea {
+  border-radius: 30px;
+}
+
+label {
+  display: block;
+  margin-bottom: 1%;
+}
+
+.stretch {
+  padding-bottom: 5%;
+  box-sizing: border-box;
+}
+
+.dropDownButton {
+  position: absolute;
+  top: 3%;
+  left: 5%;
+  font-size: 175%;
+}
+
+.dropDownMenu {
+  position: absolute;
+  top: 80%;
+  border-radius: 10px;
+
+  tr:last-child {
+    color: red;
+
+    img {
+      /* make the image red */
+      filter: invert(27%) sepia(96%) saturate(7340%) hue-rotate(357deg) brightness(111%) contrast(116%) !important;
+      -webkit-filter: invert(27%) sepia(96%) saturate(7340%) hue-rotate(357deg) brightness(111%) contrast(116%) !important;
+    }
+  }
+}
+
+.settingsBubble {
+  .selectedTheme {
+    background: linear-gradient(to bottom right, #ff8be3, #ff1493);
+  }
+
+  .selectedSoundEffect {
+    background: linear-gradient(to bottom right, #ff76c0, #ff1818);
+  }
+}
+
+@media screen and (orientation:landscape) {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .mainGamePreview {
+    height: 80%;
+  }
+
+  .timeOptions {
+    width: 50%;
+  }
+
+  .description {
+    -webkit-line-clamp: 5;
+  }
+
+  .menu-bar {
+    top: 0;
+    width: 25vw;
+    padding-left: env(safe-area-inset-left, 0px);
+    height: 100vh;
+    display: flex;
+    flex-flow: column;
+    border-radius: 0px 10px 10px 0px;
+  }
+
+  .menu-bar-items {
+    width: 100%;
+    height: 23%;
+    padding-left: env(safe-area-inset-left, 0px);
+    margin-left: calc(-1 * env(safe-area-inset-left, 0px));
+
+    img {
+      height: 70%;
+      display: block;
+      margin-right: 0%;
+      margin-left: 5%;
+    }
+  }
+
+  .menu-bar-text {
+    display: block;
+    margin: auto;
+  }
+
+  .grid-container, .settings-page {
+    margin-left: 26%;
+    padding-left: env(safe-area-inset-left, 0px);
+    height: 100vh;
+  }
+
+  .half {
+    width: 48%;
+    height: 100%;
+    float: left;
+  }
+
+  .closeBtn {
+    height: 8%;
+    top: 2vh;
+    left: 2vh;
+  }
+
+  .settingsBubble {
+    width: 75%;
+  }
+}
+
+@media screen and (orientation:portrait) {
+  .mainGamePreview {
+    height: 45%;
+  }
+
+  .timeOptions {
+    width: 100%;
+  }
+
+  .description {
+    -webkit-line-clamp: 6;
+  }
+
+  .menu-bar {
+    bottom: 0;
+    width: 100%;
+    height: 11vh;
+    border-radius: 10px 10px 0px 0px;
+  }
+
+  .menu-bar-items {
+    width: 23%;
+    height: 100%;
+
+    img {
+      width: 70%;
+      display: block;
+      margin: auto;
+      margin-top: 10%;
+    }
+  }
+
+  .menu-bar-text {
+    display: none;
+  }
+
+  #create-page {
+    display: flex;
+    flex-flow: column;
+  }
+
+  .grid-container, .settings-page {
+    height: 89%;
+  }
+
+  #overlay {
+    transform: translate(-50%, -50%) rotate(90deg);
+    transform-origin: center center;
+    min-width: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    max-height: 100vw;
+    position: absolute;
+    left: 50%;
+    top: 50% !important;
+  }
+
+  .circle {
+    height: 10vh !important;
+    width: 10vh !important;
+    border: 1vh solid #06C7C3 !important;
+  }
+
+  .closeBtn {
+    height: 6%;
+    top: 1vh;
+    left: 1vh;
+  }
+
+  .settingsBubble {
+    width: 100%;
+  }
+}

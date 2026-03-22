@@ -1,0 +1,7 @@
+{
+  "title": "Facial Expressions",
+  "description": "What’s your mood? Guess the prompt by making the face you would make while feeling the mood the prompt states!",
+  "games": {
+    "Play": ["Happy", "Sad", "Constipated", "Hurt", "Frightened", "Angry", "Surprised", "Confused", "Disgusted", "Excited", "Bored", "Embarrassed", "Amused", "Proud", "Worried", "Annoyed", "Thoughtful", "Jealous", "Shocked", "Relieved", "Sleepy", "Determined", "Skeptical", "Distrustful", "Daydreaming", "Flirtatious", "Guilty", "Impatient", "Curious", "Disappointed", "Awkward", "Nervous", "Envious", "Hopeful", "Satisfied", "Smug", "Miserable", "Contemptuous", "Shy", "Jubilant", "Anxious", "Indifferent", "Frustrated", "Incredulous", "Ecstatic", "Nostalgic", "Admiring", "Puzzled", "Reflective", "Stern"]
+  }
+}

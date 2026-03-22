@@ -1,0 +1,7 @@
+{
+  "title": "Car Manufacturers",
+  "description": "Got a need for speed? Guess these car manufacturers by giving hints about what models they make!",
+  "games": {
+    "Play": ["INFINITI", "Suzuki", "Nissan", "Jaguar", "Dodge", "Genesis", "Acura", "Daewoo", "Abarth", "Ram", "McLaren", "Pagani", "Audi", "Lincoln", "Chrysler", "Maybach", "FIAT", "Vauxhall", "Bentley", "Aston Martin", "Mustang", "Holden", "Shelby", "Hummer", "Chevrolet", "Mitsubishi", "Hyundai", "Smart", "GMC", "Honda", "Lamborghini", "Volvo", "Volkswagen", "Mercedes Benz", "Citroën", "Pontiac", "Ferrari", "Alfa Romeo", "BMW", "Maserati", "Porsche", "Opel", "Lotus", "Renault", "Rolls Royce", "Land Rover", "Toyota", "Scion", "Mercury", "Peugeot", "Saturn", "Buick", "Bugatti", "Ford", "Subaru", "Tesla", "Kia", "Seat", "Cadillac", "Škoda", "Mini Cooper", "Mazda", "Corvette", "Lexus", "Saab", "Koenigsegg"]
+  }
+}

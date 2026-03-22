@@ -1,0 +1,8 @@
+{
+  "title": "Pixar",
+  "description": "To infinity… and beyond! Guess these famous Pixar movies and characters!",
+  "games": {
+    "Movies": ["Toy Story", "A Bug's Life", "Toy Story 2", "Monsters, Inc.", "Finding Nemo", "The Incredibles", "Cars", "Ratatouille", "WALL-E", "Up", "Toy Story 3", "Cars 2", "Brave", "Monsters University", "Inside Out", "The Good Dinosaur", "Finding Dory", "Cars 3", "Coco", "Incredibles 2", "Toy Story 4", "Onward", "Soul", "Luca", "Turning Red", "Lightyear", "Elemental"],
+    "Characters": ["Woody", "Buzz Lightyear", "Jessie", "Rex", "Hamm", "Mr. Potato Head", "Slinky Dog", "Bo Peep", "Flik", "Princess Atta", "Heimlich", "Slim", "Francis", "Hopper", "Bullseye", "Stinky Pete", "Mrs. Potato Head", "Sulley", "Mike Wazowski", "Boo", "Randall", "Marlin", "Dory", "Nemo", "Gill", "Mr. Incredible", "Elastigirl", "Violet", "Dash", "Jack-Jack", "Syndrome", "Lightning McQueen", "Tow Mater", "Sally Carrera", "Doc Hudson", "Remy", "Linguini", "Colette", "Anton Ego", "WALL-E", "EVE", "Carl Fredricksen", "Russell", "Dug", "Kevin", "Lotso", "Ken", "Barbie", "Bonnie", "Finn McMissile", "Holley Shiftwell", "Merida", "King Fergus", "Queen Elinor", "Randall Boggs", "Joy", "Sadness", "Anger", "Fear", "Disgust", "Bing Bong", "Arlo", "Spot", "Hank", "Destiny", "Bailey", "Cruz Ramirez", "Jackson Storm", "Miguel", "Hector", "Mama Imelda", "Ernesto de la Cruz", "Forky", "Duke Caboom", "Gabby Gabby", "Ian Lightfoot", "Barley Lightfoot", "Laurel Lightfoot", "The Manticore", "Joe Gardner", "22", "Luca Paguro", "Alberto Scorfano", "Giulia Marcovaldo", "Mei Lee", "Ming Lee", "Miriam", "Priya", "XR-47", "Ember Lumen", "Wade Ripple"]
+  }
+}

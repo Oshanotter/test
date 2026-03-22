@@ -1,0 +1,8 @@
+{
+  "title": "Accents & Impressions",
+  "description": "G'day, mate! Guess these accents or impressions of famous people and characters!",
+  "games": {
+    "Accents": ["British", "Southern", "New York", "Australian", "French", "Italian", "Scottish", "Irish", "Russian", "Indian", "German", "Jamaican", "Spanish", "Canadian", "South African", "Texan", "Japanese", "Brazilian", "Chinese", "Mexican", "Swedish", "Boston", "Brooklyn", "South Korean", "Egyptian", "Nigerian"],
+    "Impressions": ["DJ Khaled", "Ariana Grande", "Matthew McConaughey", "Owen Wilson", "Jennifer Coolidge", "Larry the Cable Guy", "Tom Hanks", "Morgan Freeman", "Arnold Schwarzenegger", "Christopher Walken", "Sean Connery", "Barack Obama", "Donald Trump", "Joe Biden", "Clint Eastwood", "Samuel L. Jackson", "Betty White", "Jeff Goldblum", "Kermit the Frog", "Mickey Mouse", "Bugs Bunny", "Elmo", "SpongeBob SquarePants", "Yoda", "Scooby-Doo", "Homer Simpson", "Fred Flintstone", "Captain Jack Sparrow", "Yogi Bear", "Winnie the Pooh", "Shrek", "Rick Sanchez", "Daffy Duck", "Donald Duck", "Goofy", "Peter Griffin", "The Cookie Monster", "King Julien", "Mario", "The Swedish Chef", "Dr. Heinz Doofenshmirtz", "Darth Vader", "Porky Pig", "Tigger", "Piglet", "Eeyore", "Popeye", "Tweety Bird"]
+  }
+}

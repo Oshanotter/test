@@ -1,0 +1,7 @@
+{
+  "title": "Rhymes With",
+  "description": "Rhyme Time! Guess these items by saying words that rhyme with them!",
+  "games": {
+    "Play": ["Cone", "Flake", "Head", "Bell", "Bag", "Hair", "Drum", "Rat", "Chair", "Grass", "Bone", "Rag", "Fight", "Ring", "Cake", "Fish", "Bat", "Bee", "Light", "Pen", "Ball", "King", "Demon", "Door", "Horse", "Tree", "Lemon", "Truck", "Lock", "Plum", "Dog", "Spoon", "Hat", "Lake", "Book", "Stair", "Clock", "Moon", "Train", "Pan", "Boat", "Dish", "Course", "Plane", "Phone", "Coat", "Look", "Hen", "Tail", "Key", "Glove", "Bear", "Air", "Skirt", "Mare", "Shell", "Snake", "Fan", "Nail", "Glass", "Care", "Pear", "Floor", "Frog", "Fox", "Tune", "Bed", "Star", "Duck", "Box", "Above", "Sock", "Shirt", "Cat"]
+  }
+}

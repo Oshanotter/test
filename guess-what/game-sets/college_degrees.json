@@ -1,0 +1,7 @@
+{
+  "title": "College Degrees",
+  "description": "C’s get degrees! Guess these degrees that you get after years of studying in college!",
+  "games": {
+    "Play": ["Arts", "Science", "Fine Arts", "Business", "Engineering", "Education", "Nursing", "Architecture", "Music", "Social Work", "Public Health", "Philosophy", "Medicine", "Dentistry", "Veterinary Medicine", "Pharmacy", "Law", "Physical Therapy", "Optometry", "Occupational Therapy", "Osteopathic Medicine", "Psychology", "Physical Education", "Public Administration", "Music Education", "Musical Arts", "Counseling", "Computer Science", "Information Technology", "Mathematics", "Economics", "Environmental Science", "Biology", "Chemistry", "Physics", "Geology", "Anthropology", "Sociology", "History", "Political Science", "Linguistics", "Communications", "Journalism", "Literature", "Creative Writing", "Theater", "Film Studies", "Culinary Arts", "Fashion Design", "Graphic Design"]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "title": "Tech Through The Ages",
+  "description": "Get out your pagers! Guess these different pieces of technology from throughout the ages!",
+  "games": {
+    "Play": ["Light Bulb", "Gramophone", "Electricity", "Tesla Coil", "Morse Code", "Film Camera", "Vinyl Record", "Typewriter", "Telephone", "Radio", "Sundial", "Abacus", "Sextant", "Pocket Watch", "Hourglass", "Dialup", "Rotary Telephone", "Airplane", "Automobile", "Refrigerator", "Mars Rover", "Satellites", "Microwave", "Film Projector", "Calculator", "Tape Recorder", "Polaroid Camera", "Pager", "Walkman", "VHS Tape", "Cassette Tape", "Walkie-Talkie", "Polaroid Film", "8-Track Tape", "Floppy Disk", "Compact Disc (CD)", "Personal Computer (PC)", "Game Boy", "PDA (Personal Digital Assistant)", "Digital Camera", "MP3 Player", "USB Flash Drive", "GPS", "Digital Watch", "SD Card", "Digital Video Recorder (DVR)", "Google", "Laser Pointer", "Computer Mouse", "Apple", "Microsoft", "Blu-ray Disc", "Smartwatch", "Fitness Tracker", "Drone", "Virtual Reality (VR) Headset", "Wireless Headphones", "Power Bank", "USB-C Cable", "Wireless Charger", "Smart Lock", "3D Printer", "Electric Toothbrush", "Robot Vacuum Cleaner", "Security Camera", "Electric Scooter", "iPhone", "iPod", "iPad", "MacBook"]
+  }
+}
